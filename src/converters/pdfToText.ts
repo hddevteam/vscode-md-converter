@@ -61,7 +61,11 @@ export class PdfToTextConverter {
       let pdfData;
       try {
         const pdfParseLibrary = await getPdfParse();
-        pdfData = await pdfParseLibrary(dataBuffer);
+        
+        // 使用基本的解析选项，避免复杂的自定义渲染器
+        pdfData = await pdfParseLibrary(dataBuffer, {
+          max: 0 // 解析所有页面
+        });
       } catch (err) {
         return {
           success: false,
@@ -126,17 +130,117 @@ export class PdfToTextConverter {
     
     result += '\n';
     result += '## 文本内容\n\n';
+     // 改进的文本处理逻辑
+    const processedText = PdfToTextConverter.formatForReadability(text);
+
+    // 按段落分割文本
+    const paragraphs = processedText
+      .split(/\n\s*\n/)  // 按多个换行符分割段落
+      .map((paragraph: string) => paragraph.trim())
+      .filter((paragraph: string) => paragraph.length > 0);
     
-    // 处理每页文本
-    const pageTexts = text.split('\n\n').filter((t: string) => t.trim());
-    
-    for (let i = 0; i < pageTexts.length; i++) {
+    // 输出段落
+    for (let i = 0; i < paragraphs.length; i++) {
       if (i > 0) {
-        result += `\n${'-'.repeat(80)}\n\n`;
+        result += '\n\n';
       }
-      result += pageTexts[i] + '\n';
+      
+      // 处理每个段落内的换行
+      const cleanParagraph = paragraphs[i]
+        .replace(/\n+/g, ' ')  // 将段落内的换行替换为空格
+        .replace(/\s+/g, ' ')  // 合并多个空格为一个
+        .trim();
+      
+      result += cleanParagraph;
     }
     
     return result;
+  }
+  
+  /**
+   * 改进文本空格处理
+   */
+  private static improveTextSpacing(text: string): string {
+    // 处理PDF提取文本中常见的空格问题
+    let processedText = text;
+    
+    // 1. 修复被错误分割的单词（连续字母之间缺少空格）
+    // 例如: "HelloWorld" -> "Hello World"
+    processedText = processedText.replace(/([a-z])([A-Z])/g, '$1 $2');
+    
+    // 2. 修复数字和字母之间的空格
+    // 例如: "123abc" -> "123 abc", "abc123" -> "abc 123"
+    processedText = processedText.replace(/(\d)([a-zA-Z])/g, '$1 $2');
+    processedText = processedText.replace(/([a-zA-Z])(\d)/g, '$1 $2');
+    
+    // 3. 修复标点符号前后的空格
+    // 确保标点符号后有空格，前面没有多余空格
+    processedText = processedText.replace(/\s*([,.!?;:])\s*/g, '$1 ');
+    
+    // 4. 修复常见的PDF文本提取问题
+    // 处理连续的大写字母后跟小写字母的情况
+    processedText = processedText.replace(/([A-Z]{2,})([a-z])/g, (match, caps, lower) => {
+      // 如果有多个大写字母，在最后一个大写字母前插入空格
+      const lastCap = caps.slice(-1);
+      const restCaps = caps.slice(0, -1);
+      return restCaps + ' ' + lastCap + lower;
+    });
+    
+    // 5. 修复句子之间的空格
+    // 确保句子结束后有适当的空格
+    processedText = processedText.replace(/([.!?])\s*([A-Z])/g, '$1 $2');
+    
+    // 6. 处理PDF中常见的连字符问题
+    // 修复被错误分割的连字符单词
+    processedText = processedText.replace(/(\w+)-\s*\n\s*(\w+)/g, '$1$2');
+    
+    // 7. 清理多余的空白字符
+    processedText = processedText.replace(/[ \t]+/g, ' ');  // 合并空格和制表符
+    processedText = processedText.replace(/\n[ \t]+/g, '\n');  // 移除行首的空格
+    processedText = processedText.replace(/[ \t]+\n/g, '\n');  // 移除行尾的空格
+    
+    return processedText;
+  }
+
+  // 高级文本格式化方法
+  private static formatForReadability(text: string): string {
+    let formatted = text;
+
+    // 1. 识别和保护特殊格式（如代码块、链接等）
+    const protectedSections: string[] = [];
+    let protectionIndex = 0;
+
+    // 保护看起来像URL的文本
+    formatted = formatted.replace(/https?:\/\/[^\s]+/g, (match) => {
+      const placeholder = `__PROTECTED_URL_${protectionIndex++}__`;
+      protectedSections.push(match);
+      return placeholder;
+    });
+
+    // 保护看起来像邮件地址的文本
+    formatted = formatted.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, (match) => {
+      const placeholder = `__PROTECTED_EMAIL_${protectionIndex++}__`;
+      protectedSections.push(match);
+      return placeholder;
+    });
+
+    // 2. 应用现有的文本改进
+    formatted = PdfToTextConverter.improveTextSpacing(formatted);
+
+    // 3. 恢复保护的内容
+    protectedSections.forEach((section, index) => {
+      const placeholder = section.includes('@') 
+        ? `__PROTECTED_EMAIL_${index}__`
+        : `__PROTECTED_URL_${index}__`;
+      formatted = formatted.replace(placeholder, section);
+    });
+
+    // 4. 最终清理
+    formatted = formatted
+      .replace(/\n{3,}/g, '\n\n')  // 最多保留两个连续换行
+      .replace(/^[ \t]+/gm, '')    // 移除行首空格
+      .replace(/[ \t]+$/gm, '');   // 移除行尾空格
+
+    return formatted.trim();
   }
 }

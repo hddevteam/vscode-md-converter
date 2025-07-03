@@ -4,6 +4,7 @@ import { convertExcelToMarkdown } from './commands/convertExcelToMarkdown';
 import { convertPdfToText } from './commands/convertPdfToText';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
+import { testPdfConversion } from './commands/testPdfConversion';
 
 /**
  * 扩展激活时调用
@@ -49,6 +50,13 @@ export async function activate(context: vscode.ExtensionContext) {
         () => {
           console.log('执行打开转换器命令');
           return openConverter();
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.testPdfConversion',
+        () => {
+          console.log('执行PDF转换测试命令');
+          return testPdfConversion();
         }
       )
     ];

@@ -1,84 +1,186 @@
-# 文档转换器 (Document Converter)
+# 文档转换器 VS Code 扩展
 
-这个VS Code扩展提供了将常见文档格式转换为Markdown和文本格式的功能，便于在VS Code中进行内容编辑和管理。
+一个功能强大的VS Code扩展，用于将各种文档格式转换为Markdown和文本格式。
 
-## 功能特点
+## 🚀 功能特性
 
-- **Word转Markdown**: 将Word文档(.docx, .doc)转换为Markdown格式(.md)
-- **Excel转Markdown**: 将Excel电子表格(.xlsx, .xls)和CSV文件(.csv)转换为Markdown表格
-- **PDF转文本**: 将PDF文档(.pdf)转换为纯文本文件(.txt)
-- **批量转换**: 支持一次性处理整个文件夹中的文档，可选择文件类型和是否包含子文件夹
-- **自定义选项**: 可设置输出目录、格式保留等选项
+### 支持的文档类型
+- **Word文档** (.docx, .doc) → Markdown
+- **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
+- **PDF文档** (.pdf) → 文本文件
 
-<!-- 未来可以添加功能预览截图 -->
+### 核心功能
+- ✅ **右键菜单集成** - 直接在文件资源管理器中转换
+- ✅ **命令面板支持** - 通过 Cmd+Shift+P 访问
+- ✅ **批量转换** - 选择文件夹进行批量处理
+- ✅ **智能文本处理** - 自动优化转换质量
+- ✅ **进度指示器** - 实时显示转换进度
+- ✅ **错误处理** - 完善的错误提示和处理
 
-## 使用方法
+## 📦 安装
 
-### 通过文件资源管理器右键菜单
+1. 在VS Code中打开扩展市场 (Ctrl+Shift+X)
+2. 搜索 "Document MD Converter"
+3. 点击安装
 
-1. 在VS Code的文件资源管理器中右键单击Word、Excel、CSV或PDF文件
-2. 从上下文菜单中选择相应的转换选项:
-   - "Convert Word to Markdown"
-   - "Convert Excel to Markdown" 
-   - "Convert PDF to Text"
-3. 转换完成后，会显示通知，可直接点击打开转换后的文件
+或者手动安装：
+```bash
+# 克隆项目
+git clone <repository-url>
+cd vscode-md-converter
 
-### 通过命令面板
+# 安装依赖
+npm install
 
-1. 按下 `Ctrl+Shift+P`（Windows/Linux）或 `Cmd+Shift+P`（macOS）打开命令面板
-2. 输入"Document Converter"可看到所有可用命令
-3. 选择需要的转换命令，然后按照提示选择文件
+# 编译扩展
+npm run compile
+
+# 在VS Code中按F5进行调试
+```
+
+## 🎯 使用方法
+
+### 单文件转换
+1. **右键菜单**: 在文件资源管理器中右键点击文档文件，选择相应的转换选项
+2. **命令面板**: 
+   - 按 `Cmd+Shift+P` (macOS) 或 `Ctrl+Shift+P` (Windows/Linux)
+   - 输入转换命令（如 "Convert Word to Markdown"）
 
 ### 批量转换
+1. 右键点击包含文档的文件夹
+2. 选择 "Batch Convert Documents"
+3. 按提示选择转换类型和选项
 
-1. 在文件资源管理器中右键单击一个文件夹
-2. 选择"Batch Convert Documents"
-3. 在弹出的选项中:
-   - 选择要转换的文件类型
-   - 选择是否包含子文件夹
-   - 选择输出目录位置
-4. 点击确认开始批量转换
-5. 转换完成后会显示详细报告
+### 可用命令
+- `Convert Word to Markdown` - 转换Word文档为Markdown
+- `Convert Excel to Markdown` - 转换Excel文件为Markdown表格
+- `Convert PDF to Text` - 转换PDF为文本文件
+- `Batch Convert Documents` - 批量转换文档
+- `Open Document Converter` - 打开转换器界面
+- `Test PDF Conversion` - 测试PDF转换功能
 
-### 通过转换器界面
+## 🔧 转换特性
 
-1. 点击活动栏中的"Document Converter"图标，或通过命令面板运行"Open Document Converter"命令
-2. 在打开的界面中选择要执行的转换操作
-3. 按照提示选择文件或文件夹
+### Word文档转换
+- 保留文本格式（粗体、斜体等）
+- 转换标题层级
+- 处理列表和表格
+- 支持 .docx 和 .doc 格式
+- 智能超时处理（避免.doc文件卡死）
 
-## 设置选项
+### Excel表格转换
+- 转换为Markdown表格格式
+- 保留单元格数据类型
+- 处理多工作表
+- 支持 .xlsx, .xls, .csv 格式
+- 自动数据格式化
 
-扩展提供了以下可自定义选项，可在VS Code设置中修改：
+### PDF文档转换
+- **高级文本处理算法**:
+  - 智能空格修复
+  - 单词边界检测
+  - 标点符号格式化
+  - 连字符单词重组
+- **文本质量优化**:
+  - 移除多余空白字符
+  - 修复常见间距问题
+  - 保护URL和邮箱格式
+  - 句子结构优化
+- **输出增强**:
+  - 添加文档元数据
+  - 按段落组织内容
+  - Markdown格式输出
 
-* `documentConverter.outputDirectory`: 默认输出目录（留空则使用源文件所在目录）
-* `documentConverter.maxRowsExcel`: 每个Excel工作表显示的最大行数（默认：1000）
-* `documentConverter.preserveFormatting`: 转换时是否保留文本格式（粗体、斜体等）
-* `documentConverter.autoOpenResult`: 转换完成后是否自动打开转换后的文件
-* `documentConverter.showWelcomeMessage`: 激活扩展时是否显示欢迎消息
+## 📁 输出格式
 
-## 依赖项
+所有转换后的文件将保存在原文件同目录下的相应格式：
+- Word → `.md` 文件
+- Excel → `.md` 文件（包含表格）
+- PDF → `.txt` 文件
 
-此扩展使用以下库处理文档转换：
+## ⚙️ 配置选项
 
-- [docx](https://github.com/dolanmiu/docx) - 用于处理Word文档
-- [xlsx](https://github.com/SheetJS/sheetjs) - 用于处理Excel/CSV文件
-- [pdf-parse](https://github.com/gbro115/pdf-parse) - 用于从PDF提取文本
+扩展支持以下配置选项（在设置中搜索"Document Converter"）：
+- 输出目录设置
+- Excel最大行数限制
+- 格式保留选项
+- 自动打开结果文件
 
-## 已知问题
+## 🛠️ 技术实现
 
-- 对于大型Excel文件，自动限制显示的行数以保证性能
-- Word文档的格式转换是基本的，复杂格式可能无法完全保留
-- PDF转文本会尝试保留段落结构，但复杂布局可能会有所差异
+### 依赖库
+- **mammoth.js** - Word文档处理
+- **xlsx** - Excel文件处理  
+- **pdf-parse** - PDF文本提取
+- **VS Code API** - 扩展集成
 
-## 版本历史
+### 架构设计
+```
+src/
+├── converters/           # 核心转换器
+│   ├── wordToMarkdown.ts
+│   ├── excelToMarkdown.ts
+│   └── pdfToText.ts
+├── commands/            # VS Code命令处理
+├── utils/              # 工具函数
+├── types/              # TypeScript类型定义
+└── extension.ts        # 扩展入口
+```
 
-### 0.0.1
+## 🐛 故障排除
 
-- 初始版本
-- 支持Word转Markdown、Excel转Markdown和PDF转文本
-- 提供批量转换功能
-- 添加基本设置选项
+### 常见问题
+
+1. **转换失败**
+   - 检查文件是否损坏
+   - 确保文件未被其他程序打开
+   - 查看VS Code开发者控制台的错误信息
+
+2. **.doc文件转换卡死**
+   - 扩展已内置超时机制
+   - 建议将.doc文件转换为.docx后再处理
+
+3. **PDF文本质量差**
+   - 某些PDF可能使用图像文本，建议使用OCR工具
+   - 检查PDF是否为扫描件
+
+### 调试模式
+按 F5 在VS Code中以调试模式运行扩展，查看详细日志信息。
+
+## 🤝 贡献
+
+欢迎提交Issue和Pull Request来改进这个扩展！
+
+### 开发环境设置
+```bash
+# 克隆仓库
+git clone <repository-url>
+cd vscode-md-converter
+
+# 安装依赖
+npm install
+
+# 开发模式编译
+npm run watch
+
+# 运行测试
+npm test
+```
+
+## 📄 许可证
+
+MIT License - 详见 [LICENSE](LICENSE) 文件
+
+## 🔄 更新日志
+
+### v0.0.1
+- ✨ 初始版本发布
+- ✅ Word转Markdown转换
+- ✅ Excel转Markdown转换  
+- ✅ PDF转文本转换
+- ✅ 批量转换功能
+- ✅ VS Code集成
 
 ---
 
-**享受文档转换的便利！**
+**享受文档转换的便利！** 🎉
