@@ -3,20 +3,43 @@ import * as path from 'path';
 import { ConversionResult, ConversionOptions } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 
-// 使用动态导入来避免在模块加载时触发pdf-parse的测试
-let pdfParse: any = null;
+// 在模块加载时设置正确的工作目录，然后导入pdf-parse
+let pdfParse: any;
 
-async function getPdfParse() {
-  if (!pdfParse) {
-    try {
-      pdfParse = await import('pdf-parse');
-      // 如果是CommonJS模块，获取default导出
-      pdfParse = pdfParse.default || pdfParse;
-    } catch (error) {
-      throw new Error(`无法加载PDF解析库: ${error instanceof Error ? error.message : '未知错误'}`);
+try {
+  // 保存当前工作目录
+  const originalCwd = process.cwd();
+  
+  // 查找包含 node_modules 的项目根目录
+  let projectRoot = __dirname;
+  while (projectRoot && projectRoot !== '/') {
+    const nodeModulesPath = require('path').join(projectRoot, 'node_modules');
+    if (require('fs').existsSync(nodeModulesPath)) {
+      break;
     }
+    projectRoot = require('path').dirname(projectRoot);
   }
-  return pdfParse;
+  
+  try {
+    // 临时切换到项目根目录
+    if (projectRoot && projectRoot !== originalCwd) {
+      process.chdir(projectRoot);
+    }
+    
+    // 导入 pdf-parse
+    pdfParse = require('pdf-parse');
+  } finally {
+    // 恢复原始工作目录
+    process.chdir(originalCwd);
+  }
+} catch (error) {
+  console.warn('PDF-parse 加载警告:', error);
+  // 如果仍然失败，尝试不改变工作目录直接导入
+  try {
+    pdfParse = require('pdf-parse');
+  } catch (fallbackError) {
+    console.error('PDF-parse 加载失败:', fallbackError);
+  }
 }
 
 export class PdfToTextConverter {
@@ -60,10 +83,8 @@ export class PdfToTextConverter {
       // 解析PDF
       let pdfData;
       try {
-        const pdfParseLibrary = await getPdfParse();
-        
         // 使用基本的解析选项，避免复杂的自定义渲染器
-        pdfData = await pdfParseLibrary(dataBuffer, {
+        pdfData = await pdfParse(dataBuffer, {
           max: 0 // 解析所有页面
         });
       } catch (err) {

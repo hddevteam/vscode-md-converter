@@ -47,6 +47,11 @@
         "command": "document-md-converter.testPdfConversion",
         "title": "Test PDF Conversion",
         "category": "Document Converter"
+      },
+      {
+        "command": "document-md-converter.debugPdfEnvironment",
+        "title": "Debug PDF Environment",
+        "category": "Document Converter"
       }
     ],
     "menus": {

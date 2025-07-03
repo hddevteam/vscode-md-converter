@@ -5,6 +5,7 @@ import { convertPdfToText } from './commands/convertPdfToText';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { testPdfConversion } from './commands/testPdfConversion';
+import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
 
 /**
  * 扩展激活时调用
@@ -57,6 +58,13 @@ export async function activate(context: vscode.ExtensionContext) {
         () => {
           console.log('执行PDF转换测试命令');
           return testPdfConversion();
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.debugPdfEnvironment',
+        () => {
+          console.log('执行PDF环境调试命令');
+          return debugPdfEnvironment();
         }
       )
     ];
