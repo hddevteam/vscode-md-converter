@@ -1,0 +1,17 @@
+{
+  "commands.convertWordToMarkdown": "Convert Word to Markdown",
+  "commands.convertExcelToMarkdown": "Convert Excel to Markdown", 
+  "commands.convertPdfToText": "Convert PDF to Text",
+  "commands.batchConvert": "Batch Convert Documents",
+  "commands.openConverter": "Open Document Converter",
+  "commands.testPdfConversion": "Test PDF Conversion",
+  "commands.debugPdfEnvironment": "Debug PDF Environment",
+  "views.documentConverter": "Document Converter",
+  "viewsContainers.documentConverter": "Document Converter",
+  "config.title": "Document Converter",
+  "config.outputDirectoryDescription": "Default output directory for converted documents (leave empty to use same directory as source)",
+  "config.maxRowsExcelDescription": "Maximum number of rows to display per Excel sheet",
+  "config.preserveFormattingDescription": "Preserve text formatting (bold, italic) when converting",
+  "config.autoOpenResultDescription": "Automatically open converted files",
+  "config.showWelcomeMessageDescription": "Show a welcome message when the extension is activated"
+}

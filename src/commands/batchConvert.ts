@@ -7,6 +7,7 @@ import { WordToMarkdownConverter } from '../converters/wordToMarkdown';
 import { ExcelToMarkdownConverter } from '../converters/excelToMarkdown';
 import { PdfToTextConverter } from '../converters/pdfToText';
 import { ConversionResult, BatchConversionResult } from '../types';
+import { I18n } from '../i18n';
 
 interface BatchConversionOptions {
   outputDirectory?: string;
@@ -15,21 +16,21 @@ interface BatchConversionOptions {
 }
 
 /**
- * 处理批量转换命令
+ * Handle batch conversion command
  */
 export async function batchConvert(uri?: vscode.Uri) {
   try {
-    // 如果没有提供URI，提示用户选择文件夹
+    // If no URI provided, prompt user to select folder
     if (!uri) {
       const folderUris = await vscode.window.showOpenDialog({
         canSelectFiles: false,
         canSelectFolders: true,
         canSelectMany: false,
-        title: '选择要批量转换的文件夹'
+        title: I18n.t('batch.selectFolder')
       });
 
       if (!folderUris || folderUris.length === 0) {
-        return; // 用户取消了选择
+        return; // User cancelled selection
       }
 
       uri = folderUris[0];
@@ -37,32 +38,32 @@ export async function batchConvert(uri?: vscode.Uri) {
 
     const folderPath = uri.fsPath;
 
-    // 配置批量转换选项
+    // Configure batch conversion options
     const options = await getBatchConversionOptions(folderPath);
     if (!options) {
-      return; // 用户取消了配置
+      return; // User cancelled configuration
     }
 
-    // 显示进度指示器
+    // Show progress indicator
     await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: `正在批量转换文件: ${path.basename(folderPath)}`,
+        title: I18n.t('progress.batchConverting', path.basename(folderPath)),
         cancellable: true
       },
       async (progress, token) => {
-        // 获取待转换文件列表
+        // Get list of files to convert
         const files = await collectFiles(folderPath, options.fileTypes, options.includeSubfolders);
         if (files.length === 0) {
-          vscode.window.showInformationMessage(`在 ${folderPath} 中未找到可转换的文件。`);
+          vscode.window.showInformationMessage(I18n.t('batch.noFilesFound', folderPath));
           return;
         }
 
-        // 创建输出目录（如果不存在）
+        // Create output directory (if it doesn't exist)
         const outputDir = options.outputDirectory || folderPath;
         await fs.mkdir(outputDir, { recursive: true });
 
-        // 转换文件
+        // Convert files
         const results = [];
         let processedCount = 0;
 
@@ -74,17 +75,17 @@ export async function batchConvert(uri?: vscode.Uri) {
           const fileName = path.basename(file);
           const fileExt = path.extname(file).toLowerCase();
           
-          // 更新进度
+          // Update progress
           const progressIncrement = 100 / files.length;
           progress.report({ 
             increment: progressIncrement, 
-            message: `处理文件 ${processedCount + 1}/${files.length}: ${fileName}` 
+            message: I18n.t('progress.processingFile', processedCount + 1, files.length, fileName)
           });
 
           try {
             let result: ConversionResult;
             
-            // 根据文件类型选择转换器
+            // Select converter based on file type
             switch (fileExt) {
               case '.docx':
               case '.doc':
@@ -102,7 +103,7 @@ export async function batchConvert(uri?: vscode.Uri) {
                 result = {
                   success: false,
                   inputPath: file,
-                  error: `不支持的文件类型: ${fileExt}`
+                  error: I18n.t('error.unsupportedFormat', fileExt)
                 };
             }
 
@@ -111,20 +112,20 @@ export async function batchConvert(uri?: vscode.Uri) {
             results.push({
               success: false,
               inputPath: file,
-              error: error instanceof Error ? error.message : '未知错误'
+              error: error instanceof Error ? error.message : I18n.t('error.unknownError')
             });
           }
 
           processedCount++;
         }
 
-        // 计算统计信息
+        // Calculate statistics
         const totalFiles = files.length;
         const successCount = results.filter(r => r.success).length;
         const failedCount = results.filter(r => !r.success).length;
         const skippedCount = totalFiles - processedCount;
 
-        // 显示批量转换结果
+        // Show batch conversion result
         UIUtils.showBatchConversionResult({
           totalFiles,
           successCount,
@@ -136,14 +137,14 @@ export async function batchConvert(uri?: vscode.Uri) {
     );
   } catch (error) {
     UIUtils.showError(
-      '批量转换失败', 
+      I18n.t('error.batchConversionFailed'), 
       error instanceof Error ? error : new Error(String(error))
     );
   }
 }
 
 /**
- * 收集符合条件的文件
+ * Collect files that match the criteria
  */
 async function collectFiles(
   folderPath: string,
@@ -152,21 +153,21 @@ async function collectFiles(
 ): Promise<string[]> {
   const result: string[] = [];
 
-  // 读取目录内容
+  // Read directory contents
   const entries = await fs.readdir(folderPath, { withFileTypes: true });
 
-  // 处理每一个条目
+  // Process each entry
   for (const entry of entries) {
     const entryPath = path.join(folderPath, entry.name);
 
     if (entry.isFile()) {
-      // 检查文件类型
+      // Check file type
       const ext = path.extname(entry.name).toLowerCase();
       if (fileTypes.includes(ext)) {
         result.push(entryPath);
       }
     } else if (entry.isDirectory() && includeSubfolders) {
-      // 如果是目录且包含子文件夹，则递归收集
+      // If it's a directory and include subfolders, recursively collect
       const subFiles = await collectFiles(entryPath, fileTypes, includeSubfolders);
       result.push(...subFiles);
     }
@@ -176,7 +177,7 @@ async function collectFiles(
 }
 
 /**
- * 获取批量转换选项
+ * Get batch conversion options
  */
 async function getBatchConversionOptions(defaultDir: string): Promise<BatchConversionOptions | undefined> {
   const options: BatchConversionOptions = {
@@ -184,72 +185,72 @@ async function getBatchConversionOptions(defaultDir: string): Promise<BatchConve
     fileTypes: ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf']
   };
 
-  // 文件类型选项
+  // File type options
   const fileTypeOptions = [
-    { label: 'Word文档 (.docx, .doc)', picked: true, types: ['.docx', '.doc'] },
-    { label: 'Excel文件 (.xlsx, .xls)', picked: true, types: ['.xlsx', '.xls'] },
-    { label: 'CSV文件 (.csv)', picked: true, types: ['.csv'] },
-    { label: 'PDF文档 (.pdf)', picked: true, types: ['.pdf'] }
+    { label: I18n.t('fileTypes.wordDocuments'), picked: true, types: ['.docx', '.doc'] },
+    { label: I18n.t('fileTypes.excelFiles'), picked: true, types: ['.xlsx', '.xls'] },
+    { label: I18n.t('fileTypes.csvFiles'), picked: true, types: ['.csv'] },
+    { label: I18n.t('fileTypes.pdfDocuments'), picked: true, types: ['.pdf'] }
   ];
 
-  // 选择文件类型
+  // Select file types
   const selectedFileTypes = await vscode.window.showQuickPick(
     fileTypeOptions,
     {
       canPickMany: true,
-      title: '选择要转换的文件类型',
-      placeHolder: '不选择表示全部类型'
+      title: I18n.t('batch.selectFileTypes'),
+      placeHolder: I18n.t('batch.selectFileTypes')
     }
   );
 
   if (!selectedFileTypes) {
-    return undefined; // 用户取消了选择
+    return undefined; // User cancelled selection
   }
 
   if (selectedFileTypes.length > 0) {
     options.fileTypes = selectedFileTypes.flatMap(option => option.types);
   }
 
-  // 询问是否包含子文件夹
+  // Ask whether to include subfolders
   const includeSubfoldersOption = await vscode.window.showQuickPick(
-    ['是', '否'],
+    [I18n.t('batch.yes'), I18n.t('batch.no')],
     {
       canPickMany: false,
-      title: '是否包含子文件夹？',
-      placeHolder: '选择是否搜索子文件夹中的文件'
+      title: I18n.t('batch.includeSubfolders'),
+      placeHolder: I18n.t('batch.includeSubfoldersPrompt')
     }
   );
 
   if (!includeSubfoldersOption) {
-    return undefined; // 用户取消了选择
+    return undefined; // User cancelled selection
   }
 
-  options.includeSubfolders = includeSubfoldersOption === '是';
+  options.includeSubfolders = includeSubfoldersOption === I18n.t('batch.yes');
 
-  // 询问输出目录
+  // Ask for output directory
   const outputDirOptions = [
-    { label: '源文件所在目录', description: '将转换后的文件保存在原目录中' },
-    { label: '指定输出目录', description: '选择一个目标文件夹' }
+    { label: I18n.t('batch.outputDirSourceLocation'), description: I18n.t('batch.outputDirSourceDescription') },
+    { label: I18n.t('batch.outputDirCustom'), description: I18n.t('batch.outputDirCustomDescription') }
   ];
 
   const outputDirOption = await vscode.window.showQuickPick(
     outputDirOptions,
     {
       canPickMany: false,
-      title: '选择输出目录',
-      placeHolder: '选择转换后文件的保存位置'
+      title: I18n.t('batch.selectOutputDir'),
+      placeHolder: I18n.t('batch.selectOutputDir')
     }
   );
 
   if (!outputDirOption) {
-    return undefined; // 用户取消了选择
+    return undefined; // User cancelled selection
   }
 
-  // 如果选择指定输出目录，则提示用户选择
-  if (outputDirOption.label === '指定输出目录') {
+  // If specify output directory is selected, prompt user to select
+  if (outputDirOption.label === I18n.t('batch.outputDirCustom')) {
     options.outputDirectory = await UIUtils.promptForOutputDirectory(defaultDir);
     if (!options.outputDirectory) {
-      return undefined; // 用户取消了选择
+      return undefined; // User cancelled selection
     }
   }
 

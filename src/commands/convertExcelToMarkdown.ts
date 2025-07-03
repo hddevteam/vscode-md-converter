@@ -2,24 +2,25 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { ExcelToMarkdownConverter } from '../converters/excelToMarkdown';
 import { UIUtils } from '../ui/uiUtils';
+import { I18n } from '../i18n';
 
 /**
- * 处理Excel/CSV到Markdown的转换命令
+ * Handle Excel/CSV to Markdown conversion command
  */
 export async function convertExcelToMarkdown(uri?: vscode.Uri) {
   try {
-    // 如果没有提供URI，提示用户选择文件
+    // If no URI provided, prompt user to select file
     if (!uri) {
       const fileUris = await vscode.window.showOpenDialog({
         canSelectMany: false,
         filters: {
-          'Excel/CSV文件': ['xlsx', 'xls', 'csv']
+          [`${I18n.t('fileTypes.excelFiles')}/${I18n.t('fileTypes.csvFiles')}`]: ['xlsx', 'xls', 'csv']
         },
-        title: '选择要转换为Markdown的Excel/CSV文件'
+        title: I18n.t('commands.convertExcelToMarkdown')
       });
 
       if (!fileUris || fileUris.length === 0) {
-        return; // 用户取消了选择
+        return; // User cancelled selection
       }
 
       uri = fileUris[0];
@@ -28,34 +29,34 @@ export async function convertExcelToMarkdown(uri?: vscode.Uri) {
     const filePath = uri.fsPath;
     const fileName = path.basename(filePath);
 
-    // 显示进度指示器
+    // Show progress indicator
     await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: `正在将${path.extname(filePath).replace('.', '').toUpperCase()}转换为Markdown: ${fileName}`,
+        title: `${I18n.t('commands.convertExcelToMarkdown')}: ${fileName}`,
         cancellable: false
       },
       async (progress) => {
-        progress.report({ increment: 10, message: '准备转换...' });
+        progress.report({ increment: 10, message: I18n.t('progress.processing') });
 
-        // 执行转换
+        // Execute conversion
         const result = await ExcelToMarkdownConverter.convert(filePath);
 
-        progress.report({ increment: 90, message: '完成' });
+        progress.report({ increment: 90, message: I18n.t('progress.complete') });
 
-        // 处理结果
+        // Handle result
         if (result.success && result.outputPath) {
-          // 显示成功消息
+          // Show success message
           UIUtils.showConversionResultNotification(result);
         } else {
-          // 显示错误消息
-          UIUtils.showError(`转换 ${fileName} 失败`, new Error(result.error || '未知错误'));
+          // Show error message
+          UIUtils.showError(`${I18n.t('error.conversionFailed', fileName)}`, new Error(result.error || I18n.t('error.unknownError')));
         }
       }
     );
   } catch (error) {
     UIUtils.showError(
-      '转换失败', 
+      I18n.t('error.conversionFailed', ''), 
       error instanceof Error ? error : new Error(String(error))
     );
   }

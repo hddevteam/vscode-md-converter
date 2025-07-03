@@ -1,186 +1,216 @@
-# 文档转换器 VS Code 扩展
+# Document Converter VS Code Extension
 
-一个功能强大的VS Code扩展，用于将各种文档格式转换为Markdown和文本格式。
+**English** | [中文](README.zh-cn.md)
 
-## 🚀 功能特性
+A powerful VS Code extension for converting various document formats to Markdown and text formats.
 
-### 支持的文档类型
-- **Word文档** (.docx, .doc) → Markdown
-- **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
-- **PDF文档** (.pdf) → 文本文件
+## 🚀 Features
 
-### 核心功能
-- ✅ **右键菜单集成** - 直接在文件资源管理器中转换
-- ✅ **命令面板支持** - 通过 Cmd+Shift+P 访问
-- ✅ **批量转换** - 选择文件夹进行批量处理
-- ✅ **智能文本处理** - 自动优化转换质量
-- ✅ **进度指示器** - 实时显示转换进度
-- ✅ **错误处理** - 完善的错误提示和处理
+### Supported Document Types
+- **Word Documents** (.docx, .doc) → Markdown
+- **Excel Spreadsheets** (.xlsx, .xls, .csv) → Markdown Tables
+- **PDF Documents** (.pdf) → Text Files
 
-## 📦 安装
+### Core Features
+- ✅ **Context Menu Integration** - Convert directly from file explorer
+- ✅ **Command Palette Support** - Access via Cmd+Shift+P
+- ✅ **Batch Conversion** - Select folders for bulk processing
+- ✅ **Smart Text Processing** - Automatically optimize conversion quality
+- ✅ **Progress Indicators** - Real-time conversion progress display
+- ✅ **Error Handling** - Comprehensive error messages and handling
+- ✅ **Multi-language Support** - Automatic language switching between English and Chinese
 
-1. 在VS Code中打开扩展市场 (Ctrl+Shift+X)
-2. 搜索 "Document MD Converter"
-3. 点击安装
+## 📦 Installation
 
-或者手动安装：
+1. Open VS Code Extensions Marketplace (Ctrl+Shift+X)
+2. Search for "Document MD Converter"
+3. Click Install
+
+Or install manually:
 ```bash
-# 克隆项目
+# Clone the project
 git clone <repository-url>
 cd vscode-md-converter
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 编译扩展
+# Compile extension
 npm run compile
 
-# 在VS Code中按F5进行调试
+# Press F5 in VS Code for debugging
 ```
 
-## 🎯 使用方法
+## 🎯 Usage
 
-### 单文件转换
-1. **右键菜单**: 在文件资源管理器中右键点击文档文件，选择相应的转换选项
-2. **命令面板**: 
-   - 按 `Cmd+Shift+P` (macOS) 或 `Ctrl+Shift+P` (Windows/Linux)
-   - 输入转换命令（如 "Convert Word to Markdown"）
+### Single File Conversion
+1. **Context Menu**: Right-click on document files in file explorer and select appropriate conversion option
+2. **Command Palette**: 
+   - Press `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux)
+   - Type conversion commands (e.g., "Convert Word to Markdown")
 
-### 批量转换
-1. 右键点击包含文档的文件夹
-2. 选择 "Batch Convert Documents"
-3. 按提示选择转换类型和选项
+### Batch Conversion
+1. Right-click on a folder containing documents
+2. Select "Batch Convert Documents"
+3. Follow prompts to select conversion types and options
 
-### 可用命令
-- `Convert Word to Markdown` - 转换Word文档为Markdown
-- `Convert Excel to Markdown` - 转换Excel文件为Markdown表格
-- `Convert PDF to Text` - 转换PDF为文本文件
-- `Batch Convert Documents` - 批量转换文档
-- `Open Document Converter` - 打开转换器界面
-- `Test PDF Conversion` - 测试PDF转换功能
+### Available Commands
+- `Convert Word to Markdown` - Convert Word documents to Markdown
+- `Convert Excel to Markdown` - Convert Excel files to Markdown tables
+- `Convert PDF to Text` - Convert PDF to text files
+- `Batch Convert Documents` - Batch convert documents
+- `Open Document Converter` - Open converter interface
+- `Test PDF Conversion` - Test PDF conversion functionality
 
-## 🔧 转换特性
+## 🔧 Conversion Features
 
-### Word文档转换
-- 保留文本格式（粗体、斜体等）
-- 转换标题层级
-- 处理列表和表格
-- 支持 .docx 和 .doc 格式
-- 智能超时处理（避免.doc文件卡死）
+### Word Document Conversion
+- Preserve text formatting (bold, italic, etc.)
+- Convert heading levels
+- Handle lists and tables
+- Support .docx and .doc formats
+- Smart timeout handling (prevents .doc file freezing)
 
-### Excel表格转换
-- 转换为Markdown表格格式
-- 保留单元格数据类型
-- 处理多工作表
-- 支持 .xlsx, .xls, .csv 格式
-- 自动数据格式化
+### Excel Spreadsheet Conversion
+- Convert to Markdown table format
+- Preserve cell data types
+- Handle multiple worksheets
+- Support .xlsx, .xls, .csv formats
+- Automatic data formatting
 
-### PDF文档转换
-- **高级文本处理算法**:
-  - 智能空格修复
-  - 单词边界检测
-  - 标点符号格式化
-  - 连字符单词重组
-- **文本质量优化**:
-  - 移除多余空白字符
-  - 修复常见间距问题
-  - 保护URL和邮箱格式
-  - 句子结构优化
-- **输出增强**:
-  - 添加文档元数据
-  - 按段落组织内容
-  - Markdown格式输出
+### PDF Document Conversion
+- **Advanced Text Processing Algorithms**:
+  - Smart space correction
+  - Word boundary detection
+  - Punctuation formatting
+  - Hyphenated word reconstruction
+- **Text Quality Optimization**:
+  - Remove extra whitespace
+  - Fix common spacing issues
+  - Protect URL and email formats
+  - Sentence structure optimization
+- **Output Enhancement**:
+  - Add document metadata
+  - Organize content by paragraphs
+  - Markdown format output
 
-## 📁 输出格式
+## 🌐 Multi-language Support
 
-所有转换后的文件将保存在原文件同目录下的相应格式：
-- Word → `.md` 文件
-- Excel → `.md` 文件（包含表格）
-- PDF → `.txt` 文件
+The extension automatically switches interface language based on VS Code language settings:
+- **English** (default) - For English environments
+- **Chinese** - Automatically detects Chinese environments
 
-## ⚙️ 配置选项
+Supported language features:
+- Command titles and descriptions
+- User interface text
+- Error messages and prompts
+- Configuration option descriptions
 
-扩展支持以下配置选项（在设置中搜索"Document Converter"）：
-- 输出目录设置
-- Excel最大行数限制
-- 格式保留选项
-- 自动打开结果文件
+## 📁 Output Formats
 
-## 🛠️ 技术实现
+All converted files are saved in the same directory as the original files with appropriate formats:
+- Word → `.md` files
+- Excel → `.md` files (with tables)
+- PDF → `.txt` files
 
-### 依赖库
-- **mammoth.js** - Word文档处理
-- **xlsx** - Excel文件处理  
-- **pdf-parse** - PDF文本提取
-- **VS Code API** - 扩展集成
+## ⚙️ Configuration Options
 
-### 架构设计
+The extension supports the following configuration options (search for "Document Converter" in settings):
+- Output directory settings
+- Excel maximum rows limit
+- Format preservation options
+- Auto-open result files
+
+## 🛠️ Technical Implementation
+
+### Dependencies
+- **mammoth.js** - Word document processing
+- **xlsx** - Excel file processing  
+- **pdf-parse** - PDF text extraction
+- **VS Code API** - Extension integration
+
+### Architecture Design
 ```
 src/
-├── converters/           # 核心转换器
+├── converters/           # Core converters
 │   ├── wordToMarkdown.ts
 │   ├── excelToMarkdown.ts
 │   └── pdfToText.ts
-├── commands/            # VS Code命令处理
-├── utils/              # 工具函数
-├── types/              # TypeScript类型定义
-└── extension.ts        # 扩展入口
+├── commands/            # VS Code command handlers
+├── i18n/               # Internationalization support
+│   ├── index.ts        # I18n manager
+│   ├── en.ts          # English language pack
+│   └── zh-cn.ts       # Chinese language pack
+├── utils/              # Utility functions
+├── types/              # TypeScript type definitions
+└── extension.ts        # Extension entry point
 ```
 
-## 🐛 故障排除
+## 🐛 Troubleshooting
 
-### 常见问题
+### Common Issues
 
-1. **转换失败**
-   - 检查文件是否损坏
-   - 确保文件未被其他程序打开
-   - 查看VS Code开发者控制台的错误信息
+1. **Conversion Failed**
+   - Check if file is corrupted
+   - Ensure file is not open in other programs
+   - Check VS Code Developer Console for error messages
 
-2. **.doc文件转换卡死**
-   - 扩展已内置超时机制
-   - 建议将.doc文件转换为.docx后再处理
+2. **.doc File Conversion Freezing**
+   - Extension has built-in timeout mechanism
+   - Recommend converting .doc files to .docx before processing
 
-3. **PDF文本质量差**
-   - 某些PDF可能使用图像文本，建议使用OCR工具
-   - 检查PDF是否为扫描件
+3. **Poor PDF Text Quality**
+   - Some PDFs may use image text, recommend using OCR tools
+   - Check if PDF is a scanned document
 
-### 调试模式
-按 F5 在VS Code中以调试模式运行扩展，查看详细日志信息。
+4. **Interface Language Issues**
+   - Extension automatically detects VS Code language settings
+   - Supports Chinese (zh-cn) and English environments
+   - Can change display language in VS Code settings
 
-## 🤝 贡献
+### Debug Mode
+Press F5 in VS Code to run extension in debug mode and view detailed log information.
 
-欢迎提交Issue和Pull Request来改进这个扩展！
+## 🤝 Contributing
 
-### 开发环境设置
+Welcome to submit Issues and Pull Requests to improve this extension!
+
+### Development Environment Setup
 ```bash
-# 克隆仓库
+# Clone repository
 git clone <repository-url>
 cd vscode-md-converter
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 开发模式编译
+# Development mode compilation
 npm run watch
 
-# 运行测试
+# Run tests
 npm test
 ```
 
-## 📄 许可证
+### Adding New Language Support
+1. Create new language file in `src/i18n/` directory
+2. Add language detection logic in `src/i18n/index.ts`
+3. Create corresponding `package.nls.{language}.json` file
 
-MIT License - 详见 [LICENSE](LICENSE) 文件
+## 📄 License
 
-## 🔄 更新日志
+MIT License - See [LICENSE](LICENSE) file for details
+
+## 🔄 Changelog
 
 ### v0.0.1
-- ✨ 初始版本发布
-- ✅ Word转Markdown转换
-- ✅ Excel转Markdown转换  
-- ✅ PDF转文本转换
-- ✅ 批量转换功能
-- ✅ VS Code集成
+- ✨ Initial release
+- ✅ Word to Markdown conversion
+- ✅ Excel to Markdown conversion  
+- ✅ PDF to text conversion
+- ✅ Batch conversion functionality
+- ✅ VS Code integration
+- ✅ English and Chinese bilingual support
 
 ---
 
-**享受文档转换的便利！** 🎉
+**Enjoy the convenience of document conversion!** 🎉

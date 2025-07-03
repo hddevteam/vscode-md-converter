@@ -2,24 +2,25 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { PdfToTextConverter } from '../converters/pdfToText';
 import { UIUtils } from '../ui/uiUtils';
+import { I18n } from '../i18n';
 
 /**
- * 处理PDF到Text的转换命令
+ * Handle PDF to Text conversion command
  */
 export async function convertPdfToText(uri?: vscode.Uri) {
   try {
-    // 如果没有提供URI，提示用户选择文件
+    // If no URI provided, prompt user to select file
     if (!uri) {
       const fileUris = await vscode.window.showOpenDialog({
         canSelectMany: false,
         filters: {
-          'PDF文档': ['pdf']
+          [I18n.t('fileTypes.pdfDocuments')]: ['pdf']
         },
-        title: '选择要转换为文本的PDF文档'
+        title: I18n.t('commands.convertPdfToText')
       });
 
       if (!fileUris || fileUris.length === 0) {
-        return; // 用户取消了选择
+        return; // User cancelled selection
       }
 
       uri = fileUris[0];
@@ -28,34 +29,34 @@ export async function convertPdfToText(uri?: vscode.Uri) {
     const filePath = uri.fsPath;
     const fileName = path.basename(filePath);
 
-    // 显示进度指示器
+    // Show progress indicator
     await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: `正在将PDF转换为文本: ${fileName}`,
+        title: `${I18n.t('commands.convertPdfToText')}: ${fileName}`,
         cancellable: false
       },
       async (progress) => {
-        progress.report({ increment: 10, message: '准备转换...' });
+        progress.report({ increment: 10, message: I18n.t('progress.processing') });
 
-        // 执行转换
+        // Execute conversion
         const result = await PdfToTextConverter.convert(filePath);
 
-        progress.report({ increment: 90, message: '完成' });
+        progress.report({ increment: 90, message: I18n.t('progress.complete') });
 
-        // 处理结果
+        // Handle result
         if (result.success && result.outputPath) {
-          // 显示成功消息
+          // Show success message
           UIUtils.showConversionResultNotification(result);
         } else {
-          // 显示错误消息
-          UIUtils.showError(`转换 ${fileName} 失败`, new Error(result.error || '未知错误'));
+          // Show error message
+          UIUtils.showError(`${I18n.t('error.conversionFailed', fileName)}`, new Error(result.error || I18n.t('error.unknownError')));
         }
       }
     );
   } catch (error) {
     UIUtils.showError(
-      '转换失败', 
+      I18n.t('error.conversionFailed', ''), 
       error instanceof Error ? error : new Error(String(error))
     );
   }

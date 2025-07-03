@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { ConversionResult, BatchConversionResult } from '../types';
+import { I18n } from '../i18n';
 
 export interface ProgressInfo {
   message?: string;
@@ -25,13 +26,13 @@ export class UIUtils {
   }
 
   /**
-   * 显示转换结果通知
+   * Show conversion result notification
    */
   static showConversionResultNotification(result: ConversionResult): void {
     if (result.success) {
       const fileName = result.outputPath ? vscode.Uri.file(result.outputPath).fsPath : 'unknown';
-      const openButton = '打开文件';
-      const message = `成功转换为: ${fileName}`;
+      const openButton = I18n.t('success.openFile');
+      const message = I18n.t('success.conversionComplete', fileName);
       
       vscode.window.showInformationMessage(message, openButton).then(selection => {
         if (selection === openButton && result.outputPath) {
@@ -40,21 +41,21 @@ export class UIUtils {
         }
       });
     } else {
-      vscode.window.showErrorMessage(`转换失败: ${result.error}`);
+      vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.error));
     }
   }
 
   /**
-   * 显示批量转换结果通知
+   * Show batch conversion result notification
    */
   static showBatchConversionResult(result: BatchConversionResult): void {
     const { totalFiles, successCount, failedCount, skippedCount } = result;
     
     if (successCount === totalFiles) {
-      vscode.window.showInformationMessage(`全部完成! ${successCount} 个文件成功转换`);
+      vscode.window.showInformationMessage(I18n.t('success.allComplete', successCount));
     } else {
-      const detailsButton = '查看详情';
-      const message = `转换完成: ${successCount}/${totalFiles} 个文件成功, ${failedCount} 个失败, ${skippedCount} 个跳过`;
+      const detailsButton = I18n.t('success.viewDetails');
+      const message = `${I18n.t('progress.complete')}: ${successCount}/${totalFiles} ${I18n.t('report.successful', '')}, ${failedCount} ${I18n.t('report.failed', '')}, ${skippedCount} ${I18n.t('report.skipped', '')}`;
       
       vscode.window.showInformationMessage(message, detailsButton).then(selection => {
         if (selection === detailsButton) {
@@ -65,12 +66,12 @@ export class UIUtils {
   }
 
   /**
-   * 显示详细转换报告
+   * Show detailed conversion report
    */
   private static showConversionResultsReport(result: BatchConversionResult): void {
     const panel = vscode.window.createWebviewPanel(
       'conversionReport',
-      '文件转换报告',
+      I18n.t('report.title'),
       vscode.ViewColumn.One,
       { enableScripts: true }
     );
@@ -82,16 +83,18 @@ export class UIUtils {
 
     const failedItems = result.results
       .filter(r => !r.success)
-      .map(r => `<li class="error">❌ ${vscode.Uri.file(r.inputPath).fsPath} - 错误: ${r.error}</li>`)
+      .map(r => `<li class="error">❌ ${vscode.Uri.file(r.inputPath).fsPath} - ${I18n.t('error.conversionFailed', r.error)}</li>`)
       .join('');
+
+    const locale = vscode.env.language.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 
     panel.webview.html = `
       <!DOCTYPE html>
-      <html lang="zh">
+      <html lang="${locale}">
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>文件转换报告</title>
+        <title>${I18n.t('report.title')}</title>
         <style>
           body { font-family: var(--vscode-editor-font-family); padding: 20px; }
           h1 { color: var(--vscode-editor-foreground); }
@@ -102,22 +105,22 @@ export class UIUtils {
         </style>
       </head>
       <body>
-        <h1>文件转换报告</h1>
+        <h1>${I18n.t('report.title')}</h1>
         
         <div class="summary">
-          <p>总文件数: ${result.totalFiles}</p>
-          <p>成功: ${result.successCount}</p>
-          <p>失败: ${result.failedCount}</p>
-          <p>跳过: ${result.skippedCount}</p>
+          <p>${I18n.t('report.totalFiles', result.totalFiles)}</p>
+          <p>${I18n.t('report.successful', result.successCount)}</p>
+          <p>${I18n.t('report.failed', result.failedCount)}</p>
+          <p>${I18n.t('report.skipped', result.skippedCount)}</p>
         </div>
 
         ${result.successCount > 0 ? `
-        <h2>成功转换 (${result.successCount})</h2>
+        <h2>${I18n.t('report.successfulConversions', result.successCount)}</h2>
         <ul>${successItems}</ul>
         ` : ''}
 
         ${result.failedCount > 0 ? `
-        <h2>转换失败 (${result.failedCount})</h2>
+        <h2>${I18n.t('report.failedConversions', result.failedCount)}</h2>
         <ul>${failedItems}</ul>
         ` : ''}
       </body>
@@ -126,7 +129,7 @@ export class UIUtils {
   }
 
   /**
-   * 显示错误消息
+   * Show error message
    */
   static showError(message: string, error?: Error): void {
     const errorMessage = error ? `${message}: ${error.message}` : message;
@@ -135,14 +138,14 @@ export class UIUtils {
   }
 
   /**
-   * 提示用户选择输出目录
+   * Prompt user to select output directory
    */
   static async promptForOutputDirectory(defaultDir?: string): Promise<string | undefined> {
     const options: vscode.OpenDialogOptions = {
       canSelectFiles: false,
       canSelectFolders: true,
       canSelectMany: false,
-      openLabel: '选择输出目录'
+      openLabel: I18n.t('batch.selectOutputDir')
     };
 
     if (defaultDir) {

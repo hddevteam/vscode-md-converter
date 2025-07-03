@@ -19,38 +19,38 @@
     "commands": [
       {
         "command": "document-md-converter.convertWordToMarkdown",
-        "title": "Convert Word to Markdown",
+        "title": "%commands.convertWordToMarkdown%",
         "category": "Document Converter"
       },
       {
         "command": "document-md-converter.convertExcelToMarkdown",
-        "title": "Convert Excel to Markdown",
+        "title": "%commands.convertExcelToMarkdown%",
         "category": "Document Converter"
       },
       {
         "command": "document-md-converter.convertPdfToText",
-        "title": "Convert PDF to Text",
+        "title": "%commands.convertPdfToText%",
         "category": "Document Converter"
       },
       {
         "command": "document-md-converter.batchConvert",
-        "title": "Batch Convert Documents",
+        "title": "%commands.batchConvert%",
         "category": "Document Converter"
       },
       {
         "command": "document-md-converter.openConverter",
-        "title": "Open Document Converter",
+        "title": "%commands.openConverter%",
         "category": "Document Converter",
         "icon": "$(file-text)"
       },
       {
         "command": "document-md-converter.testPdfConversion",
-        "title": "Test PDF Conversion",
+        "title": "%commands.testPdfConversion%",
         "category": "Document Converter"
       },
       {
         "command": "document-md-converter.debugPdfEnvironment",
-        "title": "Debug PDF Environment",
+        "title": "%commands.debugPdfEnvironment%",
         "category": "Document Converter"
       }
     ],
@@ -96,7 +96,7 @@
       "explorer": [
         {
           "id": "documentConverter",
-          "name": "Document Converter",
+          "name": "%views.documentConverter%",
           "when": "workspaceFolderCount > 0",
           "icon": "$(file-text)"
         }
@@ -106,38 +106,38 @@
       "activitybar": [
         {
           "id": "document-converter",
-          "title": "Document Converter",
+          "title": "%viewsContainers.documentConverter%",
           "icon": "$(file-text)"
         }
       ]
     },
     "configuration": {
-      "title": "Document Converter",
+      "title": "%config.title%",
       "properties": {
         "documentConverter.outputDirectory": {
           "type": "string",
           "default": "",
-          "description": "Default output directory for converted documents (leave empty to use same directory as source)"
+          "description": "%config.outputDirectoryDescription%"
         },
         "documentConverter.maxRowsExcel": {
           "type": "number",
           "default": 1000,
-          "description": "Maximum number of rows to display per Excel sheet"
+          "description": "%config.maxRowsExcelDescription%"
         },
         "documentConverter.preserveFormatting": {
           "type": "boolean",
           "default": true,
-          "description": "Preserve text formatting (bold, italic) when converting"
+          "description": "%config.preserveFormattingDescription%"
         },
         "documentConverter.autoOpenResult": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically open converted files"
+          "description": "%config.autoOpenResultDescription%"
         },
         "documentConverter.showWelcomeMessage": {
           "type": "boolean",
           "default": true,
-          "description": "Show a welcome message when the extension is activated"
+          "description": "%config.showWelcomeMessageDescription%"
         }
       }
     }

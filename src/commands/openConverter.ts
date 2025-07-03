@@ -1,29 +1,30 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { I18n } from '../i18n';
 
 /**
- * 处理打开转换器界面的命令
+ * Handle open converter interface command
  */
 export function openConverter() {
-  // 创建并显示webview面板
+  // Create and show webview panel
   const panel = vscode.window.createWebviewPanel(
-    'documentConverter', // 面板的标识符
-    '文档转换器', // 面板的标题
-    vscode.ViewColumn.One, // 在编辑器中的位置
+    'documentConverter', // Panel identifier
+    I18n.t('commands.openConverter'), // Panel title
+    vscode.ViewColumn.One, // Position in editor
     {
-      // 启用JavaScript
+      // Enable JavaScript
       enableScripts: true,
-      // 限制可访问的资源
+      // Restrict accessible resources
       localResourceRoots: [
         vscode.Uri.file(path.join(vscode.workspace.rootPath || '', 'media'))
       ]
     }
   );
 
-  // 设置webview内容
+  // Set webview content
   panel.webview.html = getWebviewContent();
 
-  // 处理webview发送的消息
+  // Handle messages from webview
   panel.webview.onDidReceiveMessage(
     message => {
       switch (message.command) {
@@ -47,15 +48,43 @@ export function openConverter() {
 }
 
 /**
- * 生成webview内容
+ * Generate webview content with internationalization support
  */
 function getWebviewContent() {
+  const locale = vscode.env.language.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+  const isZh = locale === 'zh';
+  
+  // Define localized strings for the webview
+  const webviewStrings = {
+    title: isZh ? '文档转换器' : 'Document Converter',
+    wordToMarkdown: {
+      title: isZh ? 'Word 转 Markdown' : 'Word to Markdown',
+      description: isZh ? '将 Word 文档 (.docx, .doc) 转换为 Markdown 格式，保留文本结构和基本格式。' : 'Convert Word documents (.docx, .doc) to Markdown format, preserving text structure and basic formatting.',
+      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+    },
+    excelToMarkdown: {
+      title: isZh ? 'Excel/CSV 转 Markdown' : 'Excel/CSV to Markdown',
+      description: isZh ? '将 Excel 工作簿或 CSV 文件转换为 Markdown 表格，保留多个工作表的数据。' : 'Convert Excel workbooks or CSV files to Markdown tables, preserving data from multiple worksheets.',
+      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+    },
+    pdfToText: {
+      title: isZh ? 'PDF 转文本' : 'PDF to Text',
+      description: isZh ? '从 PDF 文件中提取文本内容，并保存为纯文本文件。' : 'Extract text content from PDF files and save as plain text files.',
+      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+    },
+    batchConvert: {
+      title: isZh ? '批量转换' : 'Batch Conversion',
+      description: isZh ? '选择一个文件夹，批量转换其中的所有支持文件类型。' : 'Select a folder to batch convert all supported file types within it.',
+      buttonText: isZh ? '选择文件夹' : 'Select Folder'
+    }
+  };
+
   return `<!DOCTYPE html>
-<html lang="zh">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文档转换器</title>
+  <title>${webviewStrings.title}</title>
   <style>
     body {
       font-family: var(--vscode-editor-font-family);
@@ -120,13 +149,13 @@ function getWebviewContent() {
 <body>
   <h1>
     <span class="icon">📝</span>
-    文档转换器
+    ${webviewStrings.title}
   </h1>
   
   <div class="card">
-    <h2 class="card-title">Word 转 Markdown</h2>
+    <h2 class="card-title">${webviewStrings.wordToMarkdown.title}</h2>
     <div class="card-content">
-      将 Word 文档 (.docx, .doc) 转换为 Markdown 格式，保留文本结构和基本格式。
+      ${webviewStrings.wordToMarkdown.description}
     </div>
     <div>
       <span class="formats">.docx</span>
@@ -135,13 +164,13 @@ function getWebviewContent() {
       <span class="formats">.md</span>
     </div>
     <br>
-    <button class="btn" id="convertWord">选择文件转换</button>
+    <button class="btn" id="convertWord">${webviewStrings.wordToMarkdown.buttonText}</button>
   </div>
   
   <div class="card">
-    <h2 class="card-title">Excel/CSV 转 Markdown</h2>
+    <h2 class="card-title">${webviewStrings.excelToMarkdown.title}</h2>
     <div class="card-content">
-      将 Excel 工作簿或 CSV 文件转换为 Markdown 表格，保留多个工作表的数据。
+      ${webviewStrings.excelToMarkdown.description}
     </div>
     <div>
       <span class="formats">.xlsx</span>
@@ -151,13 +180,13 @@ function getWebviewContent() {
       <span class="formats">.md</span>
     </div>
     <br>
-    <button class="btn" id="convertExcel">选择文件转换</button>
+    <button class="btn" id="convertExcel">${webviewStrings.excelToMarkdown.buttonText}</button>
   </div>
   
   <div class="card">
-    <h2 class="card-title">PDF 转文本</h2>
+    <h2 class="card-title">${webviewStrings.pdfToText.title}</h2>
     <div class="card-content">
-      从 PDF 文件中提取文本内容，并保存为纯文本文件。
+      ${webviewStrings.pdfToText.description}
     </div>
     <div>
       <span class="formats">.pdf</span>
@@ -165,25 +194,25 @@ function getWebviewContent() {
       <span class="formats">.txt</span>
     </div>
     <br>
-    <button class="btn" id="convertPdf">选择文件转换</button>
+    <button class="btn" id="convertPdf">${webviewStrings.pdfToText.buttonText}</button>
   </div>
   
   <div class="separator"></div>
   
   <div class="card">
-    <h2 class="card-title">批量转换</h2>
+    <h2 class="card-title">${webviewStrings.batchConvert.title}</h2>
     <div class="card-content">
-      选择一个文件夹，批量转换其中的所有支持文件类型。
+      ${webviewStrings.batchConvert.description}
     </div>
-    <button class="btn" id="batchConvert">选择文件夹</button>
+    <button class="btn" id="batchConvert">${webviewStrings.batchConvert.buttonText}</button>
   </div>
 
   <script>
     (function() {
-      // 获取VS Code API
+      // Get VS Code API
       const vscode = acquireVsCodeApi();
       
-      // 事件处理
+      // Event handling
       document.getElementById('convertWord').addEventListener('click', function() {
         vscode.postMessage({ command: 'convertWord' });
       });
