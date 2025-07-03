@@ -2,15 +2,16 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { ConversionResult, ConversionOptions } from '../types';
 import { FileUtils } from '../utils/fileUtils';
+import { I18n } from '../i18n';
 
-// 在模块加载时设置正确的工作目录，然后导入pdf-parse
+// Set correct working directory during module loading, then import pdf-parse
 let pdfParse: any;
 
 try {
-  // 保存当前工作目录
+  // Save current working directory
   const originalCwd = process.cwd();
   
-  // 查找包含 node_modules 的项目根目录
+  // Find project root directory containing node_modules
   let projectRoot = __dirname;
   while (projectRoot && projectRoot !== '/') {
     const nodeModulesPath = require('path').join(projectRoot, 'node_modules');
@@ -21,42 +22,42 @@ try {
   }
   
   try {
-    // 临时切换到项目根目录
+    // Temporarily switch to project root directory
     if (projectRoot && projectRoot !== originalCwd) {
       process.chdir(projectRoot);
     }
     
-    // 导入 pdf-parse
+    // Import pdf-parse
     pdfParse = require('pdf-parse');
   } finally {
-    // 恢复原始工作目录
+    // Restore original working directory
     process.chdir(originalCwd);
   }
 } catch (error) {
-  console.warn('PDF-parse 加载警告:', error);
-  // 如果仍然失败，尝试不改变工作目录直接导入
+  console.warn('PDF-parse loading warning:', error);
+  // If still fails, try importing directly without changing working directory
   try {
     pdfParse = require('pdf-parse');
   } catch (fallbackError) {
-    console.error('PDF-parse 加载失败:', fallbackError);
+    console.error('PDF-parse loading failed:', fallbackError);
   }
 }
 
 export class PdfToTextConverter {
   /**
-   * 将PDF文件转换为文本
+   * Convert PDF file to text format
    */
   static async convert(inputPath: string, options?: ConversionOptions): Promise<ConversionResult> {
     const startTime = Date.now();
     
     try {
-      // 验证文件
+      // Validate file
       const validation = await FileUtils.validateFile(inputPath);
       if (!validation.isValid) {
         return {
           success: false,
           inputPath,
-          error: validation.error || '无效的文件格式'
+          error: validation.error || I18n.t('error.unsupportedFormat', 'Invalid file format')
         };
       }
 
@@ -64,11 +65,11 @@ export class PdfToTextConverter {
         return {
           success: false,
           inputPath,
-          error: `不支持的文件类型: ${validation.fileType || path.extname(inputPath)}`
+          error: I18n.t('error.unsupportedFormat', validation.fileType || path.extname(inputPath))
         };
       }
 
-      // 读取PDF文件
+      // Read PDF file
       let dataBuffer;
       try {
         dataBuffer = await fs.readFile(inputPath);
@@ -76,34 +77,34 @@ export class PdfToTextConverter {
         return {
           success: false,
           inputPath,
-          error: `无法读取PDF文件: ${err instanceof Error ? err.message : '未知错误'}`
+          error: I18n.t('pdf.cannotReadFile', err instanceof Error ? err.message : I18n.t('error.unknownError'))
         };
       }
       
-      // 解析PDF
+      // Parse PDF
       let pdfData;
       try {
-        // 使用基本的解析选项，避免复杂的自定义渲染器
+        // Use basic parsing options, avoid complex custom renderers
         pdfData = await pdfParse(dataBuffer, {
-          max: 0 // 解析所有页面
+          max: 0 // Parse all pages
         });
       } catch (err) {
         return {
           success: false,
           inputPath,
-          error: `无法解析PDF文件: ${err instanceof Error ? err.message : '未知错误'}`
+          error: I18n.t('pdf.cannotParseFile', err instanceof Error ? err.message : I18n.t('error.unknownError'))
         };
       }
       
-      // 提取文本
+      // Extract text
       const text = this.formatPdfText(pdfData);
       
-      // 生成输出路径
+      // Generate output path
       const config = FileUtils.getConfig();
       const outputDir = options?.outputDirectory || config.outputDirectory || path.dirname(inputPath);
       const outputPath = FileUtils.generateOutputPath(inputPath, '.txt', outputDir);
       
-      // 保存文本文件
+      // Save text file
       await FileUtils.writeFile(outputPath, text);
       
       const duration = Date.now() - startTime;
@@ -118,58 +119,58 @@ export class PdfToTextConverter {
       return {
         success: false,
         inputPath,
-        error: `转换失败: ${error instanceof Error ? error.message : '未知错误'}`
+        error: I18n.t('error.conversionFailed', error instanceof Error ? error.message : I18n.t('error.unknownError'))
       };
     }
   }
   
   /**
-   * 格式化PDF文本
+   * Format PDF text for better readability
    */
   private static formatPdfText(pdfData: import('pdf-parse').PDFData): string {
     const { text, numpages, info } = pdfData;
     const filename = info?.Title || 'Unnamed PDF';
     
-    // 标题信息
+    // Title information
     let result = `# ${filename}\n\n`;
     
-    // 文件信息
-    result += '## 文件信息\n\n';
-    result += `- 页数: ${numpages}\n`;
+    // File information
+    result += `${I18n.t('pdf.fileInfo')}\n\n`;
+    result += `- ${I18n.t('pdf.pageCount')}: ${numpages}\n`;
     
     if (info) {
       if (info.Author) {
-        result += `- 作者: ${info.Author}\n`;
+        result += `- ${I18n.t('pdf.author')}: ${info.Author}\n`;
       }
       if (info.CreationDate) {
-        result += `- 创建日期: ${info.CreationDate}\n`;
+        result += `- ${I18n.t('pdf.creationDate')}: ${info.CreationDate}\n`;
       }
       if (info.Creator) {
-        result += `- 创建工具: ${info.Creator}\n`;
+        result += `- ${I18n.t('pdf.creator')}: ${info.Creator}\n`;
       }
     }
     
     result += '\n';
-    result += '## 文本内容\n\n';
-     // 改进的文本处理逻辑
+    result += `${I18n.t('pdf.textContent')}\n\n`;
+    // Improved text processing logic
     const processedText = PdfToTextConverter.formatForReadability(text);
 
-    // 按段落分割文本
+    // Split text into paragraphs
     const paragraphs = processedText
-      .split(/\n\s*\n/)  // 按多个换行符分割段落
+      .split(/\n\s*\n/)  // Split by multiple line breaks
       .map((paragraph: string) => paragraph.trim())
       .filter((paragraph: string) => paragraph.length > 0);
     
-    // 输出段落
+    // Output paragraphs
     for (let i = 0; i < paragraphs.length; i++) {
       if (i > 0) {
         result += '\n\n';
       }
       
-      // 处理每个段落内的换行
+      // Handle line breaks within each paragraph
       const cleanParagraph = paragraphs[i]
-        .replace(/\n+/g, ' ')  // 将段落内的换行替换为空格
-        .replace(/\s+/g, ' ')  // 合并多个空格为一个
+        .replace(/\n+/g, ' ')  // Replace line breaks within paragraph with spaces
+        .replace(/\s+/g, ' ')  // Merge multiple spaces into one
         .trim();
       
       result += cleanParagraph;
@@ -179,76 +180,76 @@ export class PdfToTextConverter {
   }
   
   /**
-   * 改进文本空格处理
+   * Improve text spacing handling for PDF extracted text
    */
   private static improveTextSpacing(text: string): string {
-    // 处理PDF提取文本中常见的空格问题
+    // Handle common spacing issues in PDF extracted text
     let processedText = text;
     
-    // 1. 修复被错误分割的单词（连续字母之间缺少空格）
-    // 例如: "HelloWorld" -> "Hello World"
+    // 1. Fix incorrectly split words (missing spaces between consecutive letters)
+    // e.g., "HelloWorld" -> "Hello World"
     processedText = processedText.replace(/([a-z])([A-Z])/g, '$1 $2');
     
-    // 2. 修复数字和字母之间的空格
-    // 例如: "123abc" -> "123 abc", "abc123" -> "abc 123"
+    // 2. Fix spacing between numbers and letters
+    // e.g., "123abc" -> "123 abc", "abc123" -> "abc 123"
     processedText = processedText.replace(/(\d)([a-zA-Z])/g, '$1 $2');
     processedText = processedText.replace(/([a-zA-Z])(\d)/g, '$1 $2');
     
-    // 3. 修复标点符号前后的空格
-    // 确保标点符号后有空格，前面没有多余空格
+    // 3. Fix spacing around punctuation marks
+    // Ensure punctuation marks have space after them, no extra spaces before
     processedText = processedText.replace(/\s*([,.!?;:])\s*/g, '$1 ');
     
-    // 4. 修复常见的PDF文本提取问题
-    // 处理连续的大写字母后跟小写字母的情况
+    // 4. Fix common PDF text extraction issues
+    // Handle consecutive uppercase letters followed by lowercase letters
     processedText = processedText.replace(/([A-Z]{2,})([a-z])/g, (match, caps, lower) => {
-      // 如果有多个大写字母，在最后一个大写字母前插入空格
+      // If there are multiple uppercase letters, insert space before the last uppercase letter
       const lastCap = caps.slice(-1);
       const restCaps = caps.slice(0, -1);
       return restCaps + ' ' + lastCap + lower;
     });
     
-    // 5. 修复句子之间的空格
-    // 确保句子结束后有适当的空格
+    // 5. Fix spacing between sentences
+    // Ensure proper spacing after sentence endings
     processedText = processedText.replace(/([.!?])\s*([A-Z])/g, '$1 $2');
     
-    // 6. 处理PDF中常见的连字符问题
-    // 修复被错误分割的连字符单词
+    // 6. Handle common hyphenation issues in PDFs
+    // Fix incorrectly split hyphenated words
     processedText = processedText.replace(/(\w+)-\s*\n\s*(\w+)/g, '$1$2');
     
-    // 7. 清理多余的空白字符
-    processedText = processedText.replace(/[ \t]+/g, ' ');  // 合并空格和制表符
-    processedText = processedText.replace(/\n[ \t]+/g, '\n');  // 移除行首的空格
-    processedText = processedText.replace(/[ \t]+\n/g, '\n');  // 移除行尾的空格
+    // 7. Clean up extra whitespace characters
+    processedText = processedText.replace(/[ \t]+/g, ' ');  // Merge spaces and tabs
+    processedText = processedText.replace(/\n[ \t]+/g, '\n');  // Remove leading spaces from lines
+    processedText = processedText.replace(/[ \t]+\n/g, '\n');  // Remove trailing spaces from lines
     
     return processedText;
   }
 
-  // 高级文本格式化方法
+  // Advanced text formatting method for better readability
   private static formatForReadability(text: string): string {
     let formatted = text;
 
-    // 1. 识别和保护特殊格式（如代码块、链接等）
+    // 1. Identify and protect special formats (like code blocks, links, etc.)
     const protectedSections: string[] = [];
     let protectionIndex = 0;
 
-    // 保护看起来像URL的文本
+    // Protect URL-like text
     formatted = formatted.replace(/https?:\/\/[^\s]+/g, (match) => {
       const placeholder = `__PROTECTED_URL_${protectionIndex++}__`;
       protectedSections.push(match);
       return placeholder;
     });
 
-    // 保护看起来像邮件地址的文本
+    // Protect email address-like text
     formatted = formatted.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, (match) => {
       const placeholder = `__PROTECTED_EMAIL_${protectionIndex++}__`;
       protectedSections.push(match);
       return placeholder;
     });
 
-    // 2. 应用现有的文本改进
+    // 2. Apply existing text improvements
     formatted = PdfToTextConverter.improveTextSpacing(formatted);
 
-    // 3. 恢复保护的内容
+    // 3. Restore protected content
     protectedSections.forEach((section, index) => {
       const placeholder = section.includes('@') 
         ? `__PROTECTED_EMAIL_${index}__`
@@ -256,11 +257,11 @@ export class PdfToTextConverter {
       formatted = formatted.replace(placeholder, section);
     });
 
-    // 4. 最终清理
+    // 4. Final cleanup
     formatted = formatted
-      .replace(/\n{3,}/g, '\n\n')  // 最多保留两个连续换行
-      .replace(/^[ \t]+/gm, '')    // 移除行首空格
-      .replace(/[ \t]+$/gm, '');   // 移除行尾空格
+      .replace(/\n{3,}/g, '\n\n')  // Keep at most two consecutive line breaks
+      .replace(/^[ \t]+/gm, '')    // Remove leading spaces from lines
+      .replace(/[ \t]+$/gm, '');   // Remove trailing spaces from lines
 
     return formatted.trim();
   }

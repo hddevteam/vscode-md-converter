@@ -100,6 +100,77 @@ export interface Messages {
     showWelcomeMessage: string;
     showWelcomeMessageDescription: string;
   };
+
+  // Excel conversion specific messages
+  excel: {
+    fileInfo: string;
+    fileName: string;
+    fileSize: string;
+    sheetCount: string;
+    sheetList: string;
+    worksheet: string;
+    emptyWorksheet: string;
+    dataDimensions: string;
+    dataDimensionsValue: string;
+    rowsLimitNotice: string;
+    whitespaceChar: string;
+    convertedFrom: string;
+  };
+
+  // PDF conversion specific messages
+  pdf: {
+    fileInfo: string;
+    fileName: string;
+    fileSize: string;
+    modifiedDate: string;
+    pageCount: string;
+    author: string;
+    creationDate: string;
+    creator: string;
+    textContent: string;
+    convertedFrom: string;
+    cannotReadFile: string;
+    cannotParseFile: string;
+  };
+
+  // Word conversion specific messages
+  word: {
+    fileInfo: string;
+    fileName: string;
+    fileSize: string;
+    modifiedDate: string;
+    convertedFrom: string;
+    importantNotice: string;
+    docFormatNotice: string;
+    bestConversionSteps: string;
+    recommendedMethod: string;
+    alternativeMethods: string;
+    conversionTips: string;
+    attemptedContent: string;
+    attemptingExtraction: string;
+    extractedText: string;
+    incompletContentNotice: string;
+    cannotExtractText: string;
+    possibleReasons: string;
+    fileFormatSpecial: string;
+    mainlyImages: string;
+    fileCorrupted: string;
+    stronglyRecommend: string;
+    conversionInfo: string;
+    extractionFailed: string;
+    normalSituation: string;
+    content: string;
+    noTextContent: string;
+    conversionError: string;
+    processingDocxError: string;
+    possibleSolutions: string;
+    checkFileIntegrity: string;
+    resaveInWord: string;
+    checkValidDocument: string;
+    conversionWarnings: string;
+    documentFormatSpecial: string;
+    passwordProtected: string;
+  };
 }
 
 // Language detection and message retrieval

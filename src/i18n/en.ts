@@ -96,5 +96,76 @@ export const EnglishMessages: Messages = {
     autoOpenResultDescription: 'Automatically open converted files',
     showWelcomeMessage: 'Show Welcome Message',
     showWelcomeMessageDescription: 'Show a welcome message when the extension is activated'
+  },
+
+  // Excel conversion specific messages
+  excel: {
+    fileInfo: '📊 File Information',
+    fileName: 'File Name',
+    fileSize: 'File Size',
+    sheetCount: 'Number of Worksheets',
+    sheetList: 'Worksheet List',
+    worksheet: '📋 Worksheet',
+    emptyWorksheet: '*This worksheet is empty*',
+    dataDimensions: 'Data Dimensions',
+    dataDimensionsValue: '{0} rows x {1} columns',
+    rowsLimitNotice: '*Note: Data rows exceed {0} rows, showing only the first {0} rows*',
+    whitespaceChar: '(whitespace)',
+    convertedFrom: '*Converted from: {0}*'
+  },
+
+  // PDF conversion specific messages
+  pdf: {
+    fileInfo: '## File Information',
+    fileName: 'File Name',
+    fileSize: 'File Size',
+    modifiedDate: 'Modified Date',
+    pageCount: 'Pages',
+    author: 'Author',
+    creationDate: 'Creation Date',
+    creator: 'Creator',
+    textContent: '## Text Content',
+    convertedFrom: '*Converted from: {0}*',
+    cannotReadFile: 'Cannot read PDF file: {0}',
+    cannotParseFile: 'Cannot parse PDF file: {0}'
+  },
+
+  // Word conversion specific messages
+  word: {
+    fileInfo: '📊 File Information',
+    fileName: 'File Name',
+    fileSize: 'File Size',
+    modifiedDate: 'Modified Date',
+    convertedFrom: '*Converted from: {0}*',
+    importantNotice: '⚠️ Important Notice',
+    docFormatNotice: 'This file is in the old Word format (.doc). The current converter primarily supports the new Word format (.docx).',
+    bestConversionSteps: '**For best conversion results, please follow these steps:**',
+    recommendedMethod: '**Recommended Method**: Convert to .docx format',
+    alternativeMethods: '**Alternative Methods**:',
+    conversionTips: '- Use LibreOffice Writer to open and save as .docx\n   - Use online document conversion tools\n   - Copy document content directly to a new Markdown file',
+    attemptedContent: '## Attempted Content Extraction',
+    attemptingExtraction: '*Attempting to extract basic text from .doc file...*',
+    extractedText: '**Extracted Text:**',
+    incompletContentNotice: '*Note: The above content may be incomplete or inaccurately formatted. It is recommended to convert to .docx format using the above method for better results.*',
+    cannotExtractText: '*Cannot extract text content from this .doc file.*',
+    possibleReasons: 'This may be because:',
+    fileFormatSpecial: '- File format is special or uses an old version of .doc format',
+    mainlyImages: '- File mainly contains images or other non-text elements',
+    fileCorrupted: '- File may be corrupted',
+    stronglyRecommend: '**Strongly recommend using the above recommended method to convert to .docx format.**',
+    conversionInfo: '**Conversion Information:**',
+    extractionFailed: '*Quick extraction failed: {0}*',
+    normalSituation: '**This is normal**, as the .doc format is quite complex. Please use the above recommended method to convert to .docx format.',
+    content: '## Content',
+    noTextContent: '*This document seems to have no extractable text content.*',
+    conversionError: '## Conversion Error',
+    processingDocxError: 'Error occurred while processing .docx file: {0}',
+    possibleSolutions: '**Possible Solutions:**',
+    checkFileIntegrity: '1. Confirm that the file is not corrupted and not password protected',
+    resaveInWord: '2. Try to resave the file in Microsoft Word',
+    checkValidDocument: '3. Check if the file is a valid Word document',
+    conversionWarnings: '⚠️ Conversion Warnings',
+    documentFormatSpecial: '- Document format is special or corrupted',
+    passwordProtected: '- Document is password protected'
   }
 };
