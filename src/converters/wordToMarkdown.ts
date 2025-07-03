@@ -32,6 +32,13 @@ export class WordToMarkdownConverter {
     cleaned = cleaned.replace(/\\,/g, ',');
     cleaned = cleaned.replace(/\\;/g, ';');
     cleaned = cleaned.replace(/\\:/g, ':');
+    cleaned = cleaned.replace(/\\\+/g, '+');
+    cleaned = cleaned.replace(/\\-/g, '-');
+    cleaned = cleaned.replace(/\\\*/g, '*');
+    cleaned = cleaned.replace(/\\=/g, '=');
+    cleaned = cleaned.replace(/\\&/g, '&');
+    cleaned = cleaned.replace(/\\#/g, '#');
+    cleaned = cleaned.replace(/\\!/g, '!');
     
     // 清理多余的空行（保留段落间的适当间距）
     cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');

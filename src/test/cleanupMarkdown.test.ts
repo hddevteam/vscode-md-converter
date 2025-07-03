@@ -58,6 +58,20 @@ suite('WordToMarkdownConverter.cleanupMarkdown', () => {
     assert.strictEqual(result, expected);
   });
 
+  test('should fix plus sign and other symbol escaping', () => {
+    const input = 'AI\\+教育深度融合\\, 技术\\*创新\\= 未来\\& 智能\\# 发展\\!';
+    const expected = 'AI+教育深度融合, 技术*创新= 未来& 智能# 发展!';
+    const result = WordToMarkdownConverter.cleanupMarkdown(input);
+    assert.strictEqual(result, expected);
+  });
+
+  test('should handle mixed escape characters in real content', () => {
+    const input = 'Web3\\.0\\+ 区块链技术\\* 数字经济\\= 新时代\\& 创新发展\\!';
+    const expected = 'Web3.0+ 区块链技术* 数字经济= 新时代& 创新发展!';
+    const result = WordToMarkdownConverter.cleanupMarkdown(input);
+    assert.strictEqual(result, expected);
+  });
+
   test('should clean up multiple blank lines', () => {
     const input = 'Paragraph 1\n\n\n\nParagraph 2\n\n\n\nParagraph 3';
     const expected = 'Paragraph 1\n\nParagraph 2\n\nParagraph 3';
@@ -81,6 +95,8 @@ Point 2\\ also needs work.
 
 <span>Some</span> <div>formatted</div> text\\, here\\.
 
+AI\\+教育深度融合\\* 技术创新
+
 End of line 123\\
     `.trim();
     
@@ -90,6 +106,8 @@ Point 1 needs fixing.
 Point 2 also needs work.
 
 Some formatted text, here.
+
+AI+教育深度融合* 技术创新
 
 End of line 123`;
     
