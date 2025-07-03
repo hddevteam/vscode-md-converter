@@ -4,6 +4,7 @@
   "description": "Convert Word to Markdown, Excel to Markdown, and PDF to TXT with batch processing support",
   "version": "0.0.1",
   "publisher": "document-converter-dev",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.101.0"
   },
