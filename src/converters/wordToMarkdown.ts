@@ -1,10 +1,47 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as mammoth from 'mammoth';
+import { I18n } from '../i18n';
 import { ConversionResult, ConversionOptions } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 
 export class WordToMarkdownConverter {
+  /**
+   * Clean up markdown text by removing unwanted HTML tags and fixing formatting issues
+   */
+  static cleanupMarkdown(markdown: string): string {
+    let cleaned = markdown;
+    
+    // 移除 OLE 链接标签（如 <a id="OLE_LINK5"></a>）
+    cleaned = cleaned.replace(/<a\s+id="OLE_LINK\d+"><\/a>/gi, '');
+    
+    // 移除其他空的锚点标签
+    cleaned = cleaned.replace(/<a\s+[^>]*><\/a>/gi, '');
+    
+    // 移除不必要的HTML标签（但保留markdown链接）
+    cleaned = cleaned.replace(/<\/?span[^>]*>/gi, '');
+    cleaned = cleaned.replace(/<\/?div[^>]*>/gi, '');
+    
+    // 修复数字后不必要的反斜杠转义
+    // 将 "1\" 或 "123\" 这样的模式改为 "1" 或 "123"
+    cleaned = cleaned.replace(/(\d+)\\\s/g, '$1 ');
+    cleaned = cleaned.replace(/(\d+)\\$/gm, '$1');
+    
+    // 修复其他常见的转义问题
+    cleaned = cleaned.replace(/\\\./g, '.');
+    cleaned = cleaned.replace(/\\,/g, ',');
+    cleaned = cleaned.replace(/\\;/g, ';');
+    cleaned = cleaned.replace(/\\:/g, ':');
+    
+    // 清理多余的空行（保留段落间的适当间距）
+    cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');
+    
+    // 清理行尾多余的空格
+    cleaned = cleaned.replace(/[ \t]+$/gm, '');
+    
+    return cleaned.trim();
+  }
+
   /**
    * 将Word文档转换为Markdown
    */
@@ -81,11 +118,14 @@ export class WordToMarkdownConverter {
           
           if (result.value && result.value.trim()) {
             // 基本的文本格式化
-            const formattedText = result.value
+            let formattedText = result.value
               .split('\n')
               .map(line => line.trim())
               .filter(line => line.length > 0)
               .join('\n\n');
+            
+            // 应用清理函数以移除不必要的转义字符等
+            formattedText = WordToMarkdownConverter.cleanupMarkdown(formattedText);
             
             markdown += `**提取的文本：**\n\n`;
             markdown += formattedText;
@@ -116,7 +156,21 @@ export class WordToMarkdownConverter {
         // 处理 .docx 文件
         try {
           const buffer = await fs.readFile(inputPath);
-          const result = await mammoth.convertToMarkdown(buffer);
+          
+          // 使用mammoth的转换选项来更好地控制输出
+          const options = {
+            styleMap: "p[style-name='Heading 1'] => h1:fresh\np[style-name='Heading 2'] => h2:fresh\np[style-name='Heading 3'] => h3:fresh\np[style-name='Heading 4'] => h4:fresh\np[style-name='Heading 5'] => h5:fresh\np[style-name='Heading 6'] => h6:fresh\nr[style-name='Strong'] => strong\nr[style-name='Emphasis'] => em",
+            ignoreEmptyParagraphs: true,
+            convertImage: (image: any) => {
+              // 转换图片为base64格式
+              return {
+                src: `data:${image.contentType};base64,${image.buffer.toString('base64')}`,
+                altText: image.altText || 'Image'
+              };
+            }
+          };
+          
+          const result = await mammoth.convertToMarkdown(buffer, options);
           
           // 添加转换警告信息（如果有）
           if (result.messages.length > 0) {
@@ -132,7 +186,12 @@ export class WordToMarkdownConverter {
           // 添加文档内容
           markdown += `## 内容\n\n`;
           if (result.value && result.value.trim()) {
-            markdown += result.value;
+            let cleanedMarkdown = result.value;
+            
+            // 清理不需要的HTML标签和格式
+            cleanedMarkdown = WordToMarkdownConverter.cleanupMarkdown(cleanedMarkdown);
+            
+            markdown += cleanedMarkdown;
           } else {
             markdown += `*此文档似乎没有可提取的文本内容。*\n\n`;
             markdown += `可能的原因：\n`;
