@@ -22,11 +22,15 @@ A powerful VS Code extension for converting various document formats to Markdown
 
 ## 📦 Installation
 
-1. Open VS Code Extensions Marketplace (Ctrl+Shift+X)
-2. Search for "Document MD Converter"
-3. Click Install
+### From VS Code Marketplace (Recommended)
+1. Open VS Code Extensions Marketplace (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+2. Search for "Document Converter" or "hddevteam"
+3. Click **Install**
 
-Or install manually:
+### Direct Link
+Visit the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter) and click **Install**.
+
+### Manual Installation (For Development)
 ```bash
 # Clone the project
 git clone https://github.com/hddevteam/vscode-md-converter.git
