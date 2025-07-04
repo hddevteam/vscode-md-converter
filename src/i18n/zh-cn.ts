@@ -16,7 +16,7 @@ export const ChineseMessages: Messages = {
     convertWordToMarkdown: '将Word转换为Markdown',
     convertExcelToMarkdown: '将Excel转换为Markdown',
     convertPdfToText: '将PDF转换为文本',
-    batchConvert: '批量转换文档',
+    batchConvert: '批量转换Markdown',
     openConverter: '打开文档转换器',
     testPdfConversion: '测试PDF转换',
     debugPdfEnvironment: '调试PDF环境'
@@ -60,6 +60,10 @@ export const ChineseMessages: Messages = {
     outputDirCustom: '指定输出目录',
     outputDirCustomDescription: '选择一个目标文件夹',
     noFilesFound: '在 {0} 中未找到可转换的文件。',
+    noConvertibleFiles: '在所选文件夹中未找到支持的文件类型。',
+    foundFiles: '找到 {0} 个可转换文件。是否继续？',
+    continue: '继续',
+    cancel: '取消',
     yes: '是',
     no: '否'
   },

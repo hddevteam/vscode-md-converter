@@ -2,7 +2,7 @@
   "name": "document-md-converter",
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word to Markdown, Excel to Markdown, and PDF to TXT with batch processing support",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "hddevteam",
   "icon": "images/icon.png",
   "repository": {
@@ -79,22 +79,22 @@
         {
           "when": "resourceExtname == .docx || resourceExtname == .doc",
           "command": "document-md-converter.convertWordToMarkdown",
-          "group": "document-converter"
+          "group": "document-converter@1"
         },
         {
           "when": "resourceExtname == .xlsx || resourceExtname == .xls || resourceExtname == .csv",
           "command": "document-md-converter.convertExcelToMarkdown",
-          "group": "document-converter"
+          "group": "document-converter@2"
         },
         {
           "when": "resourceExtname == .pdf",
           "command": "document-md-converter.convertPdfToText",
-          "group": "document-converter"
+          "group": "document-converter@3"
         },
         {
-          "when": "resourceIsFolder",
+          "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
-          "group": "document-converter"
+          "group": "document-converter@4"
         }
       ],
       "commandPalette": [

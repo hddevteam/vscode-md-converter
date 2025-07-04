@@ -12,6 +12,7 @@ export interface BatchConversionResult {
   failedCount: number;
   skippedCount: number;
   results: ConversionResult[];
+  totalDuration?: number;
 }
 
 export interface ConversionOptions {

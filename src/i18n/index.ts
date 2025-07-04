@@ -63,6 +63,10 @@ export interface Messages {
     outputDirCustom: string;
     outputDirCustomDescription: string;
     noFilesFound: string;
+    noConvertibleFiles: string;
+    foundFiles: string;
+    continue: string;
+    cancel: string;
     yes: string;
     no: string;
   };

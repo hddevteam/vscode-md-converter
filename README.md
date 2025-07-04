@@ -206,6 +206,14 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🔄 Changelog
 
+### v0.1.2
+- ✨ Added enhanced folder batch conversion
+- 🔍 Added file count preview before batch conversion
+- 🚀 Added conversion confirmation dialog
+- ⏱️ Added total duration tracking for batch operations
+- 🧩 Fixed folder context menu integration
+- 🌐 Updated internationalization for new UI elements
+
 ### v0.1.1
 - 🎨 Updated extension branding to "OneClick Markdown Converter"
 - 🌐 Enhanced GitHub Pages website with Chinese version

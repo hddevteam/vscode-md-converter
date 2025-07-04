@@ -2,7 +2,7 @@
   "commands.convertWordToMarkdown": "Convert Word to Markdown",
   "commands.convertExcelToMarkdown": "Convert Excel to Markdown", 
   "commands.convertPdfToText": "Convert PDF to Text",
-  "commands.batchConvert": "Batch Convert Documents",
+  "commands.batchConvert": "Batch Convert to Markdown",
   "commands.openConverter": "Open OneClick Markdown Converter",
   "commands.testPdfConversion": "Test PDF Conversion",
   "commands.debugPdfEnvironment": "Debug PDF Environment",

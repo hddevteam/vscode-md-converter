@@ -16,7 +16,7 @@ export const EnglishMessages: Messages = {
     convertWordToMarkdown: 'Convert Word to Markdown',
     convertExcelToMarkdown: 'Convert Excel to Markdown',
     convertPdfToText: 'Convert PDF to Text',
-    batchConvert: 'Batch Convert Documents',
+    batchConvert: 'Batch Convert to Markdown',
     openConverter: 'Open Document Converter',
     testPdfConversion: 'Test PDF Conversion',
     debugPdfEnvironment: 'Debug PDF Environment'
@@ -60,6 +60,10 @@ export const EnglishMessages: Messages = {
     outputDirCustom: 'Specify output directory',
     outputDirCustomDescription: 'Choose a target folder',
     noFilesFound: 'No convertible files found in {0}.',
+    noConvertibleFiles: 'No convertible files found in "{0}". This folder contains no Word, Excel, or PDF documents.',
+    foundFiles: 'Found {0} convertible files in "{1}". Do you want to proceed with batch conversion?',
+    continue: 'Continue',
+    cancel: 'Cancel',
     yes: 'Yes',
     no: 'No'
   },

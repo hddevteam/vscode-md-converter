@@ -36,7 +36,37 @@ export async function batchConvert(uri?: vscode.Uri) {
       uri = folderUris[0];
     }
 
+    // Verify it's a folder
     const folderPath = uri.fsPath;
+    const stat = await fs.stat(folderPath);
+    if (!stat.isDirectory()) {
+      vscode.window.showErrorMessage(I18n.t('error.notAFolder', folderPath));
+      return;
+    }
+
+    // Quick scan to check if there are any convertible files
+    const availableFiles = await collectFiles(folderPath, ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf'], true);
+    if (availableFiles.length === 0) {
+      vscode.window.showInformationMessage(I18n.t('batch.noConvertibleFiles', path.basename(folderPath)));
+      return;
+    }
+
+    // Show preview of files to be converted
+    const folderName = path.basename(folderPath);
+    const previewMessage = I18n.t('batch.foundFiles', availableFiles.length, folderName);
+    const continueOption = I18n.t('batch.continue');
+    const cancelOption = I18n.t('batch.cancel');
+    
+    const userChoice = await vscode.window.showInformationMessage(
+      previewMessage,
+      { modal: true },
+      continueOption,
+      cancelOption
+    );
+
+    if (userChoice !== continueOption) {
+      return; // User cancelled
+    }
 
     // Configure batch conversion options
     const options = await getBatchConversionOptions(folderPath);
@@ -48,11 +78,11 @@ export async function batchConvert(uri?: vscode.Uri) {
     await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: I18n.t('progress.batchConverting', path.basename(folderPath)),
+        title: I18n.t('progress.batchConverting', folderName),
         cancellable: true
       },
       async (progress, token) => {
-        // Get list of files to convert
+        // Get list of files to convert based on user selection
         const files = await collectFiles(folderPath, options.fileTypes, options.includeSubfolders);
         if (files.length === 0) {
           vscode.window.showInformationMessage(I18n.t('batch.noFilesFound', folderPath));
@@ -66,6 +96,7 @@ export async function batchConvert(uri?: vscode.Uri) {
         // Convert files
         const results = [];
         let processedCount = 0;
+        const startTime = Date.now();
 
         for (const file of files) {
           if (token.isCancellationRequested) {
@@ -84,6 +115,7 @@ export async function batchConvert(uri?: vscode.Uri) {
 
           try {
             let result: ConversionResult;
+            const fileStartTime = Date.now();
             
             // Select converter based on file type
             switch (fileExt) {
@@ -107,12 +139,15 @@ export async function batchConvert(uri?: vscode.Uri) {
                 };
             }
 
+            // Add timing information
+            result.duration = Date.now() - fileStartTime;
             results.push(result);
           } catch (error) {
             results.push({
               success: false,
               inputPath: file,
-              error: error instanceof Error ? error.message : I18n.t('error.unknownError')
+              error: error instanceof Error ? error.message : I18n.t('error.unknownError'),
+              duration: Date.now() - Date.now()
             });
           }
 
@@ -124,6 +159,7 @@ export async function batchConvert(uri?: vscode.Uri) {
         const successCount = results.filter(r => r.success).length;
         const failedCount = results.filter(r => !r.success).length;
         const skippedCount = totalFiles - processedCount;
+        const totalDuration = Date.now() - startTime;
 
         // Show batch conversion result
         UIUtils.showBatchConversionResult({
@@ -131,7 +167,8 @@ export async function batchConvert(uri?: vscode.Uri) {
           successCount,
           failedCount,
           skippedCount,
-          results
+          results,
+          totalDuration
         });
       }
     );
