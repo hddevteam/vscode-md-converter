@@ -1,8 +1,8 @@
-# Document Converter VS Code Extension
+# OneClick Markdown Converter - VS Code Extension
 
-**English** | [中文](README.zh-cn.md)
+**English** | [中文](README.zh-cn.md) | **[🌐 Website](https://hddevteam.github.io/vscode-md-converter/)**
 
-A powerful VS Code extension for converting various document formats to Markdown and text formats.
+A powerful VS Code extension for converting various document formats to Markdown and text formats with just one click.
 
 ## 🚀 Features
 
@@ -205,6 +205,20 @@ npm test
 MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🔄 Changelog
+
+### v0.1.1
+- 🎨 Updated extension branding to "OneClick Markdown Converter"
+- 🌐 Enhanced GitHub Pages website with Chinese version
+- 🎨 Improved color scheme with modern purple-teal gradients
+- 📚 Updated internationalization support
+- 🔧 Enhanced documentation and user guides
+
+### v0.1.0
+- 🚀 Published to VS Code Marketplace
+- 🌐 Added comprehensive GitHub Pages website
+- 📦 Professional packaging and distribution
+- 🎨 Created custom extension icon
+- 📖 Complete documentation and guides
 
 ### v0.0.1
 - ✨ Initial release

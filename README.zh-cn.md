@@ -1,8 +1,8 @@
-# 文档转换器 VS Code 扩展
+# 一键Markdown转换器 - VS Code扩展
 
-[English](README.md) | **中文**
+[English](README.md) | **中文** | **[🌐 网站](https://hddevteam.github.io/vscode-md-converter/zh-cn.html)**
 
-一个功能强大的VS Code扩展，用于将各种文档格式转换为Markdown和文本格式。
+一个功能强大的VS Code扩展，只需一键即可将各种文档格式转换为Markdown和文本格式。
 
 ## 🚀 功能特性
 

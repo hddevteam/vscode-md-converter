@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneClick Markdown Converter - VS Code Extension</title>
-    <meta name="description" content="A powerful VS Code extension for converting Word, Excel, and PDF documents to Markdown and text formats with multi-language support">
-    <meta name="keywords" content="vscode extension, markdown converter, oneclick converter, word to markdown, excel to markdown, pdf to text">
+    <title>一键Markdown转换器 - VS Code扩展</title>
+    <meta name="description" content="强大的VS Code扩展，支持将Word、Excel和PDF文档转换为Markdown和文本格式，具有多语言支持">
+    <meta name="keywords" content="vscode扩展, markdown转换器, 一键转换器, word转markdown, excel转markdown, pdf转文本">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="OneClick Markdown Converter - VS Code Extension">
-    <meta property="og:description" content="Convert Word, Excel, and PDF documents to Markdown and text formats with ease">
+    <meta property="og:title" content="一键Markdown转换器 - VS Code扩展">
+    <meta property="og:description" content="轻松将Word、Excel和PDF文档转换为Markdown和文本格式">
     <meta property="og:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
-    <meta property="og:url" content="https://hddevteam.github.io/vscode-md-converter/">
+    <meta property="og:url" content="https://hddevteam.github.io/vscode-md-converter/zh-cn.html">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="OneClick Markdown Converter - VS Code Extension">
-    <meta name="twitter:description" content="Convert Word, Excel, and PDF documents to Markdown and text formats with ease">
+    <meta name="twitter:title" content="一键Markdown转换器 - VS Code扩展">
+    <meta name="twitter:description" content="轻松将Word、Excel和PDF文档转换为Markdown和文本格式">
     <meta name="twitter:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
     
     <!-- Favicon -->
@@ -31,21 +31,28 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans SC', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="./assets/images/icon.png" alt="OneClick Markdown Converter Logo" class="nav-icon">
-                <span class="nav-title">OneClick Markdown Converter</span>
+                <img src="./assets/images/icon.png" alt="一键Markdown转换器Logo" class="nav-icon">
+                <span class="nav-title">一键Markdown转换器</span>
             </div>
             <div class="nav-links">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#installation" class="nav-link">Installation</a>
-                <a href="#usage" class="nav-link">Usage</a>
-                <a href="#support" class="nav-link">Support</a>
-                <a href="./zh-cn.html" class="nav-link">中文</a>
+                <a href="#features" class="nav-link">功能特色</a>
+                <a href="#installation" class="nav-link">安装指南</a>
+                <a href="#usage" class="nav-link">使用方法</a>
+                <a href="#support" class="nav-link">支持帮助</a>
+                <a href="./index.html" class="nav-link">English</a>
                 <a href="https://github.com/hddevteam/vscode-md-converter" class="nav-link" target="_blank">
                     <i class="fab fa-github"></i> GitHub
                 </a>
@@ -59,40 +66,39 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-rocket"></i>
-                    Now Available on VS Code Marketplace
+                    现已上架 VS Code 扩展市场
                 </div>
                 <h1 class="hero-title">
-                    <span class="highlight">OneClick</span> Document to Markdown Conversion
+                    <span class="highlight">一键</span>文档转Markdown
                 </h1>
                 <p class="hero-description">
-                    A powerful VS Code extension that seamlessly converts Word documents, Excel spreadsheets, 
-                    and PDF files to Markdown and text formats with just one click. Features batch processing, 
-                    multi-language support, and smart text optimization.
+                    强大的VS Code扩展，只需一键即可将Word文档、Excel表格和PDF文件
+                    无缝转换为Markdown和文本格式。支持批量处理、多语言界面和智能文本优化。
                 </p>
                 <div class="hero-buttons">
                     <a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" 
                        class="btn btn-primary" target="_blank">
                         <i class="fas fa-download"></i>
-                        Install Extension
+                        安装扩展
                     </a>
                     <a href="https://github.com/hddevteam/vscode-md-converter" 
                        class="btn btn-secondary" target="_blank">
                         <i class="fab fa-github"></i>
-                        View Source
+                        查看源码
                     </a>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
                         <div class="stat-number">3</div>
-                        <div class="stat-label">File Types</div>
+                        <div class="stat-label">文件类型</div>
                     </div>
                     <div class="stat">
                         <div class="stat-number">2</div>
-                        <div class="stat-label">Languages</div>
+                        <div class="stat-label">界面语言</div>
                     </div>
                     <div class="stat">
                         <div class="stat-number">∞</div>
-                        <div class="stat-label">Batch Files</div>
+                        <div class="stat-label">批量处理</div>
                     </div>
                 </div>
             </div>
@@ -100,14 +106,14 @@
                 <div class="conversion-demo">
                     <div class="demo-file input-file">
                         <i class="fas fa-file-word"></i>
-                        <span>Document.docx</span>
+                        <span>文档.docx</span>
                     </div>
                     <div class="demo-arrow">
                         <i class="fas fa-arrow-right"></i>
                     </div>
                     <div class="demo-file output-file">
                         <i class="fab fa-markdown"></i>
-                        <span>Document.md</span>
+                        <span>文档.md</span>
                     </div>
                 </div>
             </div>
@@ -118,9 +124,9 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Powerful Features</h2>
+                <h2 class="section-title">强大功能</h2>
                 <p class="section-description">
-                    Everything you need to convert documents efficiently and accurately
+                    高效准确转换文档所需的一切功能
                 </p>
             </div>
             
@@ -129,10 +135,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-file-word"></i>
                     </div>
-                    <h3 class="feature-title">Word Documents</h3>
+                    <h3 class="feature-title">Word文档</h3>
                     <p class="feature-description">
-                        Convert .docx and .doc files to Markdown while preserving formatting, 
-                        headings, lists, and tables.
+                        将.docx和.doc文件转换为Markdown，同时保留格式、
+                        标题、列表和表格。
                     </p>
                 </div>
                 
@@ -140,10 +146,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-file-excel"></i>
                     </div>
-                    <h3 class="feature-title">Excel Spreadsheets</h3>
+                    <h3 class="feature-title">Excel表格</h3>
                     <p class="feature-description">
-                        Transform .xlsx, .xls, and .csv files into clean Markdown tables 
-                        with automatic data formatting.
+                        将.xlsx、.xls和.csv文件转换为清晰的Markdown表格，
+                        自动格式化数据。
                     </p>
                 </div>
                 
@@ -151,10 +157,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
-                    <h3 class="feature-title">PDF Documents</h3>
+                    <h3 class="feature-title">PDF文档</h3>
                     <p class="feature-description">
-                        Extract and optimize text from PDF files with advanced processing 
-                        algorithms and smart formatting.
+                        使用先进的处理算法和智能格式化，
+                        从PDF文件中提取和优化文本。
                     </p>
                 </div>
                 
@@ -162,10 +168,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-layer-group"></i>
                     </div>
-                    <h3 class="feature-title">Batch Processing</h3>
+                    <h3 class="feature-title">批量处理</h3>
                     <p class="feature-description">
-                        Process entire folders of documents at once with intelligent 
-                        file type detection and bulk operations.
+                        一次处理整个文件夹的文档，具有智能
+                        文件类型检测和批量操作功能。
                     </p>
                 </div>
                 
@@ -173,10 +179,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-globe"></i>
                     </div>
-                    <h3 class="feature-title">Multi-Language</h3>
+                    <h3 class="feature-title">多语言支持</h3>
                     <p class="feature-description">
-                        Automatic language detection with full English and Chinese 
-                        interface support for global users.
+                        自动语言检测，全面的中英文
+                        界面支持，面向全球用户。
                     </p>
                 </div>
                 
@@ -184,10 +190,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-mouse-pointer"></i>
                     </div>
-                    <h3 class="feature-title">Easy Integration</h3>
+                    <h3 class="feature-title">简易集成</h3>
                     <p class="feature-description">
-                        Right-click context menus and command palette integration 
-                        for seamless workflow integration.
+                        右键菜单和命令面板集成，
+                        无缝融入工作流程。
                     </p>
                 </div>
             </div>
@@ -198,9 +204,9 @@
     <section id="installation" class="installation">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Quick Installation</h2>
+                <h2 class="section-title">快速安装</h2>
                 <p class="section-description">
-                    Get started in less than 30 seconds
+                    30秒内即可开始使用
                 </p>
             </div>
             
@@ -208,24 +214,24 @@
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3 class="step-title">Open VS Code Extensions</h3>
-                        <p class="step-description">Press <kbd>Ctrl+Shift+X</kbd> (Windows/Linux) or <kbd>Cmd+Shift+X</kbd> (macOS)</p>
+                        <h3 class="step-title">打开VS Code扩展</h3>
+                        <p class="step-description">按 <kbd>Ctrl+Shift+X</kbd> (Windows/Linux) 或 <kbd>Cmd+Shift+X</kbd> (macOS)</p>
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3 class="step-title">Search for Extension</h3>
-                        <p class="step-description">Type "OneClick Markdown Converter" or "hddevteam" in the search bar</p>
+                        <h3 class="step-title">搜索扩展</h3>
+                        <p class="step-description">在搜索栏中输入"OneClick Markdown Converter"或"hddevteam"</p>
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3 class="step-title">Install & Start Converting</h3>
-                        <p class="step-description">Click Install and start converting your documents immediately</p>
+                        <h3 class="step-title">安装并开始转换</h3>
+                        <p class="step-description">点击安装，立即开始转换您的文档</p>
                     </div>
                 </div>
             </div>
@@ -234,7 +240,7 @@
                 <a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" 
                    class="btn btn-primary btn-large" target="_blank">
                     <i class="fas fa-download"></i>
-                    Install from VS Code Marketplace
+                    从VS Code扩展市场安装
                 </a>
             </div>
         </div>
@@ -244,9 +250,9 @@
     <section id="usage" class="usage">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">How to Use</h2>
+                <h2 class="section-title">使用方法</h2>
                 <p class="section-description">
-                    Multiple ways to convert your documents
+                    多种方式转换您的文档
                 </p>
             </div>
             
@@ -255,10 +261,10 @@
                     <div class="method-icon">
                         <i class="fas fa-mouse-pointer"></i>
                     </div>
-                    <h3 class="method-title">Context Menu</h3>
+                    <h3 class="method-title">右键菜单</h3>
                     <p class="method-description">
-                        Right-click on any supported document file in the VS Code explorer 
-                        and select the appropriate conversion option.
+                        在VS Code资源管理器中右键点击任何支持的文档文件，
+                        选择相应的转换选项。
                     </p>
                 </div>
                 
@@ -266,10 +272,10 @@
                     <div class="method-icon">
                         <i class="fas fa-terminal"></i>
                     </div>
-                    <h3 class="method-title">Command Palette</h3>
+                    <h3 class="method-title">命令面板</h3>
                     <p class="method-description">
-                        Press <kbd>Ctrl+Shift+P</kbd> and type conversion commands 
-                        like "Convert Word to Markdown".
+                        按 <kbd>Ctrl+Shift+P</kbd> 并输入转换命令，
+                        如"将Word转换为Markdown"。
                     </p>
                 </div>
                 
@@ -277,10 +283,10 @@
                     <div class="method-icon">
                         <i class="fas fa-folder"></i>
                     </div>
-                    <h3 class="method-title">Batch Processing</h3>
+                    <h3 class="method-title">批量处理</h3>
                     <p class="method-description">
-                        Right-click on folders to batch convert multiple documents 
-                        with customizable options.
+                        右键点击文件夹批量转换多个文档，
+                        支持自定义选项。
                     </p>
                 </div>
             </div>
@@ -291,9 +297,9 @@
     <section id="support" class="support">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Support & Community</h2>
+                <h2 class="section-title">支持与社区</h2>
                 <p class="section-description">
-                    Get help and contribute to the project
+                    获取帮助并参与项目贡献
                 </p>
             </div>
             
@@ -302,13 +308,13 @@
                     <div class="support-icon">
                         <i class="fab fa-github"></i>
                     </div>
-                    <h3 class="support-title">Report Issues</h3>
+                    <h3 class="support-title">问题反馈</h3>
                     <p class="support-description">
-                        Found a bug or have a feature request? Create an issue on GitHub.
+                        发现bug或有功能建议？在GitHub上创建issue。
                     </p>
                     <a href="https://github.com/hddevteam/vscode-md-converter/issues" 
                        class="support-link" target="_blank">
-                        Open Issues
+                        提交问题
                     </a>
                 </div>
                 
@@ -316,13 +322,13 @@
                     <div class="support-icon">
                         <i class="fas fa-book"></i>
                     </div>
-                    <h3 class="support-title">Documentation</h3>
+                    <h3 class="support-title">使用文档</h3>
                     <p class="support-description">
-                        Comprehensive guides and API documentation for developers.
+                        面向开发者的全面指南和API文档。
                     </p>
                     <a href="https://github.com/hddevteam/vscode-md-converter#readme" 
                        class="support-link" target="_blank">
-                        Read Docs
+                        阅读文档
                     </a>
                 </div>
                 
@@ -330,13 +336,13 @@
                     <div class="support-icon">
                         <i class="fas fa-code-branch"></i>
                     </div>
-                    <h3 class="support-title">Contribute</h3>
+                    <h3 class="support-title">参与贡献</h3>
                     <p class="support-description">
-                        Help improve the extension by contributing code or translations.
+                        通过贡献代码或翻译帮助改进扩展。
                     </p>
                     <a href="https://github.com/hddevteam/vscode-md-converter/blob/main/CONTRIBUTING.md" 
                        class="support-link" target="_blank">
-                        Contribute
+                        参与贡献
                     </a>
                 </div>
             </div>
@@ -349,37 +355,37 @@
             <div class="footer-content">
                 <div class="footer-info">
                     <div class="footer-logo">
-                        <img src="./assets/images/icon.png" alt="OneClick Markdown Converter Logo">
-                        <span>OneClick Markdown Converter</span>
+                        <img src="./assets/images/icon.png" alt="一键Markdown转换器Logo">
+                        <span>一键Markdown转换器</span>
                     </div>
                     <p class="footer-description">
-                        A powerful VS Code extension for converting documents to Markdown and text formats with just one click.
+                        强大的VS Code扩展，只需一键即可将文档转换为Markdown和文本格式。
                     </p>
                 </div>
                 
                 <div class="footer-links">
                     <div class="footer-section">
-                        <h4 class="footer-title">Resources</h4>
+                        <h4 class="footer-title">资源链接</h4>
                         <ul class="footer-list">
-                            <li><a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" target="_blank">VS Code Marketplace</a></li>
-                            <li><a href="https://github.com/hddevteam/vscode-md-converter" target="_blank">GitHub Repository</a></li>
-                            <li><a href="https://github.com/hddevteam/vscode-md-converter#readme" target="_blank">Documentation</a></li>
+                            <li><a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" target="_blank">VS Code扩展市场</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter" target="_blank">GitHub仓库</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter#readme" target="_blank">使用文档</a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-section">
-                        <h4 class="footer-title">Support</h4>
+                        <h4 class="footer-title">支持帮助</h4>
                         <ul class="footer-list">
-                            <li><a href="https://github.com/hddevteam/vscode-md-converter/issues" target="_blank">Report Issues</a></li>
-                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a></li>
-                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/LICENSE" target="_blank">License</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/issues" target="_blank">问题反馈</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/CONTRIBUTING.md" target="_blank">参与贡献</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/LICENSE" target="_blank">开源许可</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 hddevteam. Licensed under MIT License.</p>
+                <p>&copy; 2025 hddevteam. 采用MIT许可证授权。</p>
                 <div class="footer-social">
                     <a href="https://github.com/hddevteam" target="_blank" aria-label="GitHub">
                         <i class="fab fa-github"></i>
