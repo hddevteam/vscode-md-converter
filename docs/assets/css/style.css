@@ -12,8 +12,8 @@ html {
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #ffffff;
+    color: #2d3748;
+    background-color: #f7fafc;
 }
 
 /* Typography */
@@ -41,13 +41,13 @@ p {
 }
 
 a {
-    color: #007acc;
+    color: #805ad5;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #005a9e;
+    color: #6b46c1;
 }
 
 /* Container */
@@ -63,9 +63,9 @@ a:hover {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e1e5e9;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(155, 164, 181, 0.2);
     z-index: 1000;
     transition: all 0.3s ease;
 }
@@ -94,7 +94,7 @@ a:hover {
 .nav-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #4a5568;
 }
 
 .nav-links {
@@ -104,7 +104,7 @@ a:hover {
 }
 
 .nav-link {
-    color: #64748b;
+    color: #718096;
     font-weight: 500;
     transition: color 0.3s ease;
     display: flex;
@@ -113,12 +113,12 @@ a:hover {
 }
 
 .nav-link:hover {
-    color: #007acc;
+    color: #805ad5;
 }
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 30%, #10b981 100%);
     color: white;
     padding: 140px 0 80px;
     min-height: 100vh;
@@ -157,7 +157,7 @@ a:hover {
 }
 
 .highlight {
-    background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(45deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -192,15 +192,15 @@ a:hover {
 }
 
 .btn-primary {
-    background: #007acc;
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
     color: white;
-    box-shadow: 0 8px 32px rgba(0, 122, 204, 0.3);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
 }
 
 .btn-primary:hover {
-    background: #005a9e;
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 122, 204, 0.4);
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
 }
 
 .btn-secondary {
@@ -304,7 +304,7 @@ section {
 
 .section-title {
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: #2d3748;
     margin-bottom: 1rem;
 }
 
@@ -317,7 +317,7 @@ section {
 
 /* Features Section */
 .features {
-    background: #f8fafc;
+    background: linear-gradient(45deg, #f8fafc 0%, #e6fffa 100%);
 }
 
 .features-grid {
@@ -343,7 +343,7 @@ section {
 .feature-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -545,7 +545,7 @@ kbd {
 
 /* Footer */
 .footer {
-    background: #2c3e50;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
     color: white;
     padding: 4rem 0 2rem;
 }
