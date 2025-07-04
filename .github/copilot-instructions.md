@@ -1,4 +1,4 @@
-# Copilot Instructions for Document Converter Extension
+# Copilot Instructions for OneClick Markdown Converter Extension
 
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
 
@@ -12,6 +12,38 @@ This extension provides document conversion capabilities with full international
 - Batch processing support for folders
 - Multi-language interface (English and Chinese with extensible architecture)
 
+## Project Status
+- **VS Code Marketplace**: Published as "OneClick Markdown Converter" (hddevteam.document-md-converter)
+- **GitHub Repository**: https://github.com/hddevteam/vscode-md-converter
+- **GitHub Pages**: https://hddevteam.github.io/vscode-md-converter/
+- **Current Version**: 0.1.1
+- **License**: MIT
+
+## GitHub Pages Management
+The project includes a comprehensive marketing website hosted on GitHub Pages:
+- **Location**: `/docs/` folder (GitHub Pages source)
+- **URL**: https://hddevteam.github.io/vscode-md-converter/
+- **Features**: 
+  - Responsive design with modern purple-teal gradient color scheme
+  - SEO optimized with meta tags and structured data
+  - Interactive features and smooth animations
+  - Multi-device compatibility
+  - Analytics integration ready
+
+### Updating the Website
+When making changes to the extension that affect the website:
+1. **Version Updates**: Update version numbers in `/docs/index.html` meta tags
+2. **Feature Changes**: Update feature descriptions in the Features section
+3. **Screenshots**: Update demo images in `/docs/assets/images/` if UI changes
+4. **Links**: Ensure all marketplace and GitHub links are current
+5. **SEO**: Update meta descriptions and keywords if functionality changes
+
+### Website Structure
+- `docs/index.html` - Main landing page
+- `docs/assets/css/style.css` - Stylesheet with color scheme and animations
+- `docs/assets/js/main.js` - Interactive functionality and analytics
+- `docs/assets/images/` - Images and icon assets
+
 ## Coding Guidelines
 1. **Follow TypeScript best practices** for VS Code extensions
 2. **Use VS Code API properly** - always check API references before implementation
@@ -22,6 +54,7 @@ This extension provides document conversion capabilities with full international
 7. **Internationalization (i18n)** - ALWAYS use the I18n system for user-facing text
 8. **Code comments** - write all code comments in English for international collaboration
 9. **Language consistency** - maintain consistent terminology across all supported languages
+10. **Website synchronization** - when adding new features or changing functionality, update the GitHub Pages website accordingly
 
 ## Architecture
 - `src/extension.ts` - Main extension entry point
