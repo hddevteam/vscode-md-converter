@@ -206,6 +206,13 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🔄 Changelog
 
+### v0.1.3
+- ✨ Added directory structure preservation in batch conversion
+- 🗂️ Enhanced subfolder handling with original hierarchy
+- 🔄 Improved conversion workflow with better progress reporting
+- 🌐 Updated translations for subfolder structure features
+- 🧩 Fixed additional context menu integration issues
+
 ### v0.1.2
 - ✨ Added enhanced folder batch conversion
 - 🔍 Added file count preview before batch conversion

@@ -55,6 +55,7 @@ When making changes to the extension that affect the website:
 8. **Code comments** - write all code comments in English for international collaboration
 9. **Language consistency** - maintain consistent terminology across all supported languages
 10. **Website synchronization** - when adding new features or changing functionality, update the GitHub Pages website accordingly
+11. **Commit messages** - write all commit messages in English.
 
 ## Architecture
 - `src/extension.ts` - Main extension entry point
