@@ -12,3 +12,15 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+!dist/**
+.venv/**
+scripts/**
+**/__pycache__/**
+**/*.pyc
+**/*.pyo
+.DS_Store
+*.test.js
+*.test.ts
+coverage/**
+.nyc_output/**
+*.vsix
