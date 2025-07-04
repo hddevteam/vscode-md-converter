@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Converter - VS Code Extension</title>
+    <meta name="description" content="A powerful VS Code extension for converting Word, Excel, and PDF documents to Markdown and text formats with multi-language support">
+    <meta name="keywords" content="vscode extension, markdown converter, document converter, word to markdown, excel to markdown, pdf to text">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Document Converter - VS Code Extension">
+    <meta property="og:description" content="Convert Word, Excel, and PDF documents to Markdown and text formats with ease">
+    <meta property="og:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
+    <meta property="og:url" content="https://hddevteam.github.io/vscode-md-converter/">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Document Converter - VS Code Extension">
+    <meta name="twitter:description" content="Convert Word, Excel, and PDF documents to Markdown and text formats with ease">
+    <meta name="twitter:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./assets/images/icon.png">
+    
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="./assets/images/icon.png" alt="Document Converter Logo" class="nav-icon">
+                <span class="nav-title">Document Converter</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#installation" class="nav-link">Installation</a>
+                <a href="#usage" class="nav-link">Usage</a>
+                <a href="#support" class="nav-link">Support</a>
+                <a href="https://github.com/hddevteam/vscode-md-converter" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-rocket"></i>
+                    Now Available on VS Code Marketplace
+                </div>
+                <h1 class="hero-title">
+                    Convert Documents to <span class="highlight">Markdown</span> with Ease
+                </h1>
+                <p class="hero-description">
+                    A powerful VS Code extension that seamlessly converts Word documents, Excel spreadsheets, 
+                    and PDF files to Markdown and text formats. Features batch processing, multi-language support, 
+                    and smart text optimization.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" 
+                       class="btn btn-primary" target="_blank">
+                        <i class="fas fa-download"></i>
+                        Install Extension
+                    </a>
+                    <a href="https://github.com/hddevteam/vscode-md-converter" 
+                       class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-github"></i>
+                        View Source
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">File Types</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Batch Files</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="conversion-demo">
+                    <div class="demo-file input-file">
+                        <i class="fas fa-file-word"></i>
+                        <span>Document.docx</span>
+                    </div>
+                    <div class="demo-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="demo-file output-file">
+                        <i class="fab fa-markdown"></i>
+                        <span>Document.md</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-description">
+                    Everything you need to convert documents efficiently and accurately
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <h3 class="feature-title">Word Documents</h3>
+                    <p class="feature-description">
+                        Convert .docx and .doc files to Markdown while preserving formatting, 
+                        headings, lists, and tables.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h3 class="feature-title">Excel Spreadsheets</h3>
+                    <p class="feature-description">
+                        Transform .xlsx, .xls, and .csv files into clean Markdown tables 
+                        with automatic data formatting.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3 class="feature-title">PDF Documents</h3>
+                    <p class="feature-description">
+                        Extract and optimize text from PDF files with advanced processing 
+                        algorithms and smart formatting.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="feature-title">Batch Processing</h3>
+                    <p class="feature-description">
+                        Process entire folders of documents at once with intelligent 
+                        file type detection and bulk operations.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Language</h3>
+                    <p class="feature-description">
+                        Automatic language detection with full English and Chinese 
+                        interface support for global users.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <h3 class="feature-title">Easy Integration</h3>
+                    <p class="feature-description">
+                        Right-click context menus and command palette integration 
+                        for seamless workflow integration.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="installation">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Quick Installation</h2>
+                <p class="section-description">
+                    Get started in less than 30 seconds
+                </p>
+            </div>
+            
+            <div class="installation-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Open VS Code Extensions</h3>
+                        <p class="step-description">Press <kbd>Ctrl+Shift+X</kbd> (Windows/Linux) or <kbd>Cmd+Shift+X</kbd> (macOS)</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Search for Extension</h3>
+                        <p class="step-description">Type "Document Converter" or "hddevteam" in the search bar</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Install & Start Converting</h3>
+                        <p class="step-description">Click Install and start converting your documents immediately</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="install-button-container">
+                <a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" 
+                   class="btn btn-primary btn-large" target="_blank">
+                    <i class="fas fa-download"></i>
+                    Install from VS Code Marketplace
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section id="usage" class="usage">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How to Use</h2>
+                <p class="section-description">
+                    Multiple ways to convert your documents
+                </p>
+            </div>
+            
+            <div class="usage-methods">
+                <div class="method">
+                    <div class="method-icon">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <h3 class="method-title">Context Menu</h3>
+                    <p class="method-description">
+                        Right-click on any supported document file in the VS Code explorer 
+                        and select the appropriate conversion option.
+                    </p>
+                </div>
+                
+                <div class="method">
+                    <div class="method-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3 class="method-title">Command Palette</h3>
+                    <p class="method-description">
+                        Press <kbd>Ctrl+Shift+P</kbd> and type conversion commands 
+                        like "Convert Word to Markdown".
+                    </p>
+                </div>
+                
+                <div class="method">
+                    <div class="method-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <h3 class="method-title">Batch Processing</h3>
+                    <p class="method-description">
+                        Right-click on folders to batch convert multiple documents 
+                        with customizable options.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="support">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Support & Community</h2>
+                <p class="section-description">
+                    Get help and contribute to the project
+                </p>
+            </div>
+            
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="support-title">Report Issues</h3>
+                    <p class="support-description">
+                        Found a bug or have a feature request? Create an issue on GitHub.
+                    </p>
+                    <a href="https://github.com/hddevteam/vscode-md-converter/issues" 
+                       class="support-link" target="_blank">
+                        Open Issues
+                    </a>
+                </div>
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="support-title">Documentation</h3>
+                    <p class="support-description">
+                        Comprehensive guides and API documentation for developers.
+                    </p>
+                    <a href="https://github.com/hddevteam/vscode-md-converter#readme" 
+                       class="support-link" target="_blank">
+                        Read Docs
+                    </a>
+                </div>
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3 class="support-title">Contribute</h3>
+                    <p class="support-description">
+                        Help improve the extension by contributing code or translations.
+                    </p>
+                    <a href="https://github.com/hddevteam/vscode-md-converter/blob/main/CONTRIBUTING.md" 
+                       class="support-link" target="_blank">
+                        Contribute
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="./assets/images/icon.png" alt="Document Converter Logo">
+                        <span>Document Converter</span>
+                    </div>
+                    <p class="footer-description">
+                        A powerful VS Code extension for converting documents to Markdown and text formats.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4 class="footer-title">Resources</h4>
+                        <ul class="footer-list">
+                            <li><a href="https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter" target="_blank">VS Code Marketplace</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter" target="_blank">GitHub Repository</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter#readme" target="_blank">Documentation</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/issues" target="_blank">Report Issues</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+                            <li><a href="https://github.com/hddevteam/vscode-md-converter/blob/main/LICENSE" target="_blank">License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 hddevteam. Licensed under MIT License.</p>
+                <div class="footer-social">
+                    <a href="https://github.com/hddevteam" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

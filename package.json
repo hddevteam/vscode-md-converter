@@ -1,6 +1,6 @@
 {
   "name": "document-md-converter",
-  "displayName": "Document Converter",
+  "displayName": "OneClick Markdown Converter",
   "description": "Convert Word to Markdown, Excel to Markdown, and PDF to TXT with batch processing support",
   "version": "0.1.0",
   "publisher": "hddevteam",
@@ -40,27 +40,27 @@
       {
         "command": "document-md-converter.convertWordToMarkdown",
         "title": "%commands.convertWordToMarkdown%",
-        "category": "Document Converter"
+        "category": "OneClick Markdown Converter"
       },
       {
         "command": "document-md-converter.convertExcelToMarkdown",
         "title": "%commands.convertExcelToMarkdown%",
-        "category": "Document Converter"
+        "category": "OneClick Markdown Converter"
       },
       {
         "command": "document-md-converter.convertPdfToText",
         "title": "%commands.convertPdfToText%",
-        "category": "Document Converter"
+        "category": "OneClick Markdown Converter"
       },
       {
         "command": "document-md-converter.batchConvert",
         "title": "%commands.batchConvert%",
-        "category": "Document Converter"
+        "category": "OneClick Markdown Converter"
       },
       {
         "command": "document-md-converter.openConverter",
         "title": "%commands.openConverter%",
-        "category": "Document Converter",
+        "category": "OneClick Markdown Converter",
         "icon": "$(file-text)"
       },
       {
