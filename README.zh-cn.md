@@ -29,7 +29,7 @@
 或者手动安装：
 ```bash
 # 克隆项目
-git clone <repository-url>
+git clone https://github.com/hddevteam/vscode-md-converter.git
 cd vscode-md-converter
 
 # 安装依赖
@@ -178,7 +178,7 @@ src/
 ### 开发环境设置
 ```bash
 # 克隆仓库
-git clone <repository-url>
+git clone https://github.com/hddevteam/vscode-md-converter.git
 cd vscode-md-converter
 
 # 安装依赖

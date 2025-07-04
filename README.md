@@ -29,7 +29,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 Or install manually:
 ```bash
 # Clone the project
-git clone <repository-url>
+git clone https://github.com/hddevteam/vscode-md-converter.git
 cd vscode-md-converter
 
 # Install dependencies
@@ -178,7 +178,7 @@ Welcome to submit Issues and Pull Requests to improve this extension!
 ### Development Environment Setup
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone https://github.com/hddevteam/vscode-md-converter.git
 cd vscode-md-converter
 
 # Install dependencies
