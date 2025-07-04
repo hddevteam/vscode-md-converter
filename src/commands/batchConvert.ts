@@ -117,19 +117,31 @@ export async function batchConvert(uri?: vscode.Uri) {
             let result: ConversionResult;
             const fileStartTime = Date.now();
             
+            // Calculate relative file path to preserve directory structure
+            let targetOutputDir = outputDir;
+            if (options.includeSubfolders && options.outputDirectory) {
+              // Get relative path from source folder
+              const relativePath = path.relative(folderPath, path.dirname(file));
+              if (relativePath) {
+                // Create nested output directory to preserve structure
+                targetOutputDir = path.join(outputDir, relativePath);
+                await fs.mkdir(targetOutputDir, { recursive: true });
+              }
+            }
+            
             // Select converter based on file type
             switch (fileExt) {
               case '.docx':
               case '.doc':
-                result = await WordToMarkdownConverter.convert(file, { outputDirectory: outputDir });
+                result = await WordToMarkdownConverter.convert(file, { outputDirectory: targetOutputDir });
                 break;
               case '.xlsx':
               case '.xls':
               case '.csv':
-                result = await ExcelToMarkdownConverter.convert(file, { outputDirectory: outputDir });
+                result = await ExcelToMarkdownConverter.convert(file, { outputDirectory: targetOutputDir });
                 break;
               case '.pdf':
-                result = await PdfToTextConverter.convert(file, { outputDirectory: outputDir });
+                result = await PdfToTextConverter.convert(file, { outputDirectory: targetOutputDir });
                 break;
               default:
                 result = {
