@@ -2,7 +2,7 @@
   "name": "document-md-converter",
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word to Markdown, Excel to Markdown, and PDF to TXT with batch processing support",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "hddevteam",
   "icon": "images/icon.png",
   "repository": {
