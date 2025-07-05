@@ -13,7 +13,7 @@ This extension provides document conversion capabilities with full international
 - Multi-language interface (English and Chinese with extensible architecture)
 
 ## Project Status
-- **VS Code Marketplace**: Published as "OneClick Markdown Converter" (hddevteam.document-md-converter)
+- **VS Code Marketplace**: Published as "OneClick Markdown Converter" (luckyXmobile.document-md-converter)
 - **GitHub Repository**: https://github.com/hddevteam/vscode-md-converter
 - **GitHub Pages**: https://hddevteam.github.io/vscode-md-converter/
 - **Current Version**: 0.1.1

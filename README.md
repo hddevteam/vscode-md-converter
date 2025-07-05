@@ -28,7 +28,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 3. Click **Install**
 
 ### Direct Link
-Visit the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hddevteam.document-md-converter) and click **Install**.
+Visit the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=luckyXmobile.document-md-converter) and click **Install**.
 
 ### Manual Installation (For Development)
 ```bash
