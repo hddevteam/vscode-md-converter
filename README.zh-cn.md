@@ -113,6 +113,18 @@ npm run compile
 - Excel → `.md` 文件（包含表格）
 - PDF → `.txt` 文件
 
+## 🚀 即将推出的功能 (v0.2.0)
+
+我们正在积极扩展格式支持并添加新功能：
+
+- **📊 PowerPoint 支持**: 将 .pptx 演示文稿转换为 Markdown，包含幻灯片内容和演讲者备注
+- **📋 表格提取**: 直接从 Word/PDF 文档导出表格为 CSV 格式
+- **🖼️ PDF 转图片**: 将 PDF 页面转换为单独的图像文件（PNG/JPG）
+- **📤 增强导出**: 将 PowerPoint 幻灯片和 PDF 页面导出为高质量图像
+- **🏗️ 架构改进**: 更好的插件系统以支持未来的格式扩展
+
+[查看完整路线图](ROADMAP.md) | [在 GitHub 上跟踪进度](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.2.0)
+
 ## ⚙️ 配置选项
 
 扩展支持以下配置选项（在设置中搜索"文档转换器"）：
