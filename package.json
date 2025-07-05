@@ -3,7 +3,7 @@
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word to Markdown, Excel to Markdown, and PDF to TXT with batch processing support",
   "version": "0.1.3",
-  "publisher": "hddevteam",
+  "publisher": "luckyXmobile",
   "icon": "images/icon.png",
   "repository": {
     "type": "git",
