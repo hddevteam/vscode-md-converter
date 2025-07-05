@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://hddevteam.github.io/vscode-md-converter/
+    about: Visit our documentation website for guides and tutorials
+  - name: 💬 Discussions  
+    url: https://github.com/hddevteam/vscode-md-converter/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🛍️ VS Code Marketplace
+    url: https://marketplace.visualstudio.com/items?itemName=luckyXmobile.document-md-converter
+    about: Install the extension from VS Code Marketplace
