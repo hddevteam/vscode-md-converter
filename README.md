@@ -66,7 +66,7 @@ npm run compile
 - `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
 - `Batch Convert Documents` - Batch convert documents
 - `Open Document Converter` - Open converter interface
-- `Test PDF Conversion` - Test PDF conversion functionality
+- `Debug PDF Environment` - Debug PDF environment for troubleshooting
 
 ## 🔧 Conversion Features
 
@@ -142,11 +142,11 @@ All converted files are saved in the same directory as the original files with a
 
 We're actively working on expanding format support and adding new capabilities:
 
-- **📊 PowerPoint Support**: Convert .pptx presentations to Markdown with slide content and speaker notes
-- **📋 Table Extraction**: Export tables from Word/PDF documents directly to CSV format  
+- ** Table Extraction**: Export tables from Word/PDF documents directly to CSV format  
 - **🖼️ PDF to Images**: Convert PDF pages to individual image files (PNG/JPG)
 - **📤 Enhanced Export**: Export PowerPoint slides and PDF pages as high-quality images
 - **🏗️ Architecture Improvements**: Better plugin system for future format extensions
+- **🎨 Custom Templates**: User-defined output templates for different conversion scenarios
 
 [View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.2.0)
 
@@ -240,6 +240,16 @@ npm test
 MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🔄 Changelog
+
+### v0.1.4
+- ✨ **NEW: PowerPoint Support** - Full conversion of .pptx presentations to Markdown
+- 🎯 Intelligent slide content extraction with proper text formatting
+- 📝 Speaker notes support with automatic linking to slides
+- 🔧 Enhanced user experience with proper progress reporting
+- ⚠️ User-friendly warnings for legacy .ppt format with conversion guidance
+- 📊 Comprehensive presentation metadata extraction (author, title, subject, slide count)
+- 🧹 Codebase cleanup - removed unnecessary test commands for cleaner interface
+- 🌐 Updated translations and documentation for PowerPoint features
 
 ### v0.1.3
 - ✨ Added directory structure preservation in batch conversion

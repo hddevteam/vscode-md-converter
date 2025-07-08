@@ -62,7 +62,7 @@ npm run compile
 - `将PowerPoint转换为Markdown` - 转换PowerPoint演示文稿为Markdown
 - `批量转换文档` - 批量转换文档
 - `打开文档转换器` - 打开转换器界面
-- `测试PDF转换` - 测试PDF转换功能
+- `调试PDF环境` - 调试PDF环境以排除故障
 
 ## 🔧 转换特性
 
@@ -138,11 +138,11 @@ npm run compile
 
 我们正在积极扩展格式支持并添加新功能：
 
-- **📊 PowerPoint 支持**: 将 .pptx 演示文稿转换为 Markdown，包含幻灯片内容和演讲者备注
-- **📋 表格提取**: 直接从 Word/PDF 文档导出表格为 CSV 格式
+- ** 表格提取**: 直接从 Word/PDF 文档导出表格为 CSV 格式
 - **🖼️ PDF 转图片**: 将 PDF 页面转换为单独的图像文件（PNG/JPG）
 - **📤 增强导出**: 将 PowerPoint 幻灯片和 PDF 页面导出为高质量图像
 - **🏗️ 架构改进**: 更好的插件系统以支持未来的格式扩展
+- **🎨 自定义模板**: 用户定义的输出模板，适用于不同转换场景
 
 [查看完整路线图](ROADMAP.md) | [在 GitHub 上跟踪进度](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.2.0)
 
@@ -234,6 +234,16 @@ npm test
 MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 🔄 更新日志
+
+### v0.1.4
+- ✨ **新功能：PowerPoint支持** - 完整的 .pptx 演示文稿转换为 Markdown
+- 🎯 智能幻灯片内容提取，具备正确的文本格式化
+- 📝 演讲者备注支持，自动链接到对应幻灯片
+- 🔧 增强用户体验，提供正确的进度报告
+- ⚠️ 对旧版 .ppt 格式提供友好警告和转换指导
+- 📊 全面的演示文稿元数据提取（作者、标题、主题、幻灯片数量）
+- 🧹 代码库清理 - 移除不必要的测试命令，界面更简洁
+- 🌐 更新 PowerPoint 功能的翻译和文档
 
 ### v0.1.3
 - ✨ 新增批量转换时保留目录结构功能

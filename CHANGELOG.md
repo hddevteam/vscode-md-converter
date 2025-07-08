@@ -6,6 +6,24 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.4] - 2025-07-08
+
+### Added
+- **PowerPoint Support**: Full conversion of .pptx presentations to Markdown
+- Intelligent slide content extraction with proper text formatting
+- Speaker notes support with automatic linking to slides
+- Comprehensive presentation metadata extraction (author, title, subject, slide count)
+- User-friendly warnings for legacy .ppt format with conversion guidance
+
+### Improved
+- Enhanced user experience with proper progress reporting for PowerPoint conversion
+- Updated translations and documentation for PowerPoint features
+- Codebase cleanup - removed unnecessary test commands for cleaner interface
+
+### Fixed
+- Progress reporting issues during PowerPoint conversion
+- Text extraction quality improvements for complex slide layouts
+
 ## [0.1.3] - 2025-07-04
 
 ### Added
