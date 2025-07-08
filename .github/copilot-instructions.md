@@ -9,6 +9,7 @@ This extension provides document conversion capabilities with full international
 - Word documents (.docx, .doc) to Markdown (.md)
 - Excel files (.xlsx, .xls) and CSV to Markdown (.md)
 - PDF files (.pdf) to TXT (.txt)
+- PowerPoint presentations (.pptx, .ppt) to Markdown (.md)
 - Batch processing support for folders
 - Multi-language interface (English and Chinese with extensible architecture)
 
@@ -128,3 +129,88 @@ vscode.window.showInformationMessage('Conversion completed successfully');
 3. Add detection logic in `src/i18n/index.ts`
 4. Create `package.nls.{locale}.json` for VS Code integration
 5. Test thoroughly with the new locale
+
+## Development Workflow
+
+### Feature Development Process
+1. **Feature Implementation**:
+   - Implement new features following coding guidelines
+   - Ensure comprehensive error handling and user feedback
+   - Add proper TypeScript types and internationalization
+   - Test functionality thoroughly
+
+2. **Code Quality Checks**:
+   ```bash
+   npm run compile  # TypeScript compilation + linting + bundling
+   ```
+
+3. **File Cleanup**:
+   - Remove test files and temporary directories
+   - Clean up debug outputs and console logs
+
+4. **Git Workflow**:
+   ```bash
+   git add .
+   git commit -m "feat: descriptive commit message in English"
+   git push origin main
+   ```
+
+### Post-Development Tasks
+
+#### 1. GitHub Issues Management
+- Close related issues that have been resolved
+- Update issue status and add completion comments
+- Link commits to issues using GitHub keywords (`closes #123`, `fixes #456`)
+
+#### 2. GitHub Pages Website Updates
+When adding new features, update the marketing website:
+
+**Required Updates:**
+- **Feature List**: Add new conversion types to the features section
+- **Version Numbers**: Update version in meta tags and content
+- **Demo Content**: Update screenshots if UI changes
+- **SEO**: Update meta descriptions with new capabilities
+
+**Files to Update:**
+- `docs/index.html` - Main landing page with features list
+- `docs/zh-cn.html` - Chinese version (if exists)
+- `docs/assets/images/` - Screenshots and demo images
+
+**Update Process:**
+```bash
+# After main feature development
+git checkout gh-pages  # or work directly in main if using /docs folder
+# Update website files
+git add docs/
+git commit -m "docs: update website for new PowerPoint conversion feature"
+git push origin gh-pages
+```
+
+#### 3. Version Management
+Consider version bumps for significant features:
+```bash
+npm version patch  # for bug fixes
+npm version minor  # for new features
+npm version major  # for breaking changes
+```
+
+#### 4. Marketplace Updates (if applicable)
+- Update `package.json` version
+- Update `CHANGELOG.md` with new features
+- Consider publishing update to VS Code Marketplace
+
+### Commit Message Guidelines
+- Use conventional commits format: `type: description`
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+- Write in English for international collaboration
+- Include scope when relevant: `feat(powerpoint): add .pptx conversion`
+- Reference issues: `closes #123` or `fixes #456`
+
+### Issue and PR Workflow
+1. **Before starting**: Check existing issues and create one if needed
+2. **During development**: Reference issue numbers in commits
+3. **After completion**: 
+   - Push changes to remote
+   - Close related issues with completion comments
+   - Update project documentation if needed
+   - Update GitHub Pages if features affect public documentation
