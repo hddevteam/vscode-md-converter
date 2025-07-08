@@ -281,6 +281,23 @@ a:hover {
     color: #007acc;
 }
 
+/* File type specific colors */
+.word-file i {
+    color: #2b579a; /* Microsoft Word blue */
+}
+
+.excel-file i {
+    color: #217346; /* Microsoft Excel green */
+}
+
+.pdf-file i {
+    color: #dc3e2b; /* PDF red */
+}
+
+.powerpoint-file i {
+    color: #d04727; /* Microsoft PowerPoint orange/red */
+}
+
 .demo-arrow {
     font-size: 2rem;
     color: rgba(255, 255, 255, 0.8);
