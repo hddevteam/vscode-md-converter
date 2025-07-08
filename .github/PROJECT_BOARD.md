@@ -17,7 +17,7 @@
 - [ ] Performance optimization framework
 
 #### 🚀 Feature Development
-- [ ] PowerPoint to Markdown conversion
+- [x] PowerPoint to Markdown conversion
 - [ ] Table extraction to CSV
 - [ ] PowerPoint export features
 - [ ] PDF to image conversion

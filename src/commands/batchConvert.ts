@@ -6,6 +6,7 @@ import { UIUtils } from '../ui/uiUtils';
 import { WordToMarkdownConverter } from '../converters/wordToMarkdown';
 import { ExcelToMarkdownConverter } from '../converters/excelToMarkdown';
 import { PdfToTextConverter } from '../converters/pdfToText';
+import { PowerPointToMarkdownConverter } from '../converters/powerpointToMarkdown';
 import { ConversionResult, BatchConversionResult } from '../types';
 import { I18n } from '../i18n';
 
@@ -45,7 +46,7 @@ export async function batchConvert(uri?: vscode.Uri) {
     }
 
     // Quick scan to check if there are any convertible files
-    const availableFiles = await collectFiles(folderPath, ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf'], true);
+    const availableFiles = await collectFiles(folderPath, ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf', '.pptx', '.ppt'], true);
     if (availableFiles.length === 0) {
       vscode.window.showInformationMessage(I18n.t('batch.noConvertibleFiles', path.basename(folderPath)));
       return;
@@ -143,6 +144,10 @@ export async function batchConvert(uri?: vscode.Uri) {
               case '.pdf':
                 result = await PdfToTextConverter.convert(file, { outputDirectory: targetOutputDir });
                 break;
+              case '.pptx':
+              case '.ppt':
+                result = await PowerPointToMarkdownConverter.convert(file, { outputDirectory: targetOutputDir });
+                break;
               default:
                 result = {
                   success: false,
@@ -197,7 +202,7 @@ export async function batchConvert(uri?: vscode.Uri) {
  */
 async function collectFiles(
   folderPath: string,
-  fileTypes: string[] = ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf'],
+  fileTypes: string[] = ['.docx', '.doc', '.xlsx', '.xls', '.csv', '.pdf', '.pptx', '.ppt'],
   includeSubfolders: boolean = false
 ): Promise<string[]> {
   const result: string[] = [];

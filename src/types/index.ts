@@ -29,7 +29,7 @@ export interface ProgressInfo {
   status: 'processing' | 'completed' | 'failed' | 'skipped';
 }
 
-export type SupportedFileType = 'docx' | 'doc' | 'xlsx' | 'xls' | 'csv' | 'pdf';
+export type SupportedFileType = 'docx' | 'doc' | 'xlsx' | 'xls' | 'csv' | 'pdf' | 'pptx' | 'ppt';
 
 export interface FileValidationResult {
   isValid: boolean;

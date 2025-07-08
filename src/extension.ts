@@ -2,9 +2,11 @@ import * as vscode from 'vscode';
 import { convertWordToMarkdown } from './commands/convertWordToMarkdown';
 import { convertExcelToMarkdown } from './commands/convertExcelToMarkdown';
 import { convertPdfToText } from './commands/convertPdfToText';
+import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { testPdfConversion } from './commands/testPdfConversion';
+import { testPowerPointConversion } from './commands/testPowerPointConversion';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
 import { I18n } from './i18n';
 
@@ -41,6 +43,13 @@ export async function activate(context: vscode.ExtensionContext) {
         }
       ),
       vscode.commands.registerCommand(
+        'document-md-converter.convertPowerPointToMarkdown',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PowerPoint to Markdown command, URI:', uri?.fsPath);
+          return convertPowerPointToMarkdown(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
         'document-md-converter.batchConvert',
         async (uri?: vscode.Uri) => {
           console.log('Executing batch conversion command, URI:', uri?.fsPath);
@@ -59,6 +68,13 @@ export async function activate(context: vscode.ExtensionContext) {
         () => {
           console.log('Executing PDF conversion test command');
           return testPdfConversion();
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.testPowerPointConversion',
+        () => {
+          console.log('Executing PowerPoint conversion test command');
+          return testPowerPointConversion();
         }
       ),
       vscode.commands.registerCommand(

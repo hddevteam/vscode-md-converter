@@ -10,6 +10,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **Word Documents** (.docx, .doc) → Markdown
 - **Excel Spreadsheets** (.xlsx, .xls, .csv) → Markdown Tables
 - **PDF Documents** (.pdf) → Text Files
+- **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
 ### Core Features
 - ✅ **Context Menu Integration** - Convert directly from file explorer
@@ -62,6 +63,7 @@ npm run compile
 - `Convert Word to Markdown` - Convert Word documents to Markdown
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
 - `Convert PDF to Text` - Convert PDF to text files
+- `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
 - `Batch Convert Documents` - Batch convert documents
 - `Open Document Converter` - Open converter interface
 - `Test PDF Conversion` - Test PDF conversion functionality
@@ -97,6 +99,25 @@ npm run compile
   - Add document metadata
   - Organize content by paragraphs
   - Markdown format output
+
+### PowerPoint Presentation Conversion
+- **Slide Content Extraction**:
+  - Extract text from all slides
+  - Intelligent paragraph grouping
+  - Header detection and formatting
+  - List item identification
+- **Presentation Structure**:
+  - Maintain slide order and hierarchy
+  - Extract presentation metadata (author, title, subject)
+  - Include slide count and file information
+- **Speaker Notes Support**:
+  - Extract and organize speaker notes
+  - Link notes to corresponding slides
+  - Preserve note formatting
+- **Format Compatibility**:
+  - Support both .pptx (modern) and .ppt (legacy) formats
+  - Provide guidance for .ppt format conversion
+  - Handle complex presentation layouts
 
 ## 🌐 Multi-language Support
 

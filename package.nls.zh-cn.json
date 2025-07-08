@@ -2,6 +2,7 @@
   "commands.convertWordToMarkdown": "将Word转换为Markdown",
   "commands.convertExcelToMarkdown": "将Excel转换为Markdown", 
   "commands.convertPdfToText": "将PDF转换为文本",
+  "commands.convertPowerPointToMarkdown": "将PowerPoint转换为Markdown",
   "commands.batchConvert": "批量转换为Markdown",
   "commands.openConverter": "打开一键Markdown转换器",
   "commands.testPdfConversion": "测试PDF转换",

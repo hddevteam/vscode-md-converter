@@ -22,7 +22,7 @@ declare module 'mammoth' {
     }>;
   }
 
-  export function convertToHtml(input: Buffer | string, options?: MammothOptions): Promise<MammothResult>;
-  export function convertToMarkdown(input: Buffer | string, options?: MammothOptions): Promise<MammothResult>;
-  export function extractRawText(input: Buffer | string): Promise<MammothResult>;
+  export function convertToHtml(input: any, options?: MammothOptions): Promise<MammothResult>;
+  export function convertToMarkdown(input: any, options?: MammothOptions): Promise<MammothResult>;
+  export function extractRawText(input: any): Promise<MammothResult>;
 }

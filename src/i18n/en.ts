@@ -171,5 +171,37 @@ export const EnglishMessages: Messages = {
     conversionWarnings: '⚠️ Conversion Warnings',
     documentFormatSpecial: '- Document format is special or corrupted',
     passwordProtected: '- Document is password protected'
+  },
+
+  // PowerPoint conversion specific messages
+  powerpoint: {
+    fileInfo: '📊 File Information',
+    fileName: 'File Name',
+    fileSize: 'File Size',
+    modifiedDate: 'Modified Date',
+    slideCount: 'Slide Count',
+    author: 'Author',
+    title: 'Title',
+    subject: 'Subject',
+    convertedFrom: '*Converted from: {0}*',
+    slidesContent: 'Slides Content',
+    slide: 'Slide {0}',
+    emptySlide: 'This slide appears to be empty or contains only images',
+    speakerNotes: 'Speaker Notes',
+    notesForSlide: 'Notes for Slide {0}',
+    extractionError: 'Content Extraction Error',
+    extractionErrorMessage: 'Error occurred while extracting presentation content: {0}',
+    basicInfoOnly: 'Only basic file information could be extracted.',
+    importantNotice: '⚠️ Important Notice',
+    pptFormatNotice: 'This file is in the old PowerPoint format (.ppt). The current converter primarily supports the new PowerPoint format (.pptx).',
+    bestConversionSteps: '**For best conversion results, please follow these steps:**',
+    recommendedMethod: '**Recommended Method**: Convert to .pptx format',
+    openInPowerPoint: 'Open this file in Microsoft PowerPoint',
+    saveAsPptx: 'Select "File" > "Save As" and choose "PowerPoint Presentation (*.pptx)" format',
+    useThisExtensionAgain: 'Save and use this extension to convert again',
+    alternativeMethods: '**Alternative Methods**:',
+    useLibreOffice: 'Use LibreOffice Impress to open and save as .pptx',
+    useOnlineConverter: 'Use online presentation conversion tools',
+    manualExtraction: 'Manually copy slide content to a new Markdown file'
   }
 };

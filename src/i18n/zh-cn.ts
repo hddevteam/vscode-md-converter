@@ -171,5 +171,36 @@ export const ChineseMessages: Messages = {
     conversionWarnings: '⚠️ 转换警告',
     documentFormatSpecial: '- 文档格式特殊或已损坏',
     passwordProtected: '- 文档被密码保护'
+  },
+  
+  powerpoint: {
+    fileInfo: '📊 文件信息',
+    fileName: '文件名',
+    fileSize: '文件大小',
+    modifiedDate: '修改日期',
+    slideCount: '幻灯片数量',
+    author: '作者',
+    title: '标题',
+    subject: '主题',
+    convertedFrom: '*转换自：{0}*',
+    slidesContent: '📝 幻灯片内容',
+    slide: '幻灯片 {0}',
+    emptySlide: '*（此幻灯片为空）*',
+    speakerNotes: '🎤 演讲者备注',
+    notesForSlide: '幻灯片 {0} 的备注',
+    extractionError: '❌ 内容提取错误',
+    extractionErrorMessage: '无法提取幻灯片内容。错误：{0}',
+    basicInfoOnly: '仅提取了基本文件信息。',
+    importantNotice: '⚠️ 重要提示',
+    pptFormatNotice: '此文件是旧的PowerPoint格式（.ppt）。当前转换器主要支持新的PowerPoint格式（.pptx）。',
+    bestConversionSteps: '**为获得最佳转换效果，请按以下步骤操作：**',
+    recommendedMethod: '**推荐方法**：转换为.pptx格式',
+    openInPowerPoint: '在Microsoft PowerPoint中打开此文件',
+    saveAsPptx: '选择"文件" > "另存为"，选择"PowerPoint演示文稿(*.pptx)"格式',
+    useThisExtensionAgain: '保存后重新使用此扩展进行转换',
+    alternativeMethods: '**其他方法**：',
+    useLibreOffice: '使用LibreOffice Impress打开并保存为.pptx格式',
+    useOnlineConverter: '使用在线演示文稿转换工具',
+    manualExtraction: '手动将幻灯片内容复制到新的Markdown文件中'
   }
 };

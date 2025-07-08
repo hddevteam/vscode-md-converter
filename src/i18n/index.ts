@@ -175,6 +175,38 @@ export interface Messages {
     documentFormatSpecial: string;
     passwordProtected: string;
   };
+
+  // PowerPoint conversion specific messages
+  powerpoint: {
+    fileInfo: string;
+    fileName: string;
+    fileSize: string;
+    modifiedDate: string;
+    slideCount: string;
+    author: string;
+    title: string;
+    subject: string;
+    convertedFrom: string;
+    slidesContent: string;
+    slide: string;
+    emptySlide: string;
+    speakerNotes: string;
+    notesForSlide: string;
+    extractionError: string;
+    extractionErrorMessage: string;
+    basicInfoOnly: string;
+    importantNotice: string;
+    pptFormatNotice: string;
+    bestConversionSteps: string;
+    recommendedMethod: string;
+    openInPowerPoint: string;
+    saveAsPptx: string;
+    useThisExtensionAgain: string;
+    alternativeMethods: string;
+    useLibreOffice: string;
+    useOnlineConverter: string;
+    manualExtraction: string;
+  };
 }
 
 // Language detection and message retrieval

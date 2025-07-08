@@ -37,6 +37,9 @@ export function openConverter() {
         case 'convertPdf':
           vscode.commands.executeCommand('document-md-converter.convertPdfToText');
           return;
+        case 'convertPowerPoint':
+          vscode.commands.executeCommand('document-md-converter.convertPowerPointToMarkdown');
+          return;
         case 'batchConvert':
           vscode.commands.executeCommand('document-md-converter.batchConvert');
           return;
@@ -70,6 +73,11 @@ function getWebviewContent() {
     pdfToText: {
       title: isZh ? 'PDF 转文本' : 'PDF to Text',
       description: isZh ? '从 PDF 文件中提取文本内容，并保存为纯文本文件。' : 'Extract text content from PDF files and save as plain text files.',
+      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+    },
+    powerPointToMarkdown: {
+      title: isZh ? 'PowerPoint 转 Markdown' : 'PowerPoint to Markdown',
+      description: isZh ? '将 PowerPoint 演示文稿 (.pptx, .ppt) 转换为 Markdown 格式，提取幻灯片内容和演讲者备注。' : 'Convert PowerPoint presentations (.pptx, .ppt) to Markdown format, extracting slide content and speaker notes.',
       buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
     },
     batchConvert: {
@@ -197,6 +205,21 @@ function getWebviewContent() {
     <button class="btn" id="convertPdf">${webviewStrings.pdfToText.buttonText}</button>
   </div>
   
+  <div class="card">
+    <h2 class="card-title">${webviewStrings.powerPointToMarkdown.title}</h2>
+    <div class="card-content">
+      ${webviewStrings.powerPointToMarkdown.description}
+    </div>
+    <div>
+      <span class="formats">.pptx</span>
+      <span class="formats">.ppt</span>
+      <span class="formats">→</span>
+      <span class="formats">.md</span>
+    </div>
+    <br>
+    <button class="btn" id="convertPowerPoint">${webviewStrings.powerPointToMarkdown.buttonText}</button>
+  </div>
+  
   <div class="separator"></div>
   
   <div class="card">
@@ -223,6 +246,10 @@ function getWebviewContent() {
       
       document.getElementById('convertPdf').addEventListener('click', function() {
         vscode.postMessage({ command: 'convertPdf' });
+      });
+      
+      document.getElementById('convertPowerPoint').addEventListener('click', function() {
+        vscode.postMessage({ command: 'convertPowerPoint' });
       });
       
       document.getElementById('batchConvert').addEventListener('click', function() {

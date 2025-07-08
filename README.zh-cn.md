@@ -10,6 +10,7 @@
 - **Word文档** (.docx, .doc) → Markdown
 - **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
 - **PDF文档** (.pdf) → 文本文件
+- **PowerPoint演示文稿** (.pptx, .ppt) → Markdown
 
 ### 核心功能
 - ✅ **右键菜单集成** - 直接在文件资源管理器中转换
@@ -58,6 +59,7 @@ npm run compile
 - `将Word转换为Markdown` - 转换Word文档为Markdown
 - `将Excel转换为Markdown` - 转换Excel文件为Markdown表格
 - `将PDF转换为文本` - 转换PDF为文本文件
+- `将PowerPoint转换为Markdown` - 转换PowerPoint演示文稿为Markdown
 - `批量转换文档` - 批量转换文档
 - `打开文档转换器` - 打开转换器界面
 - `测试PDF转换` - 测试PDF转换功能
@@ -93,6 +95,25 @@ npm run compile
   - 添加文档元数据
   - 按段落组织内容
   - Markdown格式输出
+
+### PowerPoint演示文稿转换
+- **幻灯片内容提取**:
+  - 从所有幻灯片提取文本
+  - 智能段落分组
+  - 标题检测和格式化
+  - 列表项识别
+- **演示文稿结构**:
+  - 保持幻灯片顺序和层次
+  - 提取演示文稿元数据（作者、标题、主题）
+  - 包含幻灯片数量和文件信息
+- **演讲者备注支持**:
+  - 提取和整理演讲者备注
+  - 将备注链接到对应幻灯片
+  - 保留备注格式
+- **格式兼容性**:
+  - 支持 .pptx（现代）和 .ppt（旧版）格式
+  - 为 .ppt 格式提供转换指导
+  - 处理复杂的演示文稿布局
 
 ## 🌐 多语言支持
 
