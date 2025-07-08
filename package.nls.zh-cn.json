@@ -5,7 +5,6 @@
   "commands.convertPowerPointToMarkdown": "将PowerPoint转换为Markdown",
   "commands.batchConvert": "批量转换为Markdown",
   "commands.openConverter": "打开一键Markdown转换器",
-  "commands.testPdfConversion": "测试PDF转换",
   "commands.debugPdfEnvironment": "调试PDF环境",
   "views.documentConverter": "一键Markdown转换器",
   "viewsContainers.documentConverter": "一键Markdown转换器",

@@ -69,16 +69,6 @@
         "icon": "$(file-text)"
       },
       {
-        "command": "document-md-converter.testPdfConversion",
-        "title": "%commands.testPdfConversion%",
-        "category": "Document Converter"
-      },
-      {
-        "command": "document-md-converter.testPowerPointConversion",
-        "title": "Test PowerPoint Conversion",
-        "category": "Document Converter"
-      },
-      {
         "command": "document-md-converter.debugPdfEnvironment",
         "title": "%commands.debugPdfEnvironment%",
         "category": "Document Converter"

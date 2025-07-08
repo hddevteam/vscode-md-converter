@@ -18,7 +18,6 @@ export const ChineseMessages: Messages = {
     convertPdfToText: '将PDF转换为文本',
     batchConvert: '批量转换Markdown',
     openConverter: '打开文档转换器',
-    testPdfConversion: '测试PDF转换',
     debugPdfEnvironment: '调试PDF环境'
   },
 

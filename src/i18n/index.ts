@@ -21,7 +21,6 @@ export interface Messages {
     convertPdfToText: string;
     batchConvert: string;
     openConverter: string;
-    testPdfConversion: string;
     debugPdfEnvironment: string;
   };
 

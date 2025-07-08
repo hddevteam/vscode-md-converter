@@ -5,8 +5,6 @@ import { convertPdfToText } from './commands/convertPdfToText';
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
-import { testPdfConversion } from './commands/testPdfConversion';
-import { testPowerPointConversion } from './commands/testPowerPointConversion';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
 import { I18n } from './i18n';
 
@@ -61,20 +59,6 @@ export async function activate(context: vscode.ExtensionContext) {
         () => {
           console.log('Executing open converter command');
           return openConverter();
-        }
-      ),
-      vscode.commands.registerCommand(
-        'document-md-converter.testPdfConversion',
-        () => {
-          console.log('Executing PDF conversion test command');
-          return testPdfConversion();
-        }
-      ),
-      vscode.commands.registerCommand(
-        'document-md-converter.testPowerPointConversion',
-        () => {
-          console.log('Executing PowerPoint conversion test command');
-          return testPowerPointConversion();
         }
       ),
       vscode.commands.registerCommand(

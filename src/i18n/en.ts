@@ -18,7 +18,6 @@ export const EnglishMessages: Messages = {
     convertPdfToText: 'Convert PDF to Text',
     batchConvert: 'Batch Convert to Markdown',
     openConverter: 'Open Document Converter',
-    testPdfConversion: 'Test PDF Conversion',
     debugPdfEnvironment: 'Debug PDF Environment'
   },
 
