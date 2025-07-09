@@ -1,70 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <!-- Flat background with subtle gradient -->
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#42A5F5;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1976D2;stop-opacity:1" />
+    <!-- Clean blue gradient for primary shape -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
     </linearGradient>
     
-    <!-- Minimal shadow for depth -->
-    <filter id="subtleShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.1"/>
+    <!-- Light blue accent for secondary shape -->
+    <linearGradient id="lightBlueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Enhanced shadow for floating effect -->
+    <filter id="floatingShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.2"/>
     </filter>
   </defs>
   
-  <!-- Flat circular background -->
-  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" stroke="none"/>
-  
-  <!-- Back document (source) - flat design -->
-  <g transform="translate(120, 120)">
-    <!-- Document background - no stroke, flat -->
-    <rect x="0" y="0" width="180" height="240" rx="12" ry="12" fill="#FFFFFF" opacity="0.95"/>
+  <!-- Main geometric composition - maximized with minimal padding -->
+  <g transform="translate(256, 256)">
+    <!-- Primary shape - document representation (maximized) -->
+    <rect x="-200" y="-220" width="240" height="320" rx="20" ry="20" 
+          fill="url(#blueGradient)" 
+          filter="url(#floatingShadow)"/>
     
-    <!-- Simplified content lines -->
-    <rect x="30" y="50" width="120" height="8" rx="4" fill="#E0E0E0"/>
-    <rect x="30" y="75" width="90" height="8" rx="4" fill="#E0E0E0"/>
-    <rect x="30" y="100" width="105" height="8" rx="4" fill="#E0E0E0"/>
-    <rect x="30" y="125" width="75" height="8" rx="4" fill="#E0E0E0"/>
-    <rect x="30" y="150" width="110" height="8" rx="4" fill="#E0E0E0"/>
+    <!-- Subtle content lines in primary shape (enlarged) - moved before secondary shape -->
+    <rect x="-175" y="-180" width="140" height="8" rx="4" fill="#ffffff" opacity="0.8"/>
+    <rect x="-175" y="-155" width="110" height="8" rx="4" fill="#ffffff" opacity="0.6"/>
+    <rect x="-175" y="-130" width="125" height="8" rx="4" fill="#ffffff" opacity="0.7"/>
+    <rect x="-175" y="-105" width="100" height="8" rx="4" fill="#ffffff" opacity="0.5"/>
     
-    <!-- Flat source file indicator -->
-    <rect x="30" y="190" width="50" height="25" rx="12" fill="#FF5722"/>
-    <text x="55" y="206" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="600">DOC</text>
+    <!-- Secondary shape - conversion/output indicator (maximized overlapping) -->
+    <rect x="-40" y="-140" width="220" height="320" rx="16" ry="16" 
+          fill="url(#lightBlueGradient)" 
+          filter="url(#floatingShadow)"/>
+    
+    <!-- Markdown hash symbol - MAXIMIZED with rounded font and moved down -->
+    <text x="70" y="80" 
+          font-family="Helvetica Neue, Arial, sans-serif" 
+          font-size="220" 
+          fill="#ffffff" 
+          text-anchor="middle" 
+          font-weight="900"
+          font-style="normal">#</text>
+    
   </g>
-  
-  <!-- Front document (target) - flat design with accent -->
-  <g transform="translate(200, 80)">
-    <!-- Document background - clean flat design -->
-    <rect x="0" y="0" width="180" height="240" rx="12" ry="12" fill="#FFFFFF" stroke="#2196F3" stroke-width="2"/>
-    
-    <!-- Markdown content - simplified -->
-    <text x="30" y="55" font-family="SF Pro Display, -apple-system, sans-serif" font-size="24" fill="#1A1A1A" font-weight="700"># Title</text>
-    <text x="30" y="85" font-family="SF Pro Display, -apple-system, sans-serif" font-size="18" fill="#616161">## Header</text>
-    
-    <!-- Clean list items -->
-    <circle cx="35" cy="110" r="3" fill="#757575"/>
-    <text x="50" y="116" font-family="SF Pro Display, -apple-system, sans-serif" font-size="16" fill="#757575">Item 1</text>
-    <circle cx="35" cy="135" r="3" fill="#757575"/>
-    <text x="50" y="141" font-family="SF Pro Display, -apple-system, sans-serif" font-size="16" fill="#757575">Item 2</text>
-    
-    <!-- Bold text -->
-    <text x="30" y="170" font-family="SF Pro Display, -apple-system, sans-serif" font-size="16" fill="#1A1A1A" font-weight="700">**bold text**</text>
-    
-    <!-- Flat Markdown identifier -->
-    <rect x="120" y="200" width="40" height="25" rx="12" fill="#2196F3"/>
-    <text x="140" y="216" font-family="SF Pro Display, -apple-system, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="600">MD</text>
-  </g>
-  
-  <!-- Flat conversion arrow -->
-  <g transform="translate(256, 380)" filter="url(#subtleShadow)">
-    <!-- Clean arrow design -->
-    <path d="M -80 -10 L 70 -10 L 70 -20 L 110 0 L 70 20 L 70 10 L -80 10 Z" 
-          fill="#FFFFFF" 
-          stroke="none"/>
-    <!-- Arrow label -->
-    <text x="0" y="4" font-family="SF Pro Display, -apple-system, sans-serif" font-size="14" fill="#1976D2" text-anchor="middle" font-weight="600">CONVERT</text>
-  </g>
-  
-  <!-- Minimal VS Code accent -->
-  <circle cx="256" cy="60" r="8" fill="#FFFFFF" opacity="0.9"/>
 </svg>
