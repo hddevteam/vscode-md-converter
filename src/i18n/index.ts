@@ -19,9 +19,12 @@ export interface Messages {
     convertWordToMarkdown: string;
     convertExcelToMarkdown: string;
     convertPdfToText: string;
+    convertPowerPointToMarkdown: string;
     batchConvert: string;
     openConverter: string;
     debugPdfEnvironment: string;
+    convertWordTablesToCsv: string;
+    convertPdfTablesToCsv: string;
   };
 
   // Progress and status messages
@@ -48,6 +51,9 @@ export interface Messages {
     fileNotFound: string;
     unsupportedFormat: string;
     unknownError: string;
+    pdfParseUnavailable: string;
+    pdfParseFailed: string;
+    csvWriteFailed: string;
   };
 
   // Batch conversion
@@ -205,6 +211,41 @@ export interface Messages {
     useLibreOffice: string;
     useOnlineConverter: string;
     manualExtraction: string;
+  };
+
+  // Table extraction specific messages
+  table: {
+    sourcePage: string;
+    sourceSlide: string;
+    sourceSection: string;
+    combinedTablesFrom: string;
+    extractedDate: string;
+    totalTables: string;
+    tableNumber: string;
+    tableTitle: string;
+    tableDimensions: string;
+    extractionComplete: string;
+    tablesFound: string;
+    noTablesFound: string;
+    exportingTables: string;
+    csvFilesSaved: string;
+    outputModePrompt: string;
+    outputModeSeparate: string;
+    outputModeCombined: string;
+    confirmTableExtraction: string;
+    tableExtractionFailed: string;
+    invalidTableData: string;
+    csvEncodingPrompt: string;
+    csvDelimiterPrompt: string;
+    delimiterComma: string;
+    delimiterSemicolon: string;
+    delimiterTab: string;
+    encodingUtf8: string;
+    encodingGbk: string;
+    mergedCellPrompt: string;
+    mergedCellRepeat: string;
+    mergedCellEmpty: string;
+    mergedCellNotation: string;
   };
 }
 

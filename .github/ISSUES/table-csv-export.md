@@ -6,15 +6,15 @@
 Implement functionality to extract tables from Word documents and PDF files and export them as CSV files, preserving table structure and data formatting.
 
 ### Acceptance Criteria
-- [ ] Extract tables from .docx files to CSV format
-- [ ] Extract tables from PDF files to CSV format  
-- [ ] Preserve column headers and data types
-- [ ] Handle merged cells gracefully
-- [ ] Support multiple tables per document (create separate CSV files)
-- [ ] Add table detection and preview functionality
-- [ ] Integrate with existing context menu and commands
+- [x] Extract tables from .docx files to CSV format
+- [x] Extract tables from PDF files to CSV format  
+- [x] Preserve column headers and data types
+- [x] Handle merged cells gracefully
+- [x] Support multiple tables per document (create separate CSV files)
+- [x] Add table detection and preview functionality
+- [x] Integrate with existing context menu and commands
 - [ ] Support batch table extraction
-- [ ] Add configuration options for CSV formatting
+- [x] Add configuration options for CSV formatting
 
 ### Technical Requirements
 - Extend existing Word parser (`mammoth.js`) to identify and extract tables
@@ -46,12 +46,12 @@ Implement functionality to extract tables from Word documents and PDF files and 
    - Batch processing: preserve folder structure
 
 ### Testing Requirements
-- [ ] Unit tests for table detection algorithms
-- [ ] Integration tests with various document types
-- [ ] CSV format validation tests
-- [ ] Performance testing with large tables
-- [ ] Cross-platform file handling tests
-- [ ] Error handling for malformed tables
+- [x] Unit tests for table detection algorithms
+- [x] Integration tests with various document types
+- [x] CSV format validation tests
+- [x] Performance testing with large tables
+- [x] Cross-platform file handling tests
+- [x] Error handling for malformed tables
 
 ### Dependencies
 - Evaluate PDF table extraction libraries

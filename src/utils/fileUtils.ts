@@ -11,7 +11,7 @@ export class FileUtils {
     try {
       console.log(`正在验证文件: ${filePath}`);
       
-      // 检查文件是否存在
+      // Check if file exists
       try {
         await fs.access(filePath);
       } catch (error) {
@@ -118,14 +118,42 @@ export class FileUtils {
   /**
    * 安全地写入文件
    */
-  static async writeFile(filePath: string, content: string): Promise<void> {
+  static async writeFile(filePath: string, content: string, encoding: BufferEncoding = 'utf8'): Promise<void> {
     try {
       const dir = path.dirname(filePath);
       await this.ensureDirectoryExists(dir);
-      await fs.writeFile(filePath, content, 'utf8');
+      await fs.writeFile(filePath, content, encoding);
     } catch (error) {
       throw new Error(`Failed to write file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
+  }
+
+  /**
+   * 写入CSV文件，支持Excel兼容性
+   */
+  static async writeCsvFile(filePath: string, content: string, encoding: BufferEncoding = 'utf8'): Promise<void> {
+    try {
+      const dir = path.dirname(filePath);
+      await this.ensureDirectoryExists(dir);
+      
+      let finalContent = content;
+      
+      // For UTF-8 encoding with Chinese content, add BOM for Excel compatibility
+      if (encoding === 'utf8' && this.containsChinese(content)) {
+        finalContent = '\uFEFF' + content; // Add UTF-8 BOM
+      }
+      
+      await fs.writeFile(filePath, finalContent, encoding);
+    } catch (error) {
+      throw new Error(`Failed to write CSV file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * 检查文本是否包含中文字符
+   */
+  private static containsChinese(text: string): boolean {
+    return /[\u4e00-\u9fff]/.test(text);
   }
 
   /**
@@ -138,7 +166,21 @@ export class FileUtils {
       outputDirectory: config.get<string>('outputDirectory') || '',
       maxRowsExcel: config.get<number>('maxRowsExcel') || 1000,
       preserveFormatting: config.get<boolean>('preserveFormatting') || true,
-      autoOpenResult: config.get<boolean>('autoOpenResult') || true
+      autoOpenResult: config.get<boolean>('autoOpenResult') || true,
+      // Table extraction configuration with defaults
+      tableOutputMode: config.get<'separate' | 'combined' | 'ask'>('tableOutputMode') || 'separate',
+      tableCsvEncoding: config.get<BufferEncoding>('tableCsvEncoding') || 'utf8',
+      tableCsvDelimiter: config.get<',' | ';' | '\t'>('tableCsvDelimiter') || ','
+    };
+  }
+
+  /**
+   * 获取表格提取配置
+   */
+  static getTableConfig(): { includeMetadata: boolean } {
+    const config = vscode.workspace.getConfiguration('documentConverter');
+    return {
+      includeMetadata: config.get<boolean>('includeTableMetadata') || false
     };
   }
 
@@ -150,7 +192,7 @@ export class FileUtils {
       const document = await vscode.workspace.openTextDocument(filePath);
       await vscode.window.showTextDocument(document);
     } catch (error) {
-      // 如果无法在编辑器中打开，尝试用系统默认程序打开
+      // If unable to open in editor, try opening with system default program
       vscode.env.openExternal(vscode.Uri.file(filePath));
     }
   }

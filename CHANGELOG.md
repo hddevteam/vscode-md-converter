@@ -6,6 +6,28 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.5] - 2025-07-09
+
+### Added
+- **PDF Table Extraction**: Complete implementation of PDF table extraction to CSV
+- Advanced table detection algorithms for PDF documents with single-space separation support
+- Support for complex Chinese forex tables and multi-column data extraction
+- Enhanced Word table extraction with improved CSV output formatting
+- Table output mode selection (separate files vs combined file)
+- Excel compatibility with UTF-8 BOM for proper Chinese character display
+
+### Improved
+- Simplified PDF parsing architecture using only reliable pdf-parse library
+- Enhanced table detection for various table formats (tab, comma, space-separated)
+- Better error handling and user feedback for table extraction operations
+- Code quality improvements with English comments throughout codebase
+- Comprehensive test coverage with real-world PDF and Word documents
+
+### Fixed
+- PDF table parsing issues with single-space separated data
+- I18n string interpolation for Excel conversion messages
+- Console output cleanup for production-ready code
+
 ## [0.1.4] - 2025-07-08
 
 ### Added

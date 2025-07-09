@@ -16,9 +16,12 @@ export const EnglishMessages: Messages = {
     convertWordToMarkdown: 'Convert Word to Markdown',
     convertExcelToMarkdown: 'Convert Excel to Markdown',
     convertPdfToText: 'Convert PDF to Text',
+    convertPowerPointToMarkdown: 'Convert PowerPoint to Markdown',
     batchConvert: 'Batch Convert to Markdown',
     openConverter: 'Open Document Converter',
-    debugPdfEnvironment: 'Debug PDF Environment'
+    debugPdfEnvironment: 'Debug PDF Environment',
+    convertWordTablesToCsv: 'Extract Word Tables to CSV',
+    convertPdfTablesToCsv: 'Extract PDF Tables to CSV'
   },
 
   // Progress and status messages
@@ -44,7 +47,10 @@ export const EnglishMessages: Messages = {
     batchConversionFailed: 'Batch conversion failed',
     fileNotFound: 'File not found',
     unsupportedFormat: 'Unsupported file format: {0}',
-    unknownError: 'Unknown error'
+    unknownError: 'Unknown error',
+    pdfParseUnavailable: 'PDF parsing library is not available',
+    pdfParseFailed: 'PDF parsing failed: {0}',
+    csvWriteFailed: 'Failed to write CSV file {0}: {1}'
   },
 
   // Batch conversion
@@ -112,7 +118,7 @@ export const EnglishMessages: Messages = {
     emptyWorksheet: '*This worksheet is empty*',
     dataDimensions: 'Data Dimensions',
     dataDimensionsValue: '{0} rows x {1} columns',
-    rowsLimitNotice: '*Note: Data rows exceed {0} rows, showing only the first {0} rows*',
+    rowsLimitNotice: '*Note: Data rows exceed {0} rows, showing only the first {1} rows*',
     whitespaceChar: '(whitespace)',
     convertedFrom: '*Converted from: {0}*'
   },
@@ -202,5 +208,40 @@ export const EnglishMessages: Messages = {
     useLibreOffice: 'Use LibreOffice Impress to open and save as .pptx',
     useOnlineConverter: 'Use online presentation conversion tools',
     manualExtraction: 'Manually copy slide content to a new Markdown file'
+  },
+
+  // Table extraction specific messages
+  table: {
+    sourcePage: 'Source: Page {0}',
+    sourceSlide: 'Source: Slide {0}',
+    sourceSection: 'Source: {0}',
+    combinedTablesFrom: 'Combined Tables from: {0}',
+    extractedDate: 'Extracted on: {0}',
+    totalTables: 'Total Tables: {0}',
+    tableNumber: 'Table {0}',
+    tableTitle: 'Title: {0}',
+    tableDimensions: 'Dimensions: {0} rows × {1} columns',
+    extractionComplete: 'Table extraction completed',
+    tablesFound: 'Found {0} table(s) in document',
+    noTablesFound: 'No tables found in document',
+    exportingTables: 'Exporting tables to CSV...',
+    csvFilesSaved: 'CSV files saved: {0}',
+    outputModePrompt: 'How would you like to save the tables?',
+    outputModeSeparate: 'Separate files (one CSV per table)',
+    outputModeCombined: 'Combined file (all tables in one CSV)',
+    confirmTableExtraction: 'Found {0} table(s). Continue with extraction?',
+    tableExtractionFailed: 'Table extraction failed: {0}',
+    invalidTableData: 'Invalid table data: insufficient rows or columns',
+    csvEncodingPrompt: 'Select CSV file encoding:',
+    csvDelimiterPrompt: 'Select CSV delimiter:',
+    delimiterComma: 'Comma (,)',
+    delimiterSemicolon: 'Semicolon (;)',
+    delimiterTab: 'Tab',
+    encodingUtf8: 'UTF-8 (Recommended)',
+    encodingGbk: 'GBK (Chinese)',
+    mergedCellPrompt: 'How to handle merged cells:',
+    mergedCellRepeat: 'Repeat value in all merged cells',
+    mergedCellEmpty: 'Value only in first cell, others empty',
+    mergedCellNotation: 'Use [MERGED] notation for merged cells'
   }
 };

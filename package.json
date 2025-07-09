@@ -2,7 +2,7 @@
   "name": "document-md-converter",
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word, Excel, PDF, and PowerPoint to Markdown/text with batch processing support. Full PowerPoint presentation conversion with slide content and speaker notes.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "luckyXmobile",
   "icon": "images/icon.png",
   "repository": {
@@ -61,6 +61,16 @@
         "category": "OneClick Markdown Converter"
       },
       {
+        "command": "document-md-converter.convertWordTablesToCsv",
+        "title": "%commands.convertWordTablesToCsv%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertPdfTablesToCsv",
+        "title": "%commands.convertPdfTablesToCsv%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
         "command": "document-md-converter.batchConvert",
         "title": "%commands.batchConvert%",
         "category": "OneClick Markdown Converter"
@@ -100,9 +110,19 @@
           "group": "document-converter@4"
         },
         {
+          "when": "resourceExtname == .docx || resourceExtname == .doc",
+          "command": "document-md-converter.convertWordTablesToCsv",
+          "group": "document-converter@5"
+        },
+        {
+          "when": "resourceExtname == .pdf",
+          "command": "document-md-converter.convertPdfTablesToCsv",
+          "group": "document-converter@6"
+        },
+        {
           "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
-          "group": "document-converter@5"
+          "group": "document-converter@7"
         }
       ],
       "commandPalette": [
@@ -166,6 +186,40 @@
           "type": "boolean",
           "default": true,
           "description": "%config.showWelcomeMessageDescription%"
+        },
+        "documentConverter.tableOutputMode": {
+          "type": "string",
+          "enum": [
+            "separate",
+            "combined",
+            "ask"
+          ],
+          "default": "separate",
+          "description": "%config.tableOutputModeDescription%"
+        },
+        "documentConverter.tableCsvEncoding": {
+          "type": "string",
+          "enum": [
+            "utf8",
+            "gbk"
+          ],
+          "default": "utf8",
+          "description": "%config.tableCsvEncodingDescription%"
+        },
+        "documentConverter.tableCsvDelimiter": {
+          "type": "string",
+          "enum": [
+            ",",
+            ";",
+            "\\t"
+          ],
+          "default": ",",
+          "description": "%config.tableCsvDelimiterDescription%"
+        },
+        "documentConverter.includeTableMetadata": {
+          "type": "boolean",
+          "default": false,
+          "description": "%config.includeTableMetadataDescription%"
         }
       }
     }

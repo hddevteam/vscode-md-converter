@@ -3,6 +3,8 @@ import { convertWordToMarkdown } from './commands/convertWordToMarkdown';
 import { convertExcelToMarkdown } from './commands/convertExcelToMarkdown';
 import { convertPdfToText } from './commands/convertPdfToText';
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
+import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
+import { convertPdfTablesToCsv } from './commands/convertPdfTablesToCsv';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
@@ -45,6 +47,20 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri) => {
           console.log('Executing PowerPoint to Markdown command, URI:', uri?.fsPath);
           return convertPowerPointToMarkdown(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertWordTablesToCsv',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing Word Tables to CSV command, URI:', uri?.fsPath);
+          return convertWordTablesToCsv(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertPdfTablesToCsv',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PDF Tables to CSV command, URI:', uri?.fsPath);
+          return convertPdfTablesToCsv(uri);
         }
       ),
       vscode.commands.registerCommand(

@@ -24,7 +24,7 @@ suite('ExcelToMarkdown I18n Tests', () => {
     const dimensionsMessage = I18n.getMessage('excel.dataDimensionsValue', 10, 5);
     assert.strictEqual(dimensionsMessage, '10 rows x 5 columns');
     
-    const rowsLimitMessage = I18n.getMessage('excel.rowsLimitNotice', 100);
+    const rowsLimitMessage = I18n.getMessage('excel.rowsLimitNotice', 100, 100);
     assert.strictEqual(rowsLimitMessage, '*Note: Data rows exceed 100 rows, showing only the first 100 rows*');
   });
 

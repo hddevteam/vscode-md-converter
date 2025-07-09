@@ -16,9 +16,12 @@ export const ChineseMessages: Messages = {
     convertWordToMarkdown: '将Word转换为Markdown',
     convertExcelToMarkdown: '将Excel转换为Markdown',
     convertPdfToText: '将PDF转换为文本',
+    convertPowerPointToMarkdown: '将PowerPoint转换为Markdown',
     batchConvert: '批量转换Markdown',
     openConverter: '打开文档转换器',
-    debugPdfEnvironment: '调试PDF环境'
+    debugPdfEnvironment: '调试PDF环境',
+    convertWordTablesToCsv: '提取Word表格到CSV',
+    convertPdfTablesToCsv: '提取PDF表格到CSV'
   },
 
   // Progress and status messages
@@ -44,7 +47,10 @@ export const ChineseMessages: Messages = {
     batchConversionFailed: '批量转换失败',
     fileNotFound: '文件未找到',
     unsupportedFormat: '不支持的文件类型: {0}',
-    unknownError: '未知错误'
+    unknownError: '未知错误',
+    pdfParseUnavailable: 'PDF解析库不可用',
+    pdfParseFailed: 'PDF解析失败: {0}',
+    csvWriteFailed: '写入CSV文件失败 {0}: {1}'
   },
 
   // Batch conversion
@@ -112,7 +118,7 @@ export const ChineseMessages: Messages = {
     emptyWorksheet: '*该工作表为空*',
     dataDimensions: '数据维度',
     dataDimensionsValue: '{0} 行 x {1} 列',
-    rowsLimitNotice: '*注意: 数据行数超过 {0} 行，仅显示前 {0} 行*',
+    rowsLimitNotice: '*注意: 数据行数超过 {0} 行，仅显示前 {1} 行*',
     whitespaceChar: '(空白字符)',
     convertedFrom: '*转换自: {0}*'
   },
@@ -201,5 +207,40 @@ export const ChineseMessages: Messages = {
     useLibreOffice: '使用LibreOffice Impress打开并保存为.pptx格式',
     useOnlineConverter: '使用在线演示文稿转换工具',
     manualExtraction: '手动将幻灯片内容复制到新的Markdown文件中'
+  },
+
+  // Table extraction specific messages
+  table: {
+    sourcePage: '来源：第 {0} 页',
+    sourceSlide: '来源：第 {0} 张幻灯片',
+    sourceSection: '来源：{0}',
+    combinedTablesFrom: '合并的表格来自：{0}',
+    extractedDate: '提取时间：{0}',
+    totalTables: '表格总数：{0}',
+    tableNumber: '表格 {0}',
+    tableTitle: '标题：{0}',
+    tableDimensions: '尺寸：{0} 行 × {1} 列',
+    extractionComplete: '表格提取完成',
+    tablesFound: '在文档中发现 {0} 个表格',
+    noTablesFound: '文档中未发现表格',
+    exportingTables: '正在导出表格到CSV...',
+    csvFilesSaved: '已保存CSV文件：{0}',
+    outputModePrompt: '您希望如何保存表格？',
+    outputModeSeparate: '分离文件（每个表格一个CSV）',
+    outputModeCombined: '合并文件（所有表格在一个CSV中）',
+    confirmTableExtraction: '发现 {0} 个表格。继续提取吗？',
+    tableExtractionFailed: '表格提取失败：{0}',
+    invalidTableData: '无效的表格数据：行数或列数不足',
+    csvEncodingPrompt: '选择CSV文件编码：',
+    csvDelimiterPrompt: '选择CSV分隔符：',
+    delimiterComma: '逗号 (,)',
+    delimiterSemicolon: '分号 (;)',
+    delimiterTab: '制表符',
+    encodingUtf8: 'UTF-8 (推荐)',
+    encodingGbk: 'GBK (中文)',
+    mergedCellPrompt: '如何处理合并单元格：',
+    mergedCellRepeat: '在所有合并单元格中重复值',
+    mergedCellEmpty: '仅在第一个单元格中放值，其他留空',
+    mergedCellNotation: '使用 [MERGED] 标记表示合并单元格'
   }
 };

@@ -3,6 +3,8 @@
   "commands.convertExcelToMarkdown": "将Excel转换为Markdown", 
   "commands.convertPdfToText": "将PDF转换为文本",
   "commands.convertPowerPointToMarkdown": "将PowerPoint转换为Markdown",
+  "commands.convertWordTablesToCsv": "提取Word表格到CSV",
+  "commands.convertPdfTablesToCsv": "提取PDF表格到CSV",
   "commands.batchConvert": "批量转换为Markdown",
   "commands.openConverter": "打开一键Markdown转换器",
   "commands.debugPdfEnvironment": "调试PDF环境",
@@ -13,5 +15,9 @@
   "config.maxRowsExcelDescription": "每个Excel工作表显示的最大行数",
   "config.preserveFormattingDescription": "转换时保留文本格式（粗体、斜体）",
   "config.autoOpenResultDescription": "自动打开转换后的文件",
-  "config.showWelcomeMessageDescription": "扩展激活时显示欢迎消息"
+  "config.showWelcomeMessageDescription": "扩展激活时显示欢迎消息",
+  "config.tableOutputModeDescription": "多表格保存方式：分离文件、合并文件或每次询问",
+  "config.tableCsvEncodingDescription": "CSV文件编码（UTF-8适用于国际化，GBK适用于中文Excel兼容性）",
+  "config.tableCsvDelimiterDescription": "CSV字段分隔符",
+  "config.includeTableMetadataDescription": "在CSV文件中包含表格元数据（标题、来源位置）作为注释"
 }

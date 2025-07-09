@@ -64,9 +64,10 @@ npm run compile
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
 - `Convert PDF to Text` - Convert PDF to text files
 - `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
+- `Extract Word Tables to CSV` - Extract tables from Word documents to CSV format
+- `Extract PDF Tables to CSV` - Extract tables from PDF documents to CSV format
 - `Batch Convert Documents` - Batch convert documents
 - `Open Document Converter` - Open converter interface
-- `Debug PDF Environment` - Debug PDF environment for troubleshooting
 
 ## 🔧 Conversion Features
 
@@ -138,11 +139,26 @@ All converted files are saved in the same directory as the original files with a
 - Excel → `.md` files (with tables)
 - PDF → `.txt` files
 
+## 🚀 Latest Features (v0.1.5)
+
+### Table Extraction Support ✨
+- **📊 Word Table Extraction**: Export tables from Word documents directly to CSV format
+- **📋 PDF Table Extraction**: Advanced table detection and CSV export from PDF documents
+- **🔧 Flexible Output Options**: Choose between separate files or combined CSV output
+- **🌏 Encoding Support**: UTF-8 and GBK encoding options for Chinese compatibility
+- **⚙️ Customizable CSV Format**: Configure delimiters (comma, semicolon, tab)
+- **📝 Table Metadata**: Optional metadata inclusion for table analysis
+
+### Advanced Table Detection
+- Intelligent table recognition for various PDF formats
+- Support for space-separated, tab-separated, and comma-separated tables
+- Enhanced Chinese text handling in forex and financial documents
+- Robust parsing algorithms for complex table structures
+
 ## 🚀 Upcoming Features (v0.2.0)
 
 We're actively working on expanding format support and adding new capabilities:
 
-- ** Table Extraction**: Export tables from Word/PDF documents directly to CSV format  
 - **🖼️ PDF to Images**: Convert PDF pages to individual image files (PNG/JPG)
 - **📤 Enhanced Export**: Export PowerPoint slides and PDF pages as high-quality images
 - **🏗️ Architecture Improvements**: Better plugin system for future format extensions
@@ -240,6 +256,18 @@ npm test
 MIT License - See [LICENSE](LICENSE) file for details
 
 ## 🔄 Changelog
+
+### v0.1.5 - 2025-07-09
+- ✨ **NEW: PDF Table Extraction** - Complete implementation of PDF table extraction to CSV
+- 📊 **NEW: Word Table Extraction** - Enhanced Word table extraction with improved CSV output
+- 🎯 Advanced table detection algorithms for PDF documents with single-space separation support
+- 🌏 Support for complex Chinese forex tables and multi-column data extraction
+- ⚙️ Table output mode selection (separate files vs combined file)
+- 📝 Excel compatibility with UTF-8 BOM for proper Chinese character display
+- 🧹 Simplified PDF parsing architecture using only reliable pdf-parse library
+- 🔧 Enhanced table detection for various table formats (tab, comma, space-separated)
+- 🛠️ Better error handling and user feedback for table extraction operations
+- 📖 Code quality improvements with English comments throughout codebase
 
 ### v0.1.4
 - ✨ **NEW: PowerPoint Support** - Full conversion of .pptx presentations to Markdown

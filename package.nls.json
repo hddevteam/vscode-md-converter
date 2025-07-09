@@ -3,6 +3,8 @@
   "commands.convertExcelToMarkdown": "Convert Excel to Markdown", 
   "commands.convertPdfToText": "Convert PDF to Text",
   "commands.convertPowerPointToMarkdown": "Convert PowerPoint to Markdown",
+  "commands.convertWordTablesToCsv": "Extract Word Tables to CSV",
+  "commands.convertPdfTablesToCsv": "Extract PDF Tables to CSV",
   "commands.batchConvert": "Batch Convert to Markdown",
   "commands.openConverter": "Open OneClick Markdown Converter",
   "commands.debugPdfEnvironment": "Debug PDF Environment",
@@ -13,5 +15,9 @@
   "config.maxRowsExcelDescription": "Maximum number of rows to display per Excel sheet",
   "config.preserveFormattingDescription": "Preserve text formatting (bold, italic) when converting",
   "config.autoOpenResultDescription": "Automatically open converted files",
-  "config.showWelcomeMessageDescription": "Show a welcome message when the extension is activated"
+  "config.showWelcomeMessageDescription": "Show a welcome message when the extension is activated",
+  "config.tableOutputModeDescription": "How to save multiple tables: separate files, combined file, or ask each time",
+  "config.tableCsvEncodingDescription": "CSV file encoding (UTF-8 recommended for international use, GBK for Chinese Excel compatibility)",
+  "config.tableCsvDelimiterDescription": "CSV field delimiter character",
+  "config.includeTableMetadataDescription": "Include table metadata (title, source location) as comments in CSV files"
 }
