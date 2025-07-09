@@ -2,7 +2,7 @@
   "name": "document-md-converter",
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word, Excel, PDF, and PowerPoint to Markdown/text with batch processing support. Full PowerPoint presentation conversion with slide content and speaker notes.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "publisher": "luckyXmobile",
   "icon": "images/icon.png",
   "repository": {
@@ -48,6 +48,11 @@
       {
         "command": "document-md-converter.convertExcelToMarkdown",
         "title": "%commands.convertExcelToMarkdown%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertExcelToCsv",
+        "title": "%commands.convertExcelToCsv%",
         "category": "OneClick Markdown Converter"
       },
       {
@@ -100,29 +105,34 @@
           "group": "document-converter@2"
         },
         {
+          "when": "resourceExtname == .xlsx || resourceExtname == .xls",
+          "command": "document-md-converter.convertExcelToCsv",
+          "group": "document-converter@3"
+        },
+        {
           "when": "resourceExtname == .pdf",
           "command": "document-md-converter.convertPdfToText",
-          "group": "document-converter@3"
+          "group": "document-converter@4"
         },
         {
           "when": "resourceExtname == .pptx || resourceExtname == .ppt",
           "command": "document-md-converter.convertPowerPointToMarkdown",
-          "group": "document-converter@4"
+          "group": "document-converter@5"
         },
         {
           "when": "resourceExtname == .docx || resourceExtname == .doc",
           "command": "document-md-converter.convertWordTablesToCsv",
-          "group": "document-converter@5"
+          "group": "document-converter@6"
         },
         {
           "when": "resourceExtname == .pdf",
           "command": "document-md-converter.convertPdfTablesToCsv",
-          "group": "document-converter@6"
+          "group": "document-converter@7"
         },
         {
           "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
-          "group": "document-converter@7"
+          "group": "document-converter@8"
         }
       ],
       "commandPalette": [
@@ -131,6 +141,9 @@
         },
         {
           "command": "document-md-converter.convertExcelToMarkdown"
+        },
+        {
+          "command": "document-md-converter.convertExcelToCsv"
         },
         {
           "command": "document-md-converter.convertPdfToText"
@@ -239,6 +252,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
+    "@types/iconv-lite": "^0.0.1",
     "@types/jszip": "^3.4.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.19.4",
@@ -256,6 +270,7 @@
   "dependencies": {
     "csv-parser": "^3.2.0",
     "docx": "^9.5.1",
+    "iconv-lite": "^0.6.3",
     "jszip": "^3.10.1",
     "mammoth": "^1.9.1",
     "pdf-parse": "^1.1.1",

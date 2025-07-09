@@ -18,6 +18,7 @@ export interface Messages {
   commands: {
     convertWordToMarkdown: string;
     convertExcelToMarkdown: string;
+    convertExcelToCsv: string;
     convertPdfToText: string;
     convertPowerPointToMarkdown: string;
     batchConvert: string;
@@ -124,6 +125,7 @@ export interface Messages {
     rowsLimitNotice: string;
     whitespaceChar: string;
     convertedFrom: string;
+    csvFilesSaved: string;
   };
 
   // PDF conversion specific messages

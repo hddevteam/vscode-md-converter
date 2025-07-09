@@ -1,6 +1,7 @@
 {
   "commands.convertWordToMarkdown": "将Word转换为Markdown",
   "commands.convertExcelToMarkdown": "将Excel转换为Markdown", 
+  "commands.convertExcelToCsv": "将Excel转换为CSV",
   "commands.convertPdfToText": "将PDF转换为文本",
   "commands.convertPowerPointToMarkdown": "将PowerPoint转换为Markdown",
   "commands.convertWordTablesToCsv": "提取Word表格到CSV",

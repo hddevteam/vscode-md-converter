@@ -9,6 +9,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 ### Supported Document Types
 - **Word Documents** (.docx, .doc) → Markdown
 - **Excel Spreadsheets** (.xlsx, .xls, .csv) → Markdown Tables
+- **Excel Spreadsheets** (.xlsx, .xls) → CSV Files
 - **PDF Documents** (.pdf) → Text Files
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
@@ -62,6 +63,7 @@ npm run compile
 ### Available Commands
 - `Convert Word to Markdown` - Convert Word documents to Markdown
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
+- `Convert Excel to CSV` - Convert Excel files to CSV format
 - `Convert PDF to Text` - Convert PDF to text files
 - `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
 - `Extract Word Tables to CSV` - Extract tables from Word documents to CSV format
@@ -79,7 +81,12 @@ npm run compile
 - Smart timeout handling (prevents .doc file freezing)
 
 ### Excel Spreadsheet Conversion
-- Convert to Markdown table format
+- **To Markdown**: Convert to Markdown table format
+- **To CSV**: Convert to CSV format with configurable options
+  - Choose separate files (one per worksheet) or combined file
+  - Configurable encoding (UTF-8 or GBK for Chinese Excel compatibility)
+  - Configurable delimiter (comma, semicolon, or tab)
+  - Optional metadata comments
 - Preserve cell data types
 - Handle multiple worksheets
 - Support .xlsx, .xls, .csv formats

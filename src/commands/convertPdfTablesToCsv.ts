@@ -11,7 +11,7 @@ export async function convertPdfTablesToCsv(uri?: vscode.Uri): Promise<void> {
     if (uri && uri.fsPath) {
       inputPath = uri.fsPath;
     } else {
-      // 如果没有提供URI，让用户选择文件
+      // If no URI provided, let user select file
       const selectedFiles = await vscode.window.showOpenDialog({
         canSelectFiles: true,
         canSelectFolders: false,
@@ -29,7 +29,7 @@ export async function convertPdfTablesToCsv(uri?: vscode.Uri): Promise<void> {
       inputPath = selectedFiles[0].fsPath;
     }
 
-    // 显示进度
+    // Show progress
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
       title: I18n.t('table.exportingTables'),

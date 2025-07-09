@@ -1,6 +1,7 @@
 {
   "commands.convertWordToMarkdown": "Convert Word to Markdown",
   "commands.convertExcelToMarkdown": "Convert Excel to Markdown", 
+  "commands.convertExcelToCsv": "Convert Excel to CSV",
   "commands.convertPdfToText": "Convert PDF to Text",
   "commands.convertPowerPointToMarkdown": "Convert PowerPoint to Markdown",
   "commands.convertWordTablesToCsv": "Extract Word Tables to CSV",

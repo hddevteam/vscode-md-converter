@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { ConversionResult, BatchConversionResult } from '../types';
 import { I18n } from '../i18n';
 
@@ -9,7 +10,7 @@ export interface ProgressInfo {
 
 export class UIUtils {
   /**
-   * 显示进度条
+   * Show progress bar
    */
   static async withProgress<T>(
     title: string,
@@ -38,6 +39,34 @@ export class UIUtils {
         if (selection === openButton && result.outputPath) {
           const uri = vscode.Uri.file(result.outputPath);
           vscode.commands.executeCommand('vscode.open', uri);
+        }
+      });
+    } else {
+      vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.error));
+    }
+  }
+
+  /**
+   * Show conversion result notification for multiple output files
+   */
+  static showMultipleFileConversionResult(result: ConversionResult): void {
+    if (result.success && result.outputPaths && result.outputPaths.length > 0) {
+      const fileCount = result.outputPaths.length;
+      const openButton = I18n.t('success.openFile');
+      const message = I18n.t('excel.csvFilesSaved', fileCount);
+      
+      vscode.window.showInformationMessage(message, openButton).then(selection => {
+        if (selection === openButton && result.outputPaths && result.outputPaths.length > 0) {
+          // Open the first file or the directory containing the files
+          const uri = vscode.Uri.file(result.outputPaths[0]);
+          if (result.outputPaths.length === 1) {
+            // Open single file directly
+            vscode.commands.executeCommand('vscode.open', uri);
+          } else {
+            // Open containing directory for multiple files
+            const dirUri = vscode.Uri.file(path.dirname(result.outputPaths[0]));
+            vscode.commands.executeCommand('revealFileInOS', dirUri);
+          }
         }
       });
     } else {

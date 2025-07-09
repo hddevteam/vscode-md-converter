@@ -15,6 +15,7 @@ export const ChineseMessages: Messages = {
   commands: {
     convertWordToMarkdown: '将Word转换为Markdown',
     convertExcelToMarkdown: '将Excel转换为Markdown',
+    convertExcelToCsv: '将Excel转换为CSV',
     convertPdfToText: '将PDF转换为文本',
     convertPowerPointToMarkdown: '将PowerPoint转换为Markdown',
     batchConvert: '批量转换Markdown',
@@ -120,7 +121,8 @@ export const ChineseMessages: Messages = {
     dataDimensionsValue: '{0} 行 x {1} 列',
     rowsLimitNotice: '*注意: 数据行数超过 {0} 行，仅显示前 {1} 行*',
     whitespaceChar: '(空白字符)',
-    convertedFrom: '*转换自: {0}*'
+    convertedFrom: '*转换自: {0}*',
+    csvFilesSaved: '成功转换为 {0} 个CSV文件'
   },
 
   // PDF conversion specific messages

@@ -15,6 +15,7 @@ export const EnglishMessages: Messages = {
   commands: {
     convertWordToMarkdown: 'Convert Word to Markdown',
     convertExcelToMarkdown: 'Convert Excel to Markdown',
+    convertExcelToCsv: 'Convert Excel to CSV',
     convertPdfToText: 'Convert PDF to Text',
     convertPowerPointToMarkdown: 'Convert PowerPoint to Markdown',
     batchConvert: 'Batch Convert to Markdown',
@@ -120,7 +121,8 @@ export const EnglishMessages: Messages = {
     dataDimensionsValue: '{0} rows x {1} columns',
     rowsLimitNotice: '*Note: Data rows exceed {0} rows, showing only the first {1} rows*',
     whitespaceChar: '(whitespace)',
-    convertedFrom: '*Converted from: {0}*'
+    convertedFrom: '*Converted from: {0}*',
+    csvFilesSaved: 'Successfully converted to {0} CSV file(s)'
   },
 
   // PDF conversion specific messages

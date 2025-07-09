@@ -5,7 +5,7 @@ import { FileValidationResult, SupportedFileType, ConversionConfig } from '../ty
 
 export class FileUtils {
   /**
-   * 验证文件是否为支持的格式
+   * Validate if file is in supported format
    */
   static async validateFile(filePath: string): Promise<FileValidationResult> {
     try {
@@ -68,7 +68,7 @@ export class FileUtils {
   }
 
   /**
-   * 生成输出文件路径
+   * Generate output file path
    */
   static generateOutputPath(inputPath: string, targetExtension: string, outputDir?: string): string {
     const inputDir = path.dirname(inputPath);
@@ -79,7 +79,7 @@ export class FileUtils {
   }
 
   /**
-   * 确保目录存在
+   * Ensure directory exists
    */
   static async ensureDirectoryExists(dirPath: string): Promise<void> {
     try {
@@ -90,7 +90,7 @@ export class FileUtils {
   }
 
   /**
-   * 获取文件夹中的所有支持的文件
+   * Get all supported files in a folder
    */
   static async getSupportedFilesInDirectory(dirPath: string): Promise<string[]> {
     try {
@@ -116,7 +116,7 @@ export class FileUtils {
   }
 
   /**
-   * 安全地写入文件
+   * Safely write file
    */
   static async writeFile(filePath: string, content: string, encoding: BufferEncoding = 'utf8'): Promise<void> {
     try {
@@ -129,7 +129,7 @@ export class FileUtils {
   }
 
   /**
-   * 写入CSV文件，支持Excel兼容性
+   * Write CSV file with Excel compatibility
    */
   static async writeCsvFile(filePath: string, content: string, encoding: BufferEncoding = 'utf8'): Promise<void> {
     try {
@@ -150,14 +150,14 @@ export class FileUtils {
   }
 
   /**
-   * 检查文本是否包含中文字符
+   * Check if text contains Chinese characters
    */
   private static containsChinese(text: string): boolean {
     return /[\u4e00-\u9fff]/.test(text);
   }
 
   /**
-   * 获取用户配置
+   * Get user configuration
    */
   static getConfig(): ConversionConfig {
     const config = vscode.workspace.getConfiguration('documentConverter');
@@ -170,12 +170,13 @@ export class FileUtils {
       // Table extraction configuration with defaults
       tableOutputMode: config.get<'separate' | 'combined' | 'ask'>('tableOutputMode') || 'separate',
       tableCsvEncoding: config.get<BufferEncoding>('tableCsvEncoding') || 'utf8',
-      tableCsvDelimiter: config.get<',' | ';' | '\t'>('tableCsvDelimiter') || ','
+      tableCsvDelimiter: config.get<',' | ';' | '\t'>('tableCsvDelimiter') || ',',
+      includeTableMetadata: config.get<boolean>('includeTableMetadata') || false
     };
   }
 
   /**
-   * 获取表格提取配置
+   * Get table extraction configuration
    */
   static getTableConfig(): { includeMetadata: boolean } {
     const config = vscode.workspace.getConfiguration('documentConverter');
@@ -185,7 +186,7 @@ export class FileUtils {
   }
 
   /**
-   * 打开文件
+   * Open file
    */
   static async openFile(filePath: string): Promise<void> {
     try {
@@ -198,7 +199,7 @@ export class FileUtils {
   }
 
   /**
-   * 格式化文件大小
+   * Format file size
    */
   static formatFileSize(bytes: number): string {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];

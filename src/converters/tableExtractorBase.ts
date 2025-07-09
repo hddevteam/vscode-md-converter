@@ -4,10 +4,11 @@ import * as XLSX from 'xlsx';
 import { TableData, TableExtractionOptions, TableConversionResult } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 import { I18n } from '../i18n';
+import { CsvWriterBase } from './csvWriterBase';
 
-export abstract class TableExtractorBase {
+export abstract class TableExtractorBase extends CsvWriterBase {
   /**
-   * 生成CSV文件内容
+   * Generate CSV file content
    */
   protected static generateCsvContent(
     tableData: TableData, 
@@ -21,15 +22,15 @@ export abstract class TableExtractorBase {
     const delimiter = options.delimiter;
     const csvRows: string[] = [];
 
-    // 可选择是否包含元数据注释
+    // Optionally include metadata comments
     if (includeMetadata) {
-      // 添加表格标题作为注释（如果有）
+      // Add table title as comment (if available)
       if (tableData.title) {
         csvRows.push(`# ${tableData.title}`);
         csvRows.push('');
       }
 
-      // 添加表格位置信息作为注释
+      // Add table location info as comment
       if (tableData.sourceLocation) {
         const location = tableData.sourceLocation;
         let locationInfo = '# ';
@@ -45,18 +46,18 @@ export abstract class TableExtractorBase {
       }
     }
 
-    // 转换表格数据
+    // Convert table data
     const processedRows = this.processMergedCells(tableData, options);
     for (const row of processedRows) {
       const escapedRow = row.map(cell => {
-        // 处理单元格内容
+        // Process cell content
         let cellContent = (cell || '').toString().trim();
         
-        // 如果包含分隔符、换行符或引号，需要用引号包围
+        // If contains separator, line breaks, or quotes, needs to be quoted
         if (cellContent.includes(delimiter) || 
             cellContent.includes('\n') || 
             cellContent.includes('"')) {
-          // 转义引号
+          // Escape quotes
           cellContent = cellContent.replace(/"/g, '""');
           cellContent = `"${cellContent}"`;
         }
@@ -71,23 +72,33 @@ export abstract class TableExtractorBase {
   }
 
   /**
-   * 保存单个表格为CSV文件
+   * Save single table as CSV file
    */
   protected static async saveSingleTableToCsv(
     tableData: TableData,
     baseOutputPath: string,
     options: TableExtractionOptions
   ): Promise<string> {
-    const csvContent = this.generateCsvContent(tableData, options, options.includeMetadata);
+    const csvContent = this.generateCsvContent(tableData, options, false); // Don't include metadata here
     
-    // 生成文件名
+    // Generate filename
     const baseDir = path.dirname(baseOutputPath);
     const baseName = path.basename(baseOutputPath, path.extname(baseOutputPath));
     const fileName = `${baseName}_table_${tableData.id}.csv`;
     const outputPath = path.join(baseDir, fileName);
     
-    // 保存文件
-    await FileUtils.writeCsvFile(outputPath, csvContent, options.encoding);
+    // Use base class method to save file
+    await this.writeCsvFile(
+      outputPath, 
+      csvContent, 
+      options.encoding, 
+      options.includeMetadata,
+      {
+        source: tableData.sourceLocation?.section,
+        title: tableData.title,
+        dimensions: `${tableData.rowCount} × ${tableData.columnCount}`
+      }
+    );
     
     return outputPath;
   }
@@ -100,47 +111,34 @@ export abstract class TableExtractorBase {
     baseOutputPath: string,
     options: TableExtractionOptions
   ): Promise<string> {
-    const combinedContent: string[] = [];
-    
-    // 添加文件头信息
-    const originalFileName = path.basename(baseOutputPath);
-    combinedContent.push(`# ${I18n.t('table.combinedTablesFrom', originalFileName)}`);
-    combinedContent.push(`# ${I18n.t('table.extractedDate', new Date().toLocaleString())}`);
-    combinedContent.push(`# ${I18n.t('table.totalTables', tables.length.toString())}`);
-    combinedContent.push('');      // 添加每个表格
-      for (let i = 0; i < tables.length; i++) {
-        const table = tables[i];
-        
-        if (i > 0) {
-          // 表格之间添加分隔
-          combinedContent.push('');
-          combinedContent.push('#'.repeat(50));
-          combinedContent.push('');
-        }
-        
-        // 添加表格标识
-        combinedContent.push(`# ${I18n.t('table.tableNumber', (i + 1).toString())}`);
-        if (table.title) {
-          combinedContent.push(`# ${I18n.t('table.tableTitle', table.title)}`);
-        }
-        combinedContent.push(`# ${I18n.t('table.tableDimensions', table.rowCount.toString(), table.columnCount.toString())}`);
-        combinedContent.push('');
-        
-        // 添加表格内容（不包含重复的元数据）
-        const tableContent = this.generateCsvContent(table, options, false);
-        combinedContent.push(tableContent);
+    // 准备合并的数据
+    const sections = tables.map((table, index) => ({
+      name: `${I18n.t('table.tableNumber', (index + 1).toString())}${table.title ? ` - ${table.title}` : ''}`,
+      content: this.generateCsvContent(table, options, false),
+      metadata: {
+        tableId: table.id,
+        dimensions: `${table.rowCount} × ${table.columnCount}`,
+        source: table.sourceLocation?.section
       }
-    
+    }));
+
     // 生成输出路径
     const baseDir = path.dirname(baseOutputPath);
     const baseName = path.basename(baseOutputPath, path.extname(baseOutputPath));
     const fileName = `${baseName}_all_tables.csv`;
     const outputPath = path.join(baseDir, fileName);
-    
-    // 保存文件
-    const finalContent = combinedContent.join('\n');
-    await FileUtils.writeCsvFile(outputPath, finalContent, options.encoding);
-    
+
+    // 使用基类方法保存合并文件
+    await this.writeCombinedCsv(
+      sections,
+      outputPath,
+      options.encoding,
+      options.includeMetadata,
+      {
+        title: I18n.t('table.combinedTablesFrom', path.basename(baseOutputPath))
+      }
+    );
+
     return outputPath;
   }
 

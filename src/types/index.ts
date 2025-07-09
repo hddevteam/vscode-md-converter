@@ -2,6 +2,7 @@ export interface ConversionResult {
   success: boolean;
   inputPath: string;
   outputPath?: string;
+  outputPaths?: string[];  // Support multiple output files
   error?: string;
   duration?: number;
 }
@@ -51,6 +52,7 @@ export interface ConversionConfig {
   tableOutputMode: 'separate' | 'combined' | 'ask';
   tableCsvEncoding: BufferEncoding;
   tableCsvDelimiter: ',' | ';' | '\t';
+  includeTableMetadata: boolean;  // Add missing property
 }
 
 // Table extraction specific types
@@ -65,7 +67,7 @@ export interface TableData {
     slide?: number;
     section?: string;
   };
-  // 合并单元格信息
+  // Merged cell information
   mergedCells?: MergedCellInfo[];
 }
 
@@ -88,8 +90,8 @@ export interface TableExtractionOptions {
   encoding: BufferEncoding;
   delimiter: ',' | ';' | '\t';
   includeHeaders: boolean;
-  includeMetadata: boolean; // 是否包含元数据注释
-  mergedCellStrategy: 'repeat' | 'empty' | 'notation'; // 合并单元格处理策略
+  includeMetadata: boolean; // Whether to include metadata comments
+  mergedCellStrategy: 'repeat' | 'empty' | 'notation'; // Merged cell processing strategy
   minRows: number;
   minColumns: number;
 }

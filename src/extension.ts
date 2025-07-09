@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { convertWordToMarkdown } from './commands/convertWordToMarkdown';
 import { convertExcelToMarkdown } from './commands/convertExcelToMarkdown';
+import { convertExcelToCsv } from './commands/convertExcelToCsv';
 import { convertPdfToText } from './commands/convertPdfToText';
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
 import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
@@ -33,6 +34,13 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri) => {
           console.log('Executing Excel to Markdown command, URI:', uri?.fsPath);
           return convertExcelToMarkdown(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertExcelToCsv',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing Excel to CSV command, URI:', uri?.fsPath);
+          return convertExcelToCsv(uri);
         }
       ),
       vscode.commands.registerCommand(

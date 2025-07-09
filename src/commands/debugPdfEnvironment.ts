@@ -13,7 +13,7 @@ export async function debugPdfEnvironment() {
       `项目根目录: ${path.dirname(path.dirname(__dirname))}`,
     ];
     
-    // 检查pdf-parse相关路径
+    // Check pdf-parse related paths
     const nodeModulesPath = path.join(currentWorkdir, 'node_modules', 'pdf-parse');
     const testFilePath = path.join(nodeModulesPath, 'test', 'data', '05-versions-space.pdf');
     
@@ -25,7 +25,7 @@ export async function debugPdfEnvironment() {
     debugInfo.push(`pdf-parse存在: ${fs.existsSync(nodeModulesPath)}`);
     debugInfo.push(`测试文件存在: ${fs.existsSync(testFilePath)}`);
     
-    // 尝试测试pdf-parse
+    // Try testing pdf-parse
     try {
       const pdfParse = require('pdf-parse');
       debugInfo.push(`pdf-parse加载成功: ${typeof pdfParse}`);

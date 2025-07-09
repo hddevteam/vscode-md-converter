@@ -9,6 +9,7 @@
 ### 支持的文档类型
 - **Word文档** (.docx, .doc) → Markdown
 - **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
+- **Excel表格** (.xlsx, .xls) → CSV文件
 - **PDF文档** (.pdf) → 文本文件
 - **PowerPoint演示文稿** (.pptx, .ppt) → Markdown
 
@@ -58,6 +59,7 @@ npm run compile
 ### 可用命令
 - `将Word转换为Markdown` - 转换Word文档为Markdown
 - `将Excel转换为Markdown` - 转换Excel文件为Markdown表格
+- `将Excel转换为CSV` - 转换Excel文件为CSV格式
 - `将PDF转换为文本` - 转换PDF为文本文件
 - `将PowerPoint转换为Markdown` - 转换PowerPoint演示文稿为Markdown
 - `提取Word表格为CSV` - 从Word文档提取表格为CSV格式
@@ -75,7 +77,12 @@ npm run compile
 - 智能超时处理（避免.doc文件卡死）
 
 ### Excel表格转换
-- 转换为Markdown表格格式
+- **转换为Markdown**: 转换为Markdown表格格式
+- **转换为CSV**: 转换为CSV格式，支持多种配置选项
+  - 选择分离文件（每个工作表一个文件）或合并文件
+  - 可配置编码（UTF-8或GBK，兼容中文Excel）
+  - 可配置分隔符（逗号、分号或制表符）
+  - 可选元数据注释
 - 保留单元格数据类型
 - 处理多工作表
 - 支持 .xlsx, .xls, .csv 格式

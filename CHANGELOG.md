@@ -6,6 +6,27 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.6] - 2025-07-09
+
+### Added
+- **Excel to CSV Conversion**: Complete implementation of Excel files to CSV format conversion
+- Support for multiple worksheets with configurable output modes (separate files or combined)
+- Configurable CSV encoding (UTF-8 or GBK for Chinese Excel compatibility)
+- Configurable CSV delimiter (comma, semicolon, or tab)
+- Optional metadata comments in CSV output
+- Command palette and context menu integration for Excel to CSV conversion
+
+### Improved
+- Unified CSV writing architecture with CsvWriterBase inheritance pattern
+- Code modularity improvements reducing duplication across converters
+- Enhanced Chinese character encoding support with UTF-8 BOM for Excel compatibility
+- Comprehensive English comments throughout codebase for international development
+
+### Fixed
+- Chinese character encoding issues in CSV output files
+- Code architecture improvements with better inheritance patterns
+- Enhanced test coverage for all conversion features
+
 ## [0.1.5] - 2025-07-09
 
 ### Added
