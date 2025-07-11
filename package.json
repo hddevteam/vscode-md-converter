@@ -61,6 +61,11 @@
         "category": "OneClick Markdown Converter"
       },
       {
+        "command": "document-md-converter.convertPdfToImage",
+        "title": "%commands.convertPdfToImage%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
         "command": "document-md-converter.convertPowerPointToMarkdown",
         "title": "%commands.convertPowerPointToMarkdown%",
         "category": "OneClick Markdown Converter"
@@ -90,6 +95,11 @@
         "command": "document-md-converter.debugPdfEnvironment",
         "title": "%commands.debugPdfEnvironment%",
         "category": "Document Converter"
+      },
+      {
+        "command": "document-md-converter.debugPdfToImageEnvironment",
+        "title": "%commands.debugPdfToImageEnvironment%",
+        "category": "Document Converter"
       }
     ],
     "menus": {
@@ -112,6 +122,11 @@
         {
           "when": "resourceExtname == .pdf",
           "command": "document-md-converter.convertPdfToText",
+          "group": "document-converter@4"
+        },
+        {
+          "when": "resourceExtname == .pdf",
+          "command": "document-md-converter.convertPdfToImage",
           "group": "document-converter@4"
         },
         {
@@ -147,6 +162,9 @@
         },
         {
           "command": "document-md-converter.convertPdfToText"
+        },
+        {
+          "command": "document-md-converter.convertPdfToImage"
         },
         {
           "command": "document-md-converter.convertPowerPointToMarkdown"

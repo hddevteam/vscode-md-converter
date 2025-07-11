@@ -11,6 +11,7 @@
 - **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
 - **Excel表格** (.xlsx, .xls) → CSV文件
 - **PDF文档** (.pdf) → 文本文件
+- **PDF文档** (.pdf) → PNG图片 *(需要poppler-utils工具)*
 - **PowerPoint演示文稿** (.pptx, .ppt) → Markdown
 
 ### 核心功能
@@ -61,6 +62,7 @@ npm run compile
 - `将Excel转换为Markdown` - 转换Excel文件为Markdown表格
 - `将Excel转换为CSV` - 转换Excel文件为CSV格式
 - `将PDF转换为文本` - 转换PDF为文本文件
+- `将PDF转换为图片` - 转换PDF页面为PNG图片 *(需要poppler-utils工具)*
 - `将PowerPoint转换为Markdown` - 转换PowerPoint演示文稿为Markdown
 - `提取Word表格为CSV` - 从Word文档提取表格为CSV格式
 - `提取PDF表格为CSV` - 从PDF文档提取表格为CSV格式
@@ -89,6 +91,8 @@ npm run compile
 - 自动数据格式化
 
 ### PDF文档转换
+
+#### 文本提取
 - **高级文本处理算法**:
   - 智能空格修复
   - 单词边界检测
@@ -99,6 +103,24 @@ npm run compile
   - 修复常见间距问题
   - 保护URL和邮箱格式
   - 句子结构优化
+- **输出增强**:
+  - 添加文档元数据
+  - 按段落组织内容
+  - Markdown格式输出
+
+#### 图片转换 *(新功能)*
+- **PDF转图片**: 将PDF页面转换为高质量PNG图片
+- **工具要求**: 需要安装poppler-utils工具
+- **标准设置**: 300 DPI分辨率，确保最佳质量
+- **批量处理**: 支持多个PDF文件转换，带进度跟踪
+- **跨平台**: 自动检测工具，提供安装指导
+- **有序输出**: 创建结构化的文件夹层次结构
+- **一键设置**: 当工具缺失时提供简单的安装指导
+
+**poppler-utils安装指南**:
+- **macOS**: `brew install poppler`
+- **Windows**: 下载便携版本或使用包管理器
+- **Linux**: `sudo apt-get install poppler-utils`
 - **输出增强**:
   - 添加文档元数据
   - 按段落组织内容

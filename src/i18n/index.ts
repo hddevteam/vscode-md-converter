@@ -20,6 +20,7 @@ export interface Messages {
     convertExcelToMarkdown: string;
     convertExcelToCsv: string;
     convertPdfToText: string;
+    convertPdfToImage: string;
     convertPowerPointToMarkdown: string;
     batchConvert: string;
     openConverter: string;
@@ -142,6 +143,34 @@ export interface Messages {
     convertedFrom: string;
     cannotReadFile: string;
     cannotParseFile: string;
+  };
+
+  // PDF to Image conversion specific messages
+  pdfToImage: {
+    toolNotFound: string;
+    installationGuide: string;
+    conversionStarted: string;
+    conversionComplete: string;
+    outputLocation: string;
+    batchProgress: string;
+    installNow: string;
+    cancel: string;
+    toolDetection: string;
+    macOSInstructions: string;
+    windowsInstructions: string;
+    linuxInstructions: string;
+    macOSCommand: string;
+    windowsDownload: string;
+    linuxCommand: string;
+    verifyInstallation: string;
+    installationSuccessful: string;
+    installationFailed: string;
+    checkInstallation: string;
+    conversionFailed: string;
+    invalidPdf: string;
+    noPages: string;
+    directoryCreated: string;
+    imagesSaved: string;
   };
 
   // Word conversion specific messages

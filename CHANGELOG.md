@@ -6,6 +6,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+### Planned Features
+- **PDF to Images Conversion**: Convert PDF pages to PNG images using poppler-utils
+  - One-click conversion with 300 DPI standard quality
+  - Cross-platform tool detection and installation guidance
+  - Simplified workflow with zero user configuration required
+  - Batch processing support for multiple PDF files
+  - Technical approach changed from in-extension libraries to external tool integration
+
 ## [0.1.6] - 2025-07-09
 
 ### Added

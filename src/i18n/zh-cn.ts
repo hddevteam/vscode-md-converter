@@ -17,6 +17,7 @@ export const ChineseMessages: Messages = {
     convertExcelToMarkdown: '将Excel转换为Markdown',
     convertExcelToCsv: '将Excel转换为CSV',
     convertPdfToText: '将PDF转换为文本',
+    convertPdfToImage: '将PDF转换为图片',
     convertPowerPointToMarkdown: '将PowerPoint转换为Markdown',
     batchConvert: '批量转换Markdown',
     openConverter: '打开文档转换器',
@@ -139,6 +140,34 @@ export const ChineseMessages: Messages = {
     convertedFrom: '*转换自: {0}*',
     cannotReadFile: '无法读取PDF文件: {0}',
     cannotParseFile: '无法解析PDF文件: {0}'
+  },
+
+  // PDF to Image conversion specific messages
+  pdfToImage: {
+    toolNotFound: '系统中未安装 poppler-utils 工具，此功能需要该工具。',
+    installationGuide: 'poppler-utils 安装指南',
+    conversionStarted: '正在将PDF页面转换为图片...',
+    conversionComplete: 'PDF转图片转换完成！',
+    outputLocation: '图片已保存到：{0}',
+    batchProgress: '正在转换第 {0} 个PDF，共 {1} 个：{2}',
+    installNow: '查看安装指南',
+    cancel: '取消',
+    toolDetection: '正在检查 poppler-utils 安装状态...',
+    macOSInstructions: 'macOS 用户请使用 Homebrew 安装：',
+    windowsInstructions: 'Windows 用户请下载便携版本或使用包管理器：',
+    linuxInstructions: 'Linux 用户请使用系统包管理器安装：',
+    macOSCommand: 'brew install poppler',
+    windowsDownload: '下载地址：https://blog.alivate.com.au/poppler-windows/',
+    linuxCommand: 'sudo apt-get install poppler-utils',
+    verifyInstallation: '安装完成后，请重启 VS Code 并重试。',
+    installationSuccessful: '成功检测到 poppler-utils！',
+    installationFailed: '未找到 poppler-utils，请先安装。',
+    checkInstallation: '正在检查安装状态...',
+    conversionFailed: 'PDF转图片失败：{0}',
+    invalidPdf: 'PDF文件无效或损坏。',
+    noPages: 'PDF文件中未找到页面。',
+    directoryCreated: '已创建输出目录：{0}',
+    imagesSaved: '成功保存 {0} 张图片'
   },
 
   // Word conversion specific messages

@@ -3,6 +3,7 @@ import { convertWordToMarkdown } from './commands/convertWordToMarkdown';
 import { convertExcelToMarkdown } from './commands/convertExcelToMarkdown';
 import { convertExcelToCsv } from './commands/convertExcelToCsv';
 import { convertPdfToText } from './commands/convertPdfToText';
+import { convertPdfToImage, batchConvertPdfToImage } from './commands/convertPdfToImage';
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
 import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
 import { convertPdfTablesToCsv } from './commands/convertPdfTablesToCsv';
@@ -48,6 +49,13 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri) => {
           console.log('Executing PDF to Text command, URI:', uri?.fsPath);
           return convertPdfToText(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertPdfToImage',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PDF to Image command, URI:', uri?.fsPath);
+          return convertPdfToImage(uri);
         }
       ),
       vscode.commands.registerCommand(

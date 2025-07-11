@@ -11,6 +11,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **Excel Spreadsheets** (.xlsx, .xls, .csv) → Markdown Tables
 - **Excel Spreadsheets** (.xlsx, .xls) → CSV Files
 - **PDF Documents** (.pdf) → Text Files
+- **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
 ### Core Features
@@ -65,6 +66,7 @@ npm run compile
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
 - `Convert Excel to CSV` - Convert Excel files to CSV format
 - `Convert PDF to Text` - Convert PDF to text files
+- `Convert PDF to Images` - Convert PDF pages to PNG images *(requires poppler-utils)*
 - `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
 - `Extract Word Tables to CSV` - Extract tables from Word documents to CSV format
 - `Extract PDF Tables to CSV` - Extract tables from PDF documents to CSV format
@@ -93,6 +95,8 @@ npm run compile
 - Automatic data formatting
 
 ### PDF Document Conversion
+
+#### Text Extraction
 - **Advanced Text Processing Algorithms**:
   - Smart space correction
   - Word boundary detection
@@ -107,6 +111,20 @@ npm run compile
   - Add document metadata
   - Organize content by paragraphs
   - Markdown format output
+
+#### Image Conversion *(New Feature)*
+- **PDF to Images**: Convert PDF pages to high-quality PNG images
+- **Tool Requirement**: Requires poppler-utils installation
+- **Standard Settings**: 300 DPI resolution for optimal quality
+- **Batch Processing**: Convert multiple PDFs with progress tracking
+- **Cross-Platform**: Automatic tool detection with installation guidance
+- **Organized Output**: Creates structured folder hierarchy for images
+- **One-Click Setup**: Simple installation guidance for missing tools
+
+**Installation Guide for poppler-utils**:
+- **macOS**: `brew install poppler`
+- **Windows**: Download portable version or use package manager
+- **Linux**: `sudo apt-get install poppler-utils`
 
 ### PowerPoint Presentation Conversion
 - **Slide Content Extraction**:

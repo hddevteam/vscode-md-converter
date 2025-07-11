@@ -17,6 +17,7 @@ export const EnglishMessages: Messages = {
     convertExcelToMarkdown: 'Convert Excel to Markdown',
     convertExcelToCsv: 'Convert Excel to CSV',
     convertPdfToText: 'Convert PDF to Text',
+    convertPdfToImage: 'Convert PDF to Images',
     convertPowerPointToMarkdown: 'Convert PowerPoint to Markdown',
     batchConvert: 'Batch Convert to Markdown',
     openConverter: 'Open Document Converter',
@@ -139,6 +140,34 @@ export const EnglishMessages: Messages = {
     convertedFrom: '*Converted from: {0}*',
     cannotReadFile: 'Cannot read PDF file: {0}',
     cannotParseFile: 'Cannot parse PDF file: {0}'
+  },
+
+  // PDF to Image conversion specific messages
+  pdfToImage: {
+    toolNotFound: 'poppler-utils is required but not installed on your system.',
+    installationGuide: 'Installation Guide for poppler-utils',
+    conversionStarted: 'Converting PDF pages to images...',
+    conversionComplete: 'PDF to images conversion completed successfully!',
+    outputLocation: 'Images saved to: {0}',
+    batchProgress: 'Converting PDF {0} of {1}: {2}',
+    installNow: 'View Installation Guide',
+    cancel: 'Cancel',
+    toolDetection: 'Checking for poppler-utils installation...',
+    macOSInstructions: 'For macOS users, install using Homebrew:',
+    windowsInstructions: 'For Windows users, download portable version or use package manager:',
+    linuxInstructions: 'For Linux users, install using system package manager:',
+    macOSCommand: 'brew install poppler',
+    windowsDownload: 'Download from: https://blog.alivate.com.au/poppler-windows/',
+    linuxCommand: 'sudo apt-get install poppler-utils',
+    verifyInstallation: 'After installation, restart VS Code and try again.',
+    installationSuccessful: 'poppler-utils detected successfully!',
+    installationFailed: 'poppler-utils not found. Please install it first.',
+    checkInstallation: 'Checking installation...',
+    conversionFailed: 'PDF to images conversion failed: {0}',
+    invalidPdf: 'Invalid or corrupted PDF file.',
+    noPages: 'No pages found in PDF file.',
+    directoryCreated: 'Created output directory: {0}',
+    imagesSaved: 'Successfully saved {0} image(s)'
   },
 
   // Word conversion specific messages

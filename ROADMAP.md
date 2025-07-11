@@ -74,20 +74,23 @@
 - [ ] Support batch export of multiple presentations
 
 ##### 2.3 PDF to Image Conversion
-- Convert PDF pages to individual images
-- Support different image formats and quality settings
-- Batch processing for multi-page PDFs
+- Convert PDF pages to PNG images using poppler-utils
+- One-click conversion with optimal default settings
+- Cross-platform tool detection and installation guidance
+- Batch processing for multiple PDFs
 
 **Technical Requirements:**
-- Integrate PDF rendering library (e.g., `pdf2pic`, `pdf-poppler`)
-- Add image quality and format options
-- Implement page range selection
+- Use poppler-utils (pdftoppm) as conversion engine
+- Implement tool availability detection system
+- Provide platform-specific installation guidance
+- Standard settings: 300 DPI, PNG format
 
 **Acceptance Criteria:**
-- [ ] Convert PDF pages to PNG/JPG images
-- [ ] Support custom resolution and quality settings
-- [ ] Allow page range selection
-- [ ] Batch process multiple PDF files
+- [ ] Convert PDF pages to high-quality PNG images
+- [ ] Detect poppler-utils installation across platforms
+- [ ] Guide users through tool installation if needed
+- [ ] Batch process multiple PDF files with progress tracking
+- [ ] Create organized output folder structure
 
 ---
 
@@ -151,9 +154,9 @@
 
 #### New Libraries to Evaluate:
 - **PowerPoint Processing**: `pptx-parser`, `officegen`, `node-pptx`
-- **Image Generation**: `pdf2pic`, `canvas`, `sharp`
 - **Table Processing**: Enhanced `mammoth.js` usage, custom table parsers
-- **PDF Rendering**: `pdf-poppler`, `pdf2pic`
+- **External Tools**: poppler-utils (pdftoppm for PDF to image conversion)
+- **Image Processing**: `sharp` for image optimization (if needed)
 
 #### Compatibility Requirements:
 - Node.js compatibility for VS Code extension environment

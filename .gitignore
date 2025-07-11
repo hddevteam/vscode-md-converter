@@ -40,3 +40,9 @@ yarn-error.log*
 
 # Build artifacts
 *.map
+
+# Compiled JavaScript files (keep only config files)
+src/**/*.js
+src/**/*.js.map
+!esbuild.js
+!eslint.config.mjs
