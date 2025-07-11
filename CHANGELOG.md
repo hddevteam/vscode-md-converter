@@ -4,15 +4,29 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.1.7] - 2025-07-11
 
-### Planned Features
+### Added
 - **PDF to Images Conversion**: Convert PDF pages to PNG images using poppler-utils
   - One-click conversion with 300 DPI standard quality
   - Cross-platform tool detection and installation guidance
   - Simplified workflow with zero user configuration required
   - Batch processing support for multiple PDF files
-  - Technical approach changed from in-extension libraries to external tool integration
+  - Interactive installation guide with platform-specific instructions
+  - Graceful degradation when poppler-utils is not installed
+
+### Technical Changes
+- New modular architecture for PDF conversion with separate components:
+  - `ToolDetection` utility for cross-platform poppler-utils detection
+  - `PdfToImageConverter` for conversion logic with progress tracking
+  - `InstallationGuidePanel` WebView for user-friendly setup guidance
+  - Command handlers for both single file and batch operations
+- Enhanced internationalization support for PDF conversion features
+- Improved error handling and user feedback systems
+
+## [Unreleased]
+
+### Planned Features
 
 ## [0.1.6] - 2025-07-09
 
