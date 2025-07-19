@@ -42,7 +42,9 @@ export const EnglishMessages: Messages = {
     conversionComplete: 'Successfully converted to: {0}',
     allComplete: 'All done! {0} files converted successfully',
     openFile: 'Open File',
-    viewDetails: 'View Details'
+    viewDetails: 'View Details',
+    filesCount: '{0} files',
+    imagesInFolder: '{0} image(s) in {1}'
   },
 
   // Error messages

@@ -25,6 +25,49 @@ export interface PageRangeValidation {
 export class PageRangeSelector {
   
   /**
+   * Show page range selection dialog for image conversion (no output mode selection)
+   */
+  static async selectPageRangeForImages(totalPages: number, documentName: string): Promise<PageRangeResult> {
+    const result: PageRangeResult = {
+      pageNumbers: [],
+      outputMode: 'separate', // Always separate for images
+      cancelled: true
+    };
+
+    try {
+      // Get page range input
+      const pageRangeInput = await vscode.window.showInputBox({
+        prompt: I18n.t('pageRange.inputPrompt', totalPages.toString(), documentName),
+        placeHolder: I18n.t('pageRange.inputPlaceholder'),
+        validateInput: (value: string) => {
+          const validation = PageRangeSelector.validatePageRange(value, totalPages);
+          return validation.isValid ? undefined : validation.error;
+        }
+      });
+
+      if (!pageRangeInput) {
+        return result; // User cancelled
+      }
+
+      // Parse page range
+      const validation = PageRangeSelector.validatePageRange(pageRangeInput, totalPages);
+      if (!validation.isValid) {
+        vscode.window.showErrorMessage(validation.error || I18n.t('pageRange.invalidRange'));
+        return result;
+      }
+
+      result.pageNumbers = validation.pageNumbers;
+      result.cancelled = false;
+      return result;
+
+    } catch (error) {
+      vscode.window.showErrorMessage(I18n.t('pageRange.selectionError', 
+        error instanceof Error ? error.message : I18n.t('error.unknownError')));
+      return result;
+    }
+  }
+
+  /**
    * Show page range selection dialog
    */
   static async selectPageRange(totalPages: number, documentName: string): Promise<PageRangeResult> {

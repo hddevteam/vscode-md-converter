@@ -24,8 +24,8 @@ export const ChineseMessages: Messages = {
     debugPdfEnvironment: '调试PDF环境',
     convertWordTablesToCsv: '提取Word表格到CSV',
     convertPdfTablesToCsv: '提取PDF表格到CSV',
-    convertPdfPagesToText: '导出PDF页码到文本',
-    convertPdfPagesToImages: '导出PDF页码到图片'
+    convertPdfPagesToText: '导出指定页码PDF到文本',
+    convertPdfPagesToImages: '导出指定页码PDF到图片'
   },
 
   // Progress and status messages
@@ -42,7 +42,9 @@ export const ChineseMessages: Messages = {
     conversionComplete: '成功转换为: {0}',
     allComplete: '全部完成! {0} 个文件成功转换',
     openFile: '打开文件',
-    viewDetails: '查看详情'
+    viewDetails: '查看详情',
+    filesCount: '{0} 个文件',
+    imagesInFolder: '{0} 张图片在 {1} 中'
   },
 
   // Error messages
@@ -279,7 +281,7 @@ export const ChineseMessages: Messages = {
 
   // Page range selection specific messages
   pageRange: {
-    inputPrompt: '输入 "{1}" 的页码范围（共 {0} 页）',
+    inputPrompt: '请输入 "{1}" 的页码范围（共 {0} 页）',
     inputPlaceholder: '示例："5"（单页）, "3-8"（范围）, "1,3,5"（多页）, "1-3,5,7-9"（混合）',
     outputModePrompt: '您希望如何输出页面？',
     outputModeSeparate: '分离文件',
@@ -298,7 +300,7 @@ export const ChineseMessages: Messages = {
     selectionError: '页码选择错误：{0}',
     conversionStarted: '正在转换 {1} 的页码 {0}...',
     conversionComplete: '成功转换页码 {0}',
-    exportingPages: '正在导出选定页面...',
+    exportingPages: '正在导出指定页面...',
     processingPage: '正在处理第 {0} 页，共 {1} 页...',
     pageExportFailed: '导出页码 {0} 失败：{1}',
     noContentFound: '页码 {0} 未找到内容',

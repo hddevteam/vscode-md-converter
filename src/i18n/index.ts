@@ -46,6 +46,8 @@ export interface Messages {
     allComplete: string;
     openFile: string;
     viewDetails: string;
+    filesCount: string;
+    imagesInFolder: string;
   };
 
   // Error messages

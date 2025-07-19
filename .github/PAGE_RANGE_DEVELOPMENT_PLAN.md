@@ -1,6 +1,42 @@
 # Page Range Export Feature Development Plan
 
-## 🚨 EXECUTIVE SUMMARY & DECISION POINT
+## 🎉 **MAJOR MILESTONE ACHIEVED - PDF FUNCTIONALITY COMPLETE**
+
+### ✅ **RECENT USER EXPERIENCE IMPROVEMENTS (2025-01-19)**
+- **Removed progress dialogs**: PDF page range export now executes directly without showing "正在导出指定页面..." dialog ✅
+- **Fixed Chinese translations**: Changed "导出PDF页码到..." to "导出指定页码PDF到..." for better accuracy ✅
+- **Unified folder naming**: PDF image export folder always named `filename_Images` regardless of page count ✅
+- **Removed unnecessary options**: PDF to image conversion no longer shows output mode selection (merge/separate) ✅
+- **Fixed mixed language messages**: Replaced "1 files" with proper internationalized "1 个文件" ✅
+- **Simplified UI flow**: PDF image conversion uses dedicated `selectPageRangeForImages()` method ✅
+
+### 🚧 **REVISED SCOPE: Focus on Practical Document Types**
+**Decision**: Remove Word document support due to complex and impractical page concepts
+
+**Remaining Work**:
+- ✅ **PDF documents** → Text/Images with page ranges (COMPLETED & POLISHED)
+- 🔄 **Excel files (.xlsx, .xls)** → Markdown/CSV with worksheet ranges  
+- 🔄 **PowerPoint (.pptx, .ppt)** → Markdown with slide ranges
+
+### 📅 Updated Development Plan
+- **Phase 6**: Excel Worksheet Range Export (Not started)
+- **Phase 7**: PowerPoint Slide Range Export (Not started)
+- **Phase 8**: Cross-Document Testing (Not started)
+- **Phase 9**: Manual Testing & Documentation (Ready to start)
+
+## EXECUTIVE SUMMARY & DECISION POINTExport Feature Development P### 🚧 **REVISED SCOPE: Focus on Practical Document Types**
+**Decision**: Remove Word document support due to complex and impractical page concepts
+
+**Remaining Work**:
+- ✅ **PDF documents** → Text/Images with page ranges (COMPLETED)
+- 🔄 **Excel files (.xlsx, .xls)** → Markdown/CSV with worksheet ranges  
+- 🔄 **PowerPoint (.pptx, .ppt)** → Markdown with slide ranges
+
+### � Updated Development Plan
+- **Phase 6**: Excel Worksheet Range Export (Not started)
+- **Phase 7**: PowerPoint Slide Range Export (Not started)
+- **Phase 8**: Cross-Document Testing (Not started)
+- **Phase 9**: Manual Testing & Documentation (Ready to start)XECUTIVE SUMMARY & DECISION POINT
 
 ### ✅ What's Complete (PDF-Only Implementation)
 - **PDF text page range export** - Fully functional ✅
@@ -9,19 +45,20 @@
 - **Production-ready code** with error handling and i18n ✅
 
 ### ❌ What's Missing (Original Issue #7 Scope)
-The original requirement "导出指定页码或页码范围内容到Markdown，图片，CSV" implies **all document types**, but we only implemented PDF support:
+The original requirement "导出指定页码或页码范围内容到Markdown，图片，CSV" implies **multiple document types**, but we only implemented PDF support:
 
-- **Word documents (.docx, .doc)** → Markdown page ranges ❌
+- ~~**Word documents (.docx, .doc)** → Markdown page ranges~~ ❌ **EXCLUDED** (Complex page concept, low practical value)
 - **Excel files (.xlsx, .xls)** → Markdown/CSV worksheet ranges ❌
 - **PowerPoint (.pptx, .ppt)** → Markdown slide ranges ❌
 
 ### 🎯 Decision Required
-**Estimated Additional Work**: 32-50 hours for complete feature
+**Estimated Additional Work**: 12-20 hours for Excel + PowerPoint (reduced from 32-50 hours)
 
 **Options**:
 1. **Ship PDF-only version now** (mark Issue #7 as partial completion)
-2. **Continue with Word document support** (next logical step) 
-3. **Plan multi-phase releases** (PDF → Word → Excel → PowerPoint)
+2. **Continue with Excel worksheet support** (next logical step) 
+3. **Continue with PowerPoint slide support** (natural page units)
+4. **Plan multi-phase releases** (PDF → Excel → PowerPoint)
 
 ---
 
@@ -93,131 +130,78 @@ The original requirement "导出指定页码或页码范围内容到Markdown，�
 
 ---
 
-## 🚀 Phase 6: Word Document Page Range Export
+## 🚀 Phase 6: Excel Worksheet Range Export
 
 ### Objectives
-- Implement page range selection for Word documents
-- Support both .docx and .doc formats
-- Export selected pages to Markdown format
-- Integrate with existing PageRangeSelector UI
-
-### Technical Considerations
-**Word Document Page Concept**:
-- Word documents don't have fixed "pages" like PDFs
-- Page breaks depend on content, formatting, and rendering
-- Need to define "page" boundaries (e.g., page breaks, sections, or content chunks)
-
-**Implementation Approaches**:
-1. **Section-based**: Export by document sections
-2. **Page-break-based**: Parse and respect explicit page breaks
-3. **Content-chunk-based**: Divide by headings or paragraph count
-
-### Tasks
-
-#### 6.1 Word Page Range Infrastructure
-- [ ] **Word page detection logic**
-  - [ ] Analyze document structure (sections, page breaks)
-  - [ ] Implement page boundary detection
-  - [ ] Handle different document formats (.docx vs .doc)
-
-- [ ] **Word Page Range Converter**
-  - [ ] Create `src/converters/wordPageRangeConverter.ts`
-  - [ ] Integrate with existing mammoth.js library
-  - [ ] Support page range selection and extraction
-
-#### 6.2 Command Integration
-- [ ] **VS Code Commands**
-  - [ ] Create `src/commands/convertWordPagesToMarkdown.ts`
-  - [ ] Register command in extension.ts
-  - [ ] Add to package.json command palette
-
-- [ ] **Context Menu Integration**
-  - [ ] Add to file explorer context menu for .docx/.doc files
-  - [ ] Update package.json activation events
-
-#### 6.3 Testing
-- [ ] **Unit Tests**
-  - [ ] Test page detection logic
-  - [ ] Test range extraction functionality
-  - [ ] Mock document parsing scenarios
-
-- [ ] **Integration Tests**
-  - [ ] Test with real Word documents
-  - [ ] Validate Markdown output quality
-  - [ ] Test different document structures
-
-### Success Criteria
-- [ ] Can detect logical "pages" in Word documents
-- [ ] Can export specific page ranges to Markdown
-- [ ] Maintains formatting quality of existing Word converter
-- [ ] UI integration works seamlessly with PageRangeSelector
-
----
-
-## 🚀 Phase 7: Excel Worksheet Range Export
-
-### Objectives
-- Implement worksheet/page range selection for Excel files
+- Implement worksheet range selection for Excel files
 - Support both .xlsx and .xls formats
-- Export selected worksheets or data ranges to Markdown/CSV
+- Export selected worksheets to Markdown/CSV
 - Handle multi-sheet workbooks intelligently
 
 ### Technical Considerations
 **Excel "Page" Concept**:
-- Excel has worksheets (logical pages)
-- Can also have print page boundaries within worksheets
-- Data ranges (e.g., A1:C100) as content units
+- Excel has worksheets (logical pages) - natural selection units
+- Each worksheet can contain tables, charts, and data ranges
+- Sheet names provide meaningful identifiers (e.g., "Summary", "Data", "Charts")
 
 **Implementation Approaches**:
-1. **Worksheet-based**: Select entire worksheets (Sheet 1, 2, 3)
-2. **Print-page-based**: Export based on print page breaks
-3. **Data-range-based**: Export specific cell ranges
+1. **Worksheet-based**: Select entire worksheets (Sheet1, Sheet2, Sheet3)
+2. **Named-range-based**: Support worksheet names ("Summary", "Quarterly Data")
+3. **Mixed-selection**: Support both numbers and names ("Sheet1, Summary, 3-5")
 
 ### Tasks
 
-#### 7.1 Excel Range Infrastructure
-- [ ] **Excel page/range detection**
-  - [ ] Implement worksheet enumeration
-  - [ ] Detect print page boundaries (if applicable)
-  - [ ] Support named ranges and data regions
+#### 6.1 Excel Worksheet Infrastructure
+- [ ] **Worksheet enumeration logic**
+  - [ ] List all worksheets with names and indices
+  - [ ] Handle both numeric (1,2,3) and name-based selection
+  - [ ] Support mixed selection formats ("Sheet1, Summary, 3-5")
 
-- [ ] **Excel Range Converter**
-  - [ ] Create `src/converters/excelPageRangeConverter.ts`
-  - [ ] Extend existing Excel conversion logic
+- [ ] **Excel Worksheet Range Converter**
+  - [ ] Create `src/converters/excelWorksheetRangeConverter.ts`
+  - [ ] Extend existing Excel conversion logic  
   - [ ] Support both Markdown and CSV output formats
+  - [ ] Handle worksheet metadata (names, visibility, protection)
 
-#### 7.2 Range Selection UI
-- [ ] **Enhanced PageRangeSelector**
+#### 6.2 Range Selection UI Enhancement
+- [ ] **Enhanced PageRangeSelector for Worksheets**
   - [ ] Modify UI to handle worksheet names vs page numbers
-  - [ ] Support mixed selection (e.g., "Sheet1, Sheet3, Sheet5-7")
-  - [ ] Preview worksheet names and content
+  - [ ] Support worksheet preview (show sheet names)
+  - [ ] Validate worksheet existence and accessibility
 
-#### 7.3 Command Integration
+- [ ] **Worksheet Selection Dialog**
+  - [ ] Show list of available worksheets
+  - [ ] Allow selection by name or number
+  - [ ] Preview worksheet content/structure
+
+#### 6.3 Command Integration
 - [ ] **VS Code Commands**
-  - [ ] Create `src/commands/convertExcelWorksheetRangeToMarkdown.ts`
-  - [ ] Create `src/commands/convertExcelWorksheetRangeToCsv.ts`
-  - [ ] Register commands and menu items
+  - [ ] Create `src/commands/convertExcelWorksheetsToMarkdown.ts`
+  - [ ] Create `src/commands/convertExcelWorksheetsToCsv.ts`
+  - [ ] Register commands and context menu items
+  - [ ] Add internationalization support
 
-#### 7.4 Testing
+#### 6.4 Testing
 - [ ] **Unit Tests**
   - [ ] Test worksheet detection and enumeration
-  - [ ] Test range selection parsing
-  - [ ] Test output format generation
+  - [ ] Test range selection parsing (names vs numbers)
+  - [ ] Test output format generation (Markdown/CSV)
 
 - [ ] **Integration Tests**
   - [ ] Test with multi-sheet workbooks
-  - [ ] Validate CSV and Markdown output
-  - [ ] Test with existing `综合业务数据.xlsx`
+  - [ ] Test with existing `综合业务数据.xlsx` (5 sheets)
+  - [ ] Validate output quality and data integrity
 
 ### Success Criteria
-- [ ] Can list and select Excel worksheets by name/number
-- [ ] Can export selected worksheets to Markdown/CSV
-- [ ] Supports complex selections (e.g., "Sheet1,3,5-7")
-- [ ] Maintains data integrity and formatting
+- [ ] Can enumerate and display Excel worksheet names
+- [ ] Can select worksheets using flexible syntax (numbers, names, ranges)
+- [ ] Can export selected worksheets to both Markdown and CSV
+- [ ] Maintains data integrity and proper formatting
+- [ ] UI integration works seamlessly with existing PageRangeSelector
 
 ---
 
-## 🚀 Phase 8: PowerPoint Slide Range Export
+## 🚀 Phase 7: PowerPoint Slide Range Export
 
 ### Objectives
 - Implement slide range selection for PowerPoint files
@@ -227,66 +211,69 @@ The original requirement "导出指定页码或页码范围内容到Markdown，�
 
 ### Technical Considerations
 **PowerPoint "Page" Concept**:
-- Slides are natural page units
+- Slides are natural page units (Slide 1, 2, 3...)
 - Each slide has content, layout, and potentially speaker notes
-- Slide transitions and animations need consideration
+- Slide numbering is straightforward and user-friendly
 
-**Content Extraction**:
+**Content Extraction Strategy**:
 - Slide content (text, bullet points, titles)
 - Speaker notes (if present)
-- Image extraction for complex layouts
-- Table and chart handling
+- Basic layout information
+- Image references (for complex slides)
 
 ### Tasks
 
-#### 8.1 PowerPoint Range Infrastructure
+#### 7.1 PowerPoint Slide Infrastructure
 - [ ] **Slide detection and enumeration**
   - [ ] Implement slide counting and indexing
   - [ ] Extract slide titles for reference
-  - [ ] Handle slide layouts and master slides
+  - [ ] Handle slide layouts and content types
 
-- [ ] **PowerPoint Range Converter**
-  - [ ] Create `src/converters/powerpointPageRangeConverter.ts`
+- [ ] **PowerPoint Slide Range Converter**
+  - [ ] Create `src/converters/powerpointSlideRangeConverter.ts`
   - [ ] Extend existing PowerPoint conversion logic
-  - [ ] Support slide range extraction
+  - [ ] Support slide range extraction (1-5, 8, 10-12)
 
-#### 8.2 Content Processing
+#### 7.2 Content Processing Enhancement
 - [ ] **Enhanced slide content extraction**
   - [ ] Improve text extraction from complex layouts
-  - [ ] Handle embedded images and charts
+  - [ ] Handle slide titles and content hierarchy
   - [ ] Process speaker notes separately
+  - [ ] Extract slide metadata (numbers, transitions)
 
 - [ ] **Markdown generation**
   - [ ] Create structured Markdown for each slide
-  - [ ] Include slide numbers and titles
+  - [ ] Include slide numbers and titles as headers
   - [ ] Format bullet points and text hierarchies
+  - [ ] Handle slide notes as separate sections
 
-#### 8.3 Command Integration
+#### 7.3 Command Integration
 - [ ] **VS Code Commands**
   - [ ] Create `src/commands/convertPowerPointSlidesToMarkdown.ts`
   - [ ] Register command and menu integration
-  - [ ] Add slide preview functionality
+  - [ ] Add slide preview functionality (show slide titles)
 
-#### 8.4 Testing
+#### 7.4 Testing
 - [ ] **Unit Tests**
   - [ ] Test slide detection and counting
-  - [ ] Test range parsing for slides
+  - [ ] Test range parsing for slides (standard page range syntax)
   - [ ] Test Markdown generation quality
 
 - [ ] **Integration Tests**
   - [ ] Test with real PowerPoint files
-  - [ ] Validate slide content extraction
+  - [ ] Validate slide content extraction accuracy
   - [ ] Test various slide layouts and formats
 
 ### Success Criteria
 - [ ] Can enumerate and select PowerPoint slides by number/range
 - [ ] Can export selected slides to well-formatted Markdown
-- [ ] Handles complex slide layouts appropriately
-- [ ] Integrates seamlessly with existing UI
+- [ ] Handles slide titles, content, and notes appropriately
+- [ ] Integrates seamlessly with existing PageRangeSelector UI
+- [ ] Maintains slide hierarchy and structure in Markdown
 
 ---
 
-## 🚀 Phase 9: Cross-Document Testing & Integration
+## 🚀 Phase 8: Cross-Document Testing & Integration
 
 ### Objectives
 - Ensure all document types work consistently
@@ -386,51 +373,40 @@ The original requirement "导出指定页码或页码范围内容到Markdown，�
 
 ---
 
-## Next Steps (Current Session)
+## Development Summary
 
-### 🎯 Decision Point: Continue with Missing Features
-**Current Status**: PDF page range functionality is complete and tested, but we're missing support for other document types.
+### ✅ Completed Work
+- **Phase 1-5**: Complete PDF page range functionality
+  - Text extraction with page ranges
+  - Image conversion with page ranges  
+  - CSV table extraction with page ranges
+  - Comprehensive test suite (113 tests passing)
+  - Full internationalization support
 
-**Options**:
-1. **Complete the Feature (Recommended)**: Implement Word, Excel, and PowerPoint page range support
-2. **Release PDF-Only Version**: Document current limitations and plan future releases
+### � Remaining Work
+- **Phase 6**: Excel worksheet range export (8-12 hours)
+- **Phase 7**: PowerPoint slide range export (8-12 hours)  
+- **Phase 8**: Cross-document testing & integration (4-6 hours)
 
-### 📋 Recommended: Phase 6 - Word Document Page Range
-1. **Analyze Word Document Structure**
-   - Study how to detect logical "pages" in Word documents
-   - Research mammoth.js capabilities for page-based extraction
-   - Design page boundary detection logic
+### 📊 Updated Timeline
+- **PDF Implementation**: ✅ Complete (24-30 hours invested)
+- **Excel + PowerPoint**: 20-30 hours estimated
+- **Total Project**: 44-60 hours (reduced from original 59-89 hours)
 
-2. **Implement Word Page Range Converter**
-   - Create `src/converters/wordPageRangeConverter.ts`
-   - Extend existing Word conversion logic
-   - Integrate with PageRangeSelector UI
+### 🎯 Scope Decision
+**Word documents excluded** from page range support due to:
+- Complex and dynamic page boundary detection
+- Implementation complexity vs. practical utility 
+- Focus on document types with natural page concepts
 
-3. **Test and Validate**
-   - Create unit tests for Word page detection
-   - Test with various Word document structures
-   - Ensure Markdown output quality
-
-### 🔄 Alternative: Document Current State
-If continuing with all document types is too extensive for this session:
-
-1. **Update Issue #7**
-   - Mark PDF functionality as complete
-   - Create sub-issues for Word, Excel, PowerPoint support
-   - Establish clear roadmap for remaining work
-
-2. **Prepare Partial Release**
-   - Document PDF-only limitations
-   - Update README with current capabilities
-   - Plan v1.1 roadmap for remaining document types
-
-### 🚀 Immediate Action Required
-**Which path would you like to take?**
-- A) Continue implementing Word document page range support (Phase 6)
-- B) Document current state and prepare PDF-only release
-- C) Create detailed breakdown of remaining work for future sessions
+### Next Actions
+1. **Excel Worksheet Implementation**: Begin Phase 6 with worksheet enumeration
+2. **PowerPoint Slide Implementation**: Follow with Phase 7 slide range selection
+3. **Final Integration**: Complete with Phase 8 cross-document testing
 
 ---
+
+*This focused approach provides maximum utility while maintaining development efficiency and code quality.*
 
 ## Overview
 This development plan outlines the implementation of page range export functionality for PDF documents, allowing users to export specific pages or page ranges to Markdown, images, and CSV formats.
@@ -442,19 +418,21 @@ This development plan outlines the implementation of page range export functiona
 - ✅ Export specific pages from PDF tables to CSV
 - ✅ Support for single pages, ranges, and multiple non-consecutive pages
 
-### 📝 Word Documents (📋 PLANNED - Phase 6)
-- 🔄 Export specific pages/sections from Word documents (.docx, .doc) to Markdown
-- 🔄 Handle document sections, page breaks, and content chunks
-- 🔄 Maintain formatting and structure in Markdown output
-- 🔄 Support range selection (e.g., "Section 1-3, Section 5")
+### 📝 Word Documents (❌ EXCLUDED - Technical Decision)
+- ❌ Word documents have complex and dynamic page concepts
+- ❌ Page boundaries depend on rendering (margins, fonts, paper size)
+- ❌ mammoth.js focuses on structure, not pagination
+- ❌ Low practical value compared to implementation complexity
 
-### 📊 Excel Documents (📋 PLANNED - Phase 7)
+**Decision**: Exclude Word document page ranges from this feature
+
+### 📊 Excel Documents (📋 PLANNED - Phase 6)
 - 🔄 Export specific worksheets from Excel files (.xlsx, .xls) to Markdown
 - 🔄 Export specific worksheets from Excel files to CSV
 - 🔄 Support worksheet range selection (e.g., "Sheet1, Sheet3, Sheet5-7")
 - 🔄 Handle multi-sheet workbooks intelligently
 
-### 📈 PowerPoint Documents (📋 PLANNED - Phase 8)
+### 📈 PowerPoint Documents (📋 PLANNED - Phase 7)
 - 🔄 Export specific slides from PowerPoint files (.pptx, .ppt) to Markdown
 - 🔄 Handle slide content, layouts, and speaker notes
 - 🔄 Support slide range selection (e.g., "Slide 1-5, Slide 8, Slide 10-12")

@@ -71,8 +71,8 @@ export class PdfPageRangeImageConverter {
 
       const documentName = path.basename(inputPath);
 
-      // Show page range selection dialog
-      const pageRangeResult: PageRangeResult = await PageRangeSelector.selectPageRange(totalPages, documentName);
+      // Show page range selection dialog (no output mode for images)
+      const pageRangeResult: PageRangeResult = await PageRangeSelector.selectPageRangeForImages(totalPages, documentName);
       
       if (pageRangeResult.cancelled) {
         return {
@@ -94,14 +94,13 @@ export class PdfPageRangeImageConverter {
       const result = await this.convertSelectedPages(
         inputPath, 
         pageRangeResult.pageNumbers,
-        pageRangeResult.outputMode,
         outputDir
       );
       
       return {
         success: result.success,
         pageNumbers: pageRangeResult.pageNumbers,
-        outputMode: pageRangeResult.outputMode,
+        outputMode: 'separate', // Always separate for images
         outputFiles: result.outputFiles,
         outputDirectory: outputDir,
         totalPages,
@@ -123,12 +122,11 @@ export class PdfPageRangeImageConverter {
   }
   
   /**
-   * Convert selected pages to images
+   * Convert selected pages to images (always separate files)
    */
   private async convertSelectedPages(
     inputPath: string,
     pageNumbers: number[],
-    outputMode: 'merge' | 'separate',
     outputDir: string
   ): Promise<{
     success: boolean;
@@ -150,48 +148,23 @@ export class PdfPageRangeImageConverter {
     const outputFiles: string[] = [];
 
     try {
-      if (outputMode === 'separate') {
-        // Convert each page separately
-        for (const pageNumber of pageNumbers) {
-          try {
-            const outputPath = await this.convertSinglePage(inputPath, pageNumber, outputDir);
-            pageResults.push({
-              pageNumber,
-              outputPath,
-              success: true
-            });
-            outputFiles.push(outputPath);
-          } catch (error) {
-            pageResults.push({
-              pageNumber,
-              outputPath: '',
-              success: false,
-              error: error instanceof Error ? error.message : I18n.t('error.unknownError')
-            });
-          }
-        }
-      } else {
-        // Convert pages as a range (merge mode - still creates separate files but in sequence)
-        const filePrefix = this.generateFilePrefix(inputPath, pageNumbers);
-        const outputPaths = await this.convertPageRange(inputPath, pageNumbers, outputDir, filePrefix);
-        
-        for (let i = 0; i < pageNumbers.length; i++) {
-          const pageNumber = pageNumbers[i];
-          if (i < outputPaths.length) {
-            pageResults.push({
-              pageNumber,
-              outputPath: outputPaths[i],
-              success: true
-            });
-            outputFiles.push(outputPaths[i]);
-          } else {
-            pageResults.push({
-              pageNumber,
-              outputPath: '',
-              success: false,
-              error: 'Page not converted'
-            });
-          }
+      // Convert each page separately (images are always separate files)
+      for (const pageNumber of pageNumbers) {
+        try {
+          const outputPath = await this.convertSinglePage(inputPath, pageNumber, outputDir);
+          pageResults.push({
+            pageNumber,
+            outputPath,
+            success: true
+          });
+          outputFiles.push(outputPath);
+        } catch (error) {
+          pageResults.push({
+            pageNumber,
+            outputPath: '',
+            success: false,
+            error: error instanceof Error ? error.message : I18n.t('error.unknownError')
+          });
         }
       }
 
@@ -380,9 +353,8 @@ export class PdfPageRangeImageConverter {
   private generateOutputDirectory(inputPath: string, pageRangeResult: PageRangeResult): string {
     const inputDir = path.dirname(inputPath);
     const basename = path.basename(inputPath, path.extname(inputPath));
-    const pageRangeStr = PageRangeSelector.formatPageNumbers(pageRangeResult.pageNumbers);
-    const cleanPageRange = pageRangeStr.replace(/[<>:"/\\|?*]/g, '_').replace(/,\s*/g, '-');
     
-    return path.join(inputDir, `${basename}_Images_Pages-${cleanPageRange}`);
+    // Use consistent folder name regardless of page range selection
+    return path.join(inputDir, `${basename}_Images`);
   }
 }

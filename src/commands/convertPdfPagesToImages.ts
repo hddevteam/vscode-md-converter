@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { PdfPageRangeImageConverter, PageRangeImageResult } from '../converters/pdfPageRangeImageConverter';
 import { I18n } from '../i18n';
-import { UIUtils } from '../ui/uiUtils';
 
 /**
  * Convert specific pages from PDF to images
@@ -55,46 +54,35 @@ export async function convertPdfPagesToImages(uri?: vscode.Uri): Promise<void> {
       return;
     }
 
-    // Show progress and convert
-    await UIUtils.withProgress(
-      I18n.t('pageRange.exportingPages'),
-      async (progress, token) => {
-        progress.report({ increment: 0, message: I18n.t('progress.processing') });
+    // Convert without progress dialog
+    const result: PageRangeImageResult = await converter.convertPagesWithRange(inputPath);
 
-        const result: PageRangeImageResult = await converter.convertPagesWithRange(inputPath);
+    if (result.success) {
+      const pageRangeStr = result.pageNumbers.join(', ');
+      const message = I18n.t('pageRange.conversionComplete', pageRangeStr);
+      
+      const outputInfo = I18n.t('success.imagesInFolder', 
+        result.outputFiles.length.toString(), 
+        path.basename(result.outputDirectory));
 
-        if (token.isCancellationRequested) {
-          return;
-        }
+      const action = await vscode.window.showInformationMessage(
+        `${message}: ${outputInfo}`,
+        I18n.t('success.openFile'),
+        I18n.t('success.viewDetails')
+      );
 
-        progress.report({ increment: 100 });
-
-        if (result.success) {
-          const pageRangeStr = result.pageNumbers.join(', ');
-          const message = I18n.t('pageRange.conversionComplete', pageRangeStr);
-          
-          const outputInfo = `${result.outputFiles.length} image(s) in ${path.basename(result.outputDirectory)}`;
-
-          const action = await vscode.window.showInformationMessage(
-            `${message}: ${outputInfo}`,
-            I18n.t('success.openFile'),
-            I18n.t('success.viewDetails')
-          );
-
-          if (action === I18n.t('success.openFile')) {
-            // Open output directory
-            const dirUri = vscode.Uri.file(result.outputDirectory);
-            await vscode.commands.executeCommand('revealFileInOS', dirUri);
-          } else if (action === I18n.t('success.viewDetails')) {
-            // Show detailed results
-            await showConversionDetails(result);
-          }
-
-        } else {
-          vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.errorMessage || I18n.t('error.unknownError')));
-        }
+      if (action === I18n.t('success.openFile')) {
+        // Open output directory
+        const dirUri = vscode.Uri.file(result.outputDirectory);
+        await vscode.commands.executeCommand('revealFileInOS', dirUri);
+      } else if (action === I18n.t('success.viewDetails')) {
+        // Show detailed results
+        await showConversionDetails(result);
       }
-    );
+
+    } else {
+      vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.errorMessage || I18n.t('error.unknownError')));
+    }
 
   } catch (error) {
     console.error('PDF pages to images conversion error:', error);

@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { PdfPageRangeConverter, PageRangeConversionResult } from '../converters/pdfPageRangeConverter';
 import { I18n } from '../i18n';
-import { UIUtils } from '../ui/uiUtils';
 
 /**
  * Convert specific pages from PDF to text
@@ -37,56 +36,43 @@ export async function convertPdfPagesToText(uri?: vscode.Uri): Promise<void> {
       return;
     }
 
-    // Show progress and convert
-    await UIUtils.withProgress(
-      I18n.t('pageRange.exportingPages'),
-      async (progress, token) => {
-        progress.report({ increment: 0, message: I18n.t('progress.processing') });
+    // Convert without progress dialog
+    const result: PageRangeConversionResult = await PdfPageRangeConverter.convertWithPageRange(inputPath);
 
-        const result: PageRangeConversionResult = await PdfPageRangeConverter.convertWithPageRange(inputPath);
-
-        if (token.isCancellationRequested) {
-          return;
-        }
-
-        progress.report({ increment: 100 });
-
-        if (result.success) {
-          const pageRangeStr = result.pageNumbers?.join(', ') || '';
-          const message = I18n.t('pageRange.conversionComplete', pageRangeStr);
-          
-          let outputInfo: string;
-          if (result.outputMode === 'merge' && result.outputPath) {
-            outputInfo = path.basename(result.outputPath);
-          } else if (result.outputPaths && result.outputPaths.length > 0) {
-            outputInfo = `${result.outputPaths.length} files`;
-          } else {
-            outputInfo = 'unknown';
-          }
-
-          const action = await vscode.window.showInformationMessage(
-            `${message}: ${outputInfo}`,
-            I18n.t('success.openFile'),
-            I18n.t('success.viewDetails')
-          );
-
-          if (action === I18n.t('success.openFile')) {
-            // Open the first output file
-            const fileToOpen = result.outputPath || (result.outputPaths && result.outputPaths[0]);
-            if (fileToOpen) {
-              const doc = await vscode.workspace.openTextDocument(fileToOpen);
-              await vscode.window.showTextDocument(doc);
-            }
-          } else if (action === I18n.t('success.viewDetails')) {
-            // Show detailed results
-            await showConversionDetails(result);
-          }
-
-        } else {
-          vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.error || I18n.t('error.unknownError')));
-        }
+    if (result.success) {
+      const pageRangeStr = result.pageNumbers?.join(', ') || '';
+      const message = I18n.t('pageRange.conversionComplete', pageRangeStr);
+      
+      let outputInfo: string;
+      if (result.outputMode === 'merge' && result.outputPath) {
+        outputInfo = path.basename(result.outputPath);
+      } else if (result.outputPaths && result.outputPaths.length > 0) {
+        outputInfo = I18n.t('success.filesCount', result.outputPaths.length.toString());
+      } else {
+        outputInfo = 'unknown';
       }
-    );
+
+      const action = await vscode.window.showInformationMessage(
+        `${message}: ${outputInfo}`,
+        I18n.t('success.openFile'),
+        I18n.t('success.viewDetails')
+      );
+
+      if (action === I18n.t('success.openFile')) {
+        // Open the first output file
+        const fileToOpen = result.outputPath || (result.outputPaths && result.outputPaths[0]);
+        if (fileToOpen) {
+          const doc = await vscode.workspace.openTextDocument(fileToOpen);
+          await vscode.window.showTextDocument(doc);
+        }
+      } else if (action === I18n.t('success.viewDetails')) {
+        // Show detailed results
+        await showConversionDetails(result);
+      }
+
+    } else {
+      vscode.window.showErrorMessage(I18n.t('error.conversionFailed', result.error || I18n.t('error.unknownError')));
+    }
 
   } catch (error) {
     console.error('PDF pages to text conversion error:', error);
