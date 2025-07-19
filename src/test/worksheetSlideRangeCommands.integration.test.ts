@@ -62,7 +62,7 @@ suite('Worksheet and Slide Range Commands Integration Tests', () => {
     // This test verifies that commands are properly categorized in package.json
     // The actual validation would happen during VS Code extension loading
     
-    const packageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json');
+    const packageJsonPath = path.join(__dirname, '..', '..', 'package.json');
     const packageContent = await fs.readFile(packageJsonPath, 'utf8');
     const packageJson = JSON.parse(packageContent);
     
@@ -86,7 +86,7 @@ suite('Worksheet and Slide Range Commands Integration Tests', () => {
   });
 
   test('should have proper menu entries', async () => {
-    const packageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json');
+    const packageJsonPath = path.join(__dirname, '..', '..', 'package.json');
     const packageContent = await fs.readFile(packageJsonPath, 'utf8');
     const packageJson = JSON.parse(packageContent);
     
@@ -125,7 +125,7 @@ suite('Worksheet and Slide Range Commands Integration Tests', () => {
 
   test('should have proper localization keys', async () => {
     // Test English localization
-    const englishNlsPath = path.join(__dirname, '..', '..', '..', 'package.nls.json');
+    const englishNlsPath = path.join(__dirname, '..', '..', 'package.nls.json');
     const englishContent = await fs.readFile(englishNlsPath, 'utf8');
     const englishNls = JSON.parse(englishContent);
     
@@ -143,7 +143,7 @@ suite('Worksheet and Slide Range Commands Integration Tests', () => {
     }
     
     // Test Chinese localization
-    const chineseNlsPath = path.join(__dirname, '..', '..', '..', 'package.nls.zh-cn.json');
+    const chineseNlsPath = path.join(__dirname, '..', '..', 'package.nls.zh-cn.json');
     const chineseContent = await fs.readFile(chineseNlsPath, 'utf8');
     const chineseNls = JSON.parse(chineseContent);
     
@@ -158,27 +158,27 @@ suite('Worksheet and Slide Range Commands Integration Tests', () => {
   });
 
   test('should have proper i18n message definitions', async () => {
-    // Test that i18n interface includes new message keys
-    const indexPath = path.join(__dirname, '..', '..', 'i18n', 'index.ts');
-    const indexContent = await fs.readFile(indexPath, 'utf8');
+    // Test that i18n English messages include new message keys
+    const enPath = path.join(__dirname, '..', 'i18n', 'en.js');
+    const enContent = await fs.readFile(enPath, 'utf8');
     
     // Check for Excel-specific messages
     assert.ok(
-      indexContent.includes('worksheetSelectionTitle'),
+      enContent.includes('worksheetSelectionTitle'),
       'Should have Excel worksheet selection messages'
     );
     assert.ok(
-      indexContent.includes('selectWorksheets'),
+      enContent.includes('selectWorksheets'),
       'Should have worksheet selection messages'
     );
     
     // Check for PowerPoint-specific messages
     assert.ok(
-      indexContent.includes('slidesConversionComplete'),
+      enContent.includes('slidesConversionComplete'),
       'Should have PowerPoint slide completion messages'
     );
     assert.ok(
-      indexContent.includes('continueAnyway'),
+      enContent.includes('continueAnyway'),
       'Should have PowerPoint continuation messages'
     );
     
