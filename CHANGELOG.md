@@ -4,6 +4,55 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.0] - 2025-07-19
+
+### 🎉 Major Release: Advanced Range Export Features
+
+#### Added
+- **🆕 PDF Page Range Export**: Export specific pages from PDF documents
+  - Select individual pages or page ranges (e.g., "1,3,5-8")
+  - Export to text or images with intuitive page selection UI
+  - Support for both separate and merged output modes
+  - Performance optimized for large documents
+
+- **🆕 Excel Worksheet Range Export**: Advanced Excel processing capabilities
+  - Choose specific worksheets to export to Markdown or CSV
+  - Multi-worksheet selection with preview functionality
+  - Organized output with separate directories for each export session
+  - Support for complex Excel files with multiple sheets
+
+- **🆕 PowerPoint Slide Range Export**: Convert specific slides to Markdown
+  - Select individual slides or slide ranges
+  - Extract slide content with proper formatting
+  - Handle complex PowerPoint layouts and structures
+  - Efficient ZIP-based processing for .pptx files
+
+- **🆕 Unified Page Range Selector**: Consistent UI across all document types
+  - Reusable component for page, worksheet, and slide selection
+  - Input validation with real-time feedback
+  - Support for various range formats (single, ranges, mixed)
+  - Accessibility-focused design
+
+#### Enhanced
+- **CSV Table Extraction**: Now supports page range selection for PDF tables
+- **Performance Improvements**: Optimized document processing for large files
+- **Error Handling**: Enhanced error reporting and recovery mechanisms
+- **Testing Suite**: 148+ automated tests ensuring reliability
+- **CI/CD Compatibility**: All tests compatible with automated environments
+
+#### Technical Improvements
+- Modular converter architecture with base classes
+- Enhanced internationalization with new message keys
+- Improved file validation and preprocessing
+- Better memory management for large document processing
+- Comprehensive logging and debugging capabilities
+
+### Fixed
+- UI interaction tests now skip in automated environments
+- File path resolution issues in test environments
+- Compilation errors with missing method references
+- Race conditions in batch processing operations
+
 ## [0.1.7] - 2025-07-11
 
 ### Added

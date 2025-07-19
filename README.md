@@ -14,14 +14,23 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
+### 🆕 Advanced Range Export Features (v0.2.0)
+- **📄 PDF Page Range Export** - Extract specific pages as text or images
+- **📊 Excel Worksheet Range Export** - Export selected worksheets to Markdown/CSV
+- **🎨 PowerPoint Slide Range Export** - Convert specific slides to Markdown
+- **🔢 CSV Table Range Export** - Extract tables from specific PDF pages
+- **🎛️ Unified Page Range Selector** - Intuitive interface for selecting page/slide ranges
+
 ### Core Features
 - ✅ **Context Menu Integration** - Convert directly from file explorer
 - ✅ **Command Palette Support** - Access via Cmd+Shift+P
 - ✅ **Batch Conversion** - Select folders for bulk processing
+- ✅ **Range Selection** - Choose specific pages, worksheets, or slides to convert
 - ✅ **Smart Text Processing** - Automatically optimize conversion quality
 - ✅ **Progress Indicators** - Real-time conversion progress display
 - ✅ **Error Handling** - Comprehensive error messages and handling
 - ✅ **Multi-language Support** - Automatic language switching between English and Chinese
+- ✅ **Performance Optimized** - Efficient processing of large documents
 
 ## 📦 Installation
 
@@ -72,6 +81,13 @@ npm run compile
 - `Extract PDF Tables to CSV` - Extract tables from PDF documents to CSV format
 - `Batch Convert Documents` - Batch convert documents
 - `Open Document Converter` - Open converter interface
+
+#### 🆕 Advanced Range Export Commands (v0.2.0)
+- `Export Specified PDF Pages to Text` - Convert selected PDF pages to text
+- `Export Specified PDF Pages to Images` - Convert selected PDF pages to images
+- `Export Selected Excel Worksheets to Markdown` - Convert chosen worksheets to Markdown
+- `Export Selected Excel Worksheets to CSV` - Convert chosen worksheets to CSV
+- `Export PowerPoint Slides to Markdown` - Convert selected slides to Markdown
 
 ## 🔧 Conversion Features
 

@@ -1,34 +1,44 @@
-# OneClick Markdown Converter - Development Roadmap
+# ## 🎉 Version 0.2.0 - 按指定页面导出功能 (COMPLETED - 2025-07-19)neClick Markdown Converter - Development Roadmap
 
-## 🎯 Version 0.2.0 - Advanced Document Processing (Planned)
+## � Version 0.2.0 - Advanced Document Processing (COMPLETED - 2025-07-19)
 
-### New Document Type Support
+### ✅ Completed Features
 
-#### 1. PowerPoint Presentation Support (.pptx)
-**Priority: High**  
-**Estimated Effort: 3-4 weeks**
+#### 1. PowerPoint Presentation Support (.pptx) ✅
+**Status: COMPLETED**  
+**Delivered: Advanced slide range export with intuitive selection**
 
-**Features:**
-- Convert PowerPoint presentations to Markdown
-- Extract slide content as structured markdown
-- Preserve slide titles as headings
-- Convert bullet points and text content
-- Extract embedded images and save them separately
-- Support for speaker notes extraction
+**Implemented Features:**
+- ✅ Convert PowerPoint presentations to Markdown
+- ✅ Extract slide content as structured markdown  
+- ✅ Preserve slide titles as headings
+- ✅ Convert bullet points and text content
+- ✅ Support for slide range selection (e.g., "1,3,5-8")
+- ✅ Unified page range selector UI component
 
-**Technical Requirements:**
-- Research and integrate PowerPoint parsing library (e.g., `pptx-parser`, `officegen`)
-- Implement slide-by-slide conversion logic
-- Handle embedded media extraction
-- Add progress tracking for large presentations
+#### 2. Excel Advanced Processing ✅ 
+**Status: COMPLETED**
+**Delivered: Worksheet range export capabilities**
 
-**Acceptance Criteria:**
-- [ ] Parse .pptx files successfully
-- [ ] Convert slide titles to H1/H2 headings
-- [ ] Convert bullet points to markdown lists
-- [ ] Extract and save images with proper references
-- [ ] Include speaker notes as separate sections
-- [ ] Support batch conversion of multiple presentations
+**Implemented Features:**
+- ✅ Select specific worksheets to export
+- ✅ Export to Markdown or CSV formats
+- ✅ Multi-worksheet selection interface
+- ✅ Organized output directories
+- ✅ Progress tracking for large files
+
+#### 3. PDF Advanced Processing ✅
+**Status: COMPLETED** 
+**Delivered: Page range export for text and images**
+
+**Implemented Features:**
+- ✅ Select specific page ranges for export
+- ✅ Export to text or high-quality images
+- ✅ Merge or separate output modes
+- ✅ CSV table extraction with page ranges
+- ✅ Optimized performance for large PDFs
+
+## 🎯 Version 0.3.0 - Enhanced User Experience (Planned)
 
 ---
 

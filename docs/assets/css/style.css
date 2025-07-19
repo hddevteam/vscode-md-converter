@@ -789,3 +789,23 @@ a:focus,
         border: 2px solid #333;
     }
 }
+
+/* Version Highlight Styles */
+.version-highlight {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.version-highlight h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+.version-highlight p {
+    margin: 0;
+    opacity: 0.9;
+}
