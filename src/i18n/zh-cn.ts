@@ -23,7 +23,9 @@ export const ChineseMessages: Messages = {
     openConverter: '打开文档转换器',
     debugPdfEnvironment: '调试PDF环境',
     convertWordTablesToCsv: '提取Word表格到CSV',
-    convertPdfTablesToCsv: '提取PDF表格到CSV'
+    convertPdfTablesToCsv: '提取PDF表格到CSV',
+    convertPdfPagesToText: '导出PDF页码到文本',
+    convertPdfPagesToImages: '导出PDF页码到图片'
   },
 
   // Progress and status messages
@@ -273,5 +275,33 @@ export const ChineseMessages: Messages = {
     mergedCellRepeat: '在所有合并单元格中重复值',
     mergedCellEmpty: '仅在第一个单元格中放值，其他留空',
     mergedCellNotation: '使用 [MERGED] 标记表示合并单元格'
+  },
+
+  // Page range selection specific messages
+  pageRange: {
+    inputPrompt: '输入 "{1}" 的页码范围（共 {0} 页）',
+    inputPlaceholder: '示例："5"（单页）, "3-8"（范围）, "1,3,5"（多页）, "1-3,5,7-9"（混合）',
+    outputModePrompt: '您希望如何输出页面？',
+    outputModeSeparate: '分离文件',
+    outputModeSeparateDesc: '将每页导出为单独的文件',
+    outputModeMerge: '合并文件',
+    outputModeMergeDesc: '将所有页面合并到单个文件中',
+    emptyInput: '请输入页码范围',
+    invalidRangeFormat: '无效的范围格式："{0}"',
+    invalidNumbers: '范围中包含无效数字："{0}"',
+    invalidRangeOrder: '无效范围（开始页 > 结束页）："{0}"',
+    outOfBounds: '页码范围 "{0}" 超出范围（最大：{1} 页）',
+    invalidNumber: '无效的页码："{0}"',
+    pageOutOfBounds: '页码 {0} 超出范围（最大：{1} 页）',
+    noValidPages: '未指定有效页码',
+    parseError: '解析页码范围时出错：{0}',
+    selectionError: '页码选择错误：{0}',
+    conversionStarted: '正在转换 {1} 的页码 {0}...',
+    conversionComplete: '成功转换页码 {0}',
+    exportingPages: '正在导出选定页面...',
+    processingPage: '正在处理第 {0} 页，共 {1} 页...',
+    pageExportFailed: '导出页码 {0} 失败：{1}',
+    noContentFound: '页码 {0} 未找到内容',
+    pageProcessed: '页码 {0} 处理成功'
   }
 };

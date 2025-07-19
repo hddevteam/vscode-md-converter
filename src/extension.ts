@@ -7,6 +7,8 @@ import { convertPdfToImage, batchConvertPdfToImage } from './commands/convertPdf
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
 import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
 import { convertPdfTablesToCsv } from './commands/convertPdfTablesToCsv';
+import { convertPdfPagesToText } from './commands/convertPdfPagesToText';
+import { convertPdfPagesToImages } from './commands/convertPdfPagesToImages';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
@@ -77,6 +79,20 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri) => {
           console.log('Executing PDF Tables to CSV command, URI:', uri?.fsPath);
           return convertPdfTablesToCsv(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertPdfPagesToText',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PDF Pages to Text command, URI:', uri?.fsPath);
+          return convertPdfPagesToText(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertPdfPagesToImages',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PDF Pages to Images command, URI:', uri?.fsPath);
+          return convertPdfPagesToImages(uri);
         }
       ),
       vscode.commands.registerCommand(

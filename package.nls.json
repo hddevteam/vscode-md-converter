@@ -7,6 +7,8 @@
   "commands.convertPowerPointToMarkdown": "Convert PowerPoint to Markdown",
   "commands.convertWordTablesToCsv": "Extract Word Tables to CSV",
   "commands.convertPdfTablesToCsv": "Extract PDF Tables to CSV",
+  "commands.convertPdfPagesToText": "Export PDF Pages to Text",
+  "commands.convertPdfPagesToImages": "Export PDF Pages to Images",
   "commands.batchConvert": "Batch Convert to Markdown",
   "commands.openConverter": "Open OneClick Markdown Converter",
   "commands.debugPdfEnvironment": "Debug PDF Environment",

@@ -23,7 +23,9 @@ export const EnglishMessages: Messages = {
     openConverter: 'Open Document Converter',
     debugPdfEnvironment: 'Debug PDF Environment',
     convertWordTablesToCsv: 'Extract Word Tables to CSV',
-    convertPdfTablesToCsv: 'Extract PDF Tables to CSV'
+    convertPdfTablesToCsv: 'Extract PDF Tables to CSV',
+    convertPdfPagesToText: 'Export PDF Pages to Text',
+    convertPdfPagesToImages: 'Export PDF Pages to Images'
   },
 
   // Progress and status messages
@@ -274,5 +276,33 @@ export const EnglishMessages: Messages = {
     mergedCellRepeat: 'Repeat value in all merged cells',
     mergedCellEmpty: 'Value only in first cell, others empty',
     mergedCellNotation: 'Use [MERGED] notation for merged cells'
+  },
+
+  // Page range selection specific messages
+  pageRange: {
+    inputPrompt: 'Enter page range for "{1}" (Total: {0} pages)',
+    inputPlaceholder: 'Examples: "5" (single page), "3-8" (range), "1,3,5" (multiple), "1-3,5,7-9" (mixed)',
+    outputModePrompt: 'How would you like to output the pages?',
+    outputModeSeparate: 'Separate Files',
+    outputModeSeparateDesc: 'Export each page as a separate file',
+    outputModeMerge: 'Merged File',
+    outputModeMergeDesc: 'Combine all pages into a single file',
+    emptyInput: 'Please enter a page range',
+    invalidRangeFormat: 'Invalid range format: "{0}"',
+    invalidNumbers: 'Invalid numbers in range: "{0}"',
+    invalidRangeOrder: 'Invalid range (start > end): "{0}"',
+    outOfBounds: 'Page range "{0}" is out of bounds (max: {1} pages)',
+    invalidNumber: 'Invalid page number: "{0}"',
+    pageOutOfBounds: 'Page {0} is out of bounds (max: {1} pages)',
+    noValidPages: 'No valid pages specified',
+    parseError: 'Error parsing page range: {0}',
+    selectionError: 'Error in page selection: {0}',
+    conversionStarted: 'Converting pages {0} from {1}...',
+    conversionComplete: 'Successfully converted pages {0}',
+    exportingPages: 'Exporting selected pages...',
+    processingPage: 'Processing page {0} of {1}...',
+    pageExportFailed: 'Failed to export page {0}: {1}',
+    noContentFound: 'No content found on page {0}',
+    pageProcessed: 'Page {0} processed successfully'
   }
 };

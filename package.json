@@ -81,6 +81,16 @@
         "category": "OneClick Markdown Converter"
       },
       {
+        "command": "document-md-converter.convertPdfPagesToText",
+        "title": "%commands.convertPdfPagesToText%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertPdfPagesToImages",
+        "title": "%commands.convertPdfPagesToImages%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
         "command": "document-md-converter.batchConvert",
         "title": "%commands.batchConvert%",
         "category": "OneClick Markdown Converter"
@@ -145,9 +155,19 @@
           "group": "document-converter@7"
         },
         {
+          "when": "resourceExtname == .pdf",
+          "command": "document-md-converter.convertPdfPagesToText",
+          "group": "document-converter@8"
+        },
+        {
+          "when": "resourceExtname == .pdf",
+          "command": "document-md-converter.convertPdfPagesToImages",
+          "group": "document-converter@9"
+        },
+        {
           "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
-          "group": "document-converter@8"
+          "group": "document-converter@10"
         }
       ],
       "commandPalette": [
@@ -168,6 +188,12 @@
         },
         {
           "command": "document-md-converter.convertPowerPointToMarkdown"
+        },
+        {
+          "command": "document-md-converter.convertPdfPagesToText"
+        },
+        {
+          "command": "document-md-converter.convertPdfPagesToImages"
         }
       ]
     },

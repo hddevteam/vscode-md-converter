@@ -27,6 +27,8 @@ export interface Messages {
     debugPdfEnvironment: string;
     convertWordTablesToCsv: string;
     convertPdfTablesToCsv: string;
+    convertPdfPagesToText: string;
+    convertPdfPagesToImages: string;
   };
 
   // Progress and status messages
@@ -277,6 +279,34 @@ export interface Messages {
     mergedCellRepeat: string;
     mergedCellEmpty: string;
     mergedCellNotation: string;
+  };
+
+  // Page range selection specific messages
+  pageRange: {
+    inputPrompt: string;
+    inputPlaceholder: string;
+    outputModePrompt: string;
+    outputModeSeparate: string;
+    outputModeSeparateDesc: string;
+    outputModeMerge: string;
+    outputModeMergeDesc: string;
+    emptyInput: string;
+    invalidRangeFormat: string;
+    invalidNumbers: string;
+    invalidRangeOrder: string;
+    outOfBounds: string;
+    invalidNumber: string;
+    pageOutOfBounds: string;
+    noValidPages: string;
+    parseError: string;
+    selectionError: string;
+    conversionStarted: string;
+    conversionComplete: string;
+    exportingPages: string;
+    processingPage: string;
+    pageExportFailed: string;
+    noContentFound: string;
+    pageProcessed: string;
   };
 }
 
