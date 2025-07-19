@@ -35,7 +35,9 @@ suite('Excel to CSV Converter Tests', () => {
   });
 
   test('Should process real Excel file if available', async () => {
-    const testFilePath = path.join(__dirname, '../../docs/综合业务数据.xlsx');
+    // Use absolute path from project root
+    const projectRoot = path.resolve(__dirname, '../../../../');
+    const testFilePath = path.join(projectRoot, 'src/test/docs/综合业务数据.xlsx');
     
     try {
       // Check if test file exists
@@ -43,7 +45,7 @@ suite('Excel to CSV Converter Tests', () => {
       
       // Test conversion
       const result = await ExcelToCsvConverter.convert(testFilePath, {
-        outputDirectory: path.join(__dirname, '../../temp')
+        outputDirectory: path.join(projectRoot, 'src/test/temp')
       });
       
       if (result.success) {
