@@ -9,6 +9,8 @@ import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
 import { convertPdfTablesToCsv } from './commands/convertPdfTablesToCsv';
 import { convertPdfPagesToText } from './commands/convertPdfPagesToText';
 import { convertPdfPagesToImages } from './commands/convertPdfPagesToImages';
+import { convertExcelWorksheetsToMarkdown, convertExcelWorksheetsToCsv } from './commands/convertExcelWorksheetsRange';
+import { convertPowerPointSlidesToMarkdown } from './commands/convertPowerPointSlidesRange';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
@@ -93,6 +95,27 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri) => {
           console.log('Executing PDF Pages to Images command, URI:', uri?.fsPath);
           return convertPdfPagesToImages(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertExcelWorksheetsToMarkdown',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing Excel Worksheets to Markdown command, URI:', uri?.fsPath);
+          return convertExcelWorksheetsToMarkdown(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertExcelWorksheetsToCsv',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing Excel Worksheets to CSV command, URI:', uri?.fsPath);
+          return convertExcelWorksheetsToCsv(uri);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertPowerPointSlidesToMarkdown',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing PowerPoint Slides to Markdown command, URI:', uri?.fsPath);
+          return convertPowerPointSlidesToMarkdown(uri);
         }
       ),
       vscode.commands.registerCommand(

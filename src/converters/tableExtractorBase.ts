@@ -104,14 +104,14 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 保存所有表格到单个CSV文件
+   * Save all tables to a single CSV file
    */
   protected static async saveCombinedTablesToCsv(
     tables: TableData[],
     baseOutputPath: string,
     options: TableExtractionOptions
   ): Promise<string> {
-    // 准备合并的数据
+    // Prepare combined data
     const sections = tables.map((table, index) => ({
       name: `${I18n.t('table.tableNumber', (index + 1).toString())}${table.title ? ` - ${table.title}` : ''}`,
       content: this.generateCsvContent(table, options, false),
@@ -122,13 +122,13 @@ export abstract class TableExtractorBase extends CsvWriterBase {
       }
     }));
 
-    // 生成输出路径
+    // Generate output path
     const baseDir = path.dirname(baseOutputPath);
     const baseName = path.basename(baseOutputPath, path.extname(baseOutputPath));
     const fileName = `${baseName}_all_tables.csv`;
     const outputPath = path.join(baseDir, fileName);
 
-    // 使用基类方法保存合并文件
+    // Use base class method to save combined file
     await this.writeCombinedCsv(
       sections,
       outputPath,
@@ -143,7 +143,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 保存表格数据为CSV文件
+   * Save table data to CSV files
    */
   protected static async saveTablesToCsv(
     tables: TableData[],
@@ -157,11 +157,11 @@ export abstract class TableExtractorBase extends CsvWriterBase {
     }
     
     if (options.outputMode === 'combined') {
-      // 合并模式：所有表格保存到一个文件
+      // Combined mode: save all tables to one file
       const combinedPath = await this.saveCombinedTablesToCsv(tables, baseOutputPath, options);
       csvPaths.push(combinedPath);
     } else {
-      // 分离模式：每个表格保存为单独文件
+      // Separate mode: save each table as individual file
       for (const table of tables) {
         const csvPath = await this.saveSingleTableToCsv(table, baseOutputPath, options);
         csvPaths.push(csvPath);
@@ -172,7 +172,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 验证表格数据是否有效
+   * Validate if table data is valid
    */
   protected static validateTable(
     rows: string[][],
@@ -182,13 +182,13 @@ export abstract class TableExtractorBase extends CsvWriterBase {
       return false;
     }
     
-    // 检查是否有足够的列
+    // Check if there are enough columns
     const validRows = rows.filter(row => row && row.length >= options.minColumns);
     if (validRows.length < options.minRows) {
       return false;
     }
     
-    // 检查是否至少有一些非空内容
+    // Check if there is at least some non-empty content
     const hasContent = rows.some(row => 
       row.some(cell => cell && cell.toString().trim().length > 0)
     );
@@ -197,23 +197,23 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 清理表格数据
+   * Clean table data
    */
   protected static cleanTableData(rows: string[][]): string[][] {
     if (!rows || rows.length === 0) {
       return [];
     }
     
-    // 移除完全空白的行（在开头和结尾）
+    // Remove completely blank rows (at the beginning and end)
     let startIndex = 0;
     let endIndex = rows.length - 1;
     
-    // 从开头移除空行
+    // Remove empty rows from the beginning
     while (startIndex < rows.length && this.isEmptyRow(rows[startIndex])) {
       startIndex++;
     }
     
-    // 从结尾移除空行
+    // Remove empty rows from the end
     while (endIndex >= startIndex && this.isEmptyRow(rows[endIndex])) {
       endIndex--;
     }
@@ -224,7 +224,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
     
     const cleanedRows = rows.slice(startIndex, endIndex + 1);
     
-    // 标准化每行的列数（使用最大列数）
+    // Normalize the number of columns per row (using maximum column count)
     const maxColumns = Math.max(...cleanedRows.map(row => row.length));
     
     return cleanedRows.map(row => {
@@ -237,14 +237,14 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 检查是否为空行
+   * Check if row is empty
    */
   private static isEmptyRow(row: string[]): boolean {
     return !row || row.length === 0 || row.every(cell => !cell || cell.toString().trim() === '');
   }
 
   /**
-   * 生成表格ID
+   * Generate table ID
    */
   protected static generateTableId(index: number, title?: string): string {
     const suffix = title ? `_${title.replace(/[^\w\u4e00-\u9fff]/g, '_')}` : '';
@@ -252,7 +252,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 创建默认的提取选项
+   * Create default extraction options
    */
   protected static createDefaultExtractionOptions(
     customOptions?: Partial<TableExtractionOptions>
@@ -262,7 +262,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
       encoding: 'utf8',
       delimiter: ',',
       includeHeaders: true,
-      includeMetadata: false, // 默认不包含元数据注释，更符合标准CSV格式
+      includeMetadata: false, // Default to not include metadata comments for better standard CSV format compliance
       mergedCellStrategy: 'repeat',
       minRows: 2,
       minColumns: 2,
@@ -271,7 +271,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
   }
 
   /**
-   * 处理合并单元格
+   * Process merged cells
    */
   protected static processMergedCells(
     tableData: TableData,
@@ -288,7 +288,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
 
       switch (options.mergedCellStrategy) {
         case 'repeat':
-          // 重复值到所有合并的单元格
+          // Repeat value to all merged cells
           for (let row = startRow; row <= endRow; row++) {
             for (let col = startCol; col <= endCol; col++) {
               if (processedRows[row] && processedRows[row][col] !== undefined) {
@@ -299,7 +299,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
           break;
 
         case 'empty':
-          // 只在第一个单元格放值，其他留空
+          // Only put value in first cell, leave others empty
           for (let row = startRow; row <= endRow; row++) {
             for (let col = startCol; col <= endCol; col++) {
               if (processedRows[row] && processedRows[row][col] !== undefined) {
@@ -314,7 +314,7 @@ export abstract class TableExtractorBase extends CsvWriterBase {
           break;
 
         case 'notation':
-          // 使用特殊标记表示合并
+          // Use special notation to indicate merging
           for (let row = startRow; row <= endRow; row++) {
             for (let col = startCol; col <= endCol; col++) {
               if (processedRows[row] && processedRows[row][col] !== undefined) {

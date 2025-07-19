@@ -107,12 +107,12 @@ export class PageRangeSelector {
           {
             label: I18n.t('pageRange.outputModeSeparate'),
             description: I18n.t('pageRange.outputModeSeparateDesc'),
-            detail: 'separate'
+            value: 'separate' as const
           },
           {
             label: I18n.t('pageRange.outputModeMerge'),
             description: I18n.t('pageRange.outputModeMergeDesc'),
-            detail: 'merge'
+            value: 'merge' as const
           }
         ], {
           placeHolder: I18n.t('pageRange.outputModePrompt'),
@@ -123,7 +123,7 @@ export class PageRangeSelector {
           return result; // User cancelled
         }
 
-        result.outputMode = outputModeChoice.detail as 'merge' | 'separate';
+        result.outputMode = (outputModeChoice as any).value as 'merge' | 'separate';
       }
 
       result.cancelled = false;

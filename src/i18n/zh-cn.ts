@@ -25,7 +25,10 @@ export const ChineseMessages: Messages = {
     convertWordTablesToCsv: '提取Word表格到CSV',
     convertPdfTablesToCsv: '提取PDF表格到CSV',
     convertPdfPagesToText: '导出指定页码PDF到文本',
-    convertPdfPagesToImages: '导出指定页码PDF到图片'
+    convertPdfPagesToImages: '导出指定页码PDF到图片',
+    convertExcelWorksheetsToMarkdown: '导出指定Excel工作表到Markdown',
+    convertExcelWorksheetsToCsv: '导出指定Excel工作表到CSV',
+    convertPowerPointSlidesToMarkdown: '导出指定幻灯片到Markdown'
   },
 
   // Progress and status messages
@@ -44,7 +47,8 @@ export const ChineseMessages: Messages = {
     openFile: '打开文件',
     viewDetails: '查看详情',
     filesCount: '{0} 个文件',
-    imagesInFolder: '{0} 张图片在 {1} 中'
+    imagesInFolder: '{0} 张图片在 {1} 中',
+    filesInFolder: '{0} 个文件在 {1} 中'
   },
 
   // Error messages
@@ -127,7 +131,17 @@ export const ChineseMessages: Messages = {
     rowsLimitNotice: '*注意: 数据行数超过 {0} 行，仅显示前 {1} 行*',
     whitespaceChar: '(空白字符)',
     convertedFrom: '*转换自: {0}*',
-    csvFilesSaved: '成功转换为 {0} 个CSV文件'
+    csvFilesSaved: '成功转换为 {0} 个CSV文件',
+    worksheetSelectionTitle: '选择要导出的工作表',
+    selectWorksheets: '选择要转换的工作表:',
+    selectAllWorksheets: '全选',
+    selectNoneWorksheets: '全不选',
+    selectedWorksheetsCount: '已选择 {0} 个工作表',
+    outputFormatTitle: '选择输出格式',
+    outputFormatMarkdown: 'Markdown格式 (.md)',
+    outputFormatCsv: 'CSV格式 (.csv)',
+    worksheetConversionComplete: '工作表转换完成',
+    worksheetsConversionComplete: '工作表转换完成'
   },
 
   // PDF conversion specific messages
@@ -233,15 +247,18 @@ export const ChineseMessages: Messages = {
     basicInfoOnly: '仅提取了基本文件信息。',
     importantNotice: '⚠️ 重要提示',
     pptFormatNotice: '此文件是旧的PowerPoint格式（.ppt）。当前转换器主要支持新的PowerPoint格式（.pptx）。',
+    pptFormatNoticeDetail: '为获得更好的转换效果，建议先将此文件转换为.pptx格式。',
     bestConversionSteps: '**为获得最佳转换效果，请按以下步骤操作：**',
     recommendedMethod: '**推荐方法**：转换为.pptx格式',
-    openInPowerPoint: '在Microsoft PowerPoint中打开此文件',
+    openInPowerPoint: '在PowerPoint中打开',
     saveAsPptx: '选择"文件" > "另存为"，选择"PowerPoint演示文稿(*.pptx)"格式',
     useThisExtensionAgain: '保存后重新使用此扩展进行转换',
     alternativeMethods: '**其他方法**：',
     useLibreOffice: '使用LibreOffice Impress打开并保存为.pptx格式',
     useOnlineConverter: '使用在线演示文稿转换工具',
-    manualExtraction: '手动将幻灯片内容复制到新的Markdown文件中'
+    manualExtraction: '手动将幻灯片内容复制到新的Markdown文件中',
+    continueAnyway: '仍然继续',
+    slidesConversionComplete: '幻灯片 {0} 转换完成'
   },
 
   // Table extraction specific messages
@@ -261,7 +278,7 @@ export const ChineseMessages: Messages = {
     exportingTables: '正在导出表格到CSV...',
     csvFilesSaved: '已保存CSV文件：{0}',
     outputModePrompt: '您希望如何保存表格？',
-    outputModeSeparate: '分离文件（每个表格一个CSV）',
+    outputModeSeparate: '单独文件（每个表格一个CSV）',
     outputModeCombined: '合并文件（所有表格在一个CSV中）',
     confirmTableExtraction: '发现 {0} 个表格。继续提取吗？',
     tableExtractionFailed: '表格提取失败：{0}',
@@ -284,7 +301,7 @@ export const ChineseMessages: Messages = {
     inputPrompt: '请输入 "{1}" 的页码范围（共 {0} 页）',
     inputPlaceholder: '示例："5"（单页）, "3-8"（范围）, "1,3,5"（多页）, "1-3,5,7-9"（混合）',
     outputModePrompt: '您希望如何输出页面？',
-    outputModeSeparate: '分离文件',
+    outputModeSeparate: '单独文件',
     outputModeSeparateDesc: '将每页导出为单独的文件',
     outputModeMerge: '合并文件',
     outputModeMergeDesc: '将所有页面合并到单个文件中',

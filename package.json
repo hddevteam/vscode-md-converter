@@ -110,6 +110,21 @@
         "command": "document-md-converter.debugPdfToImageEnvironment",
         "title": "%commands.debugPdfToImageEnvironment%",
         "category": "Document Converter"
+      },
+      {
+        "command": "document-md-converter.convertExcelWorksheetsToMarkdown",
+        "title": "%commands.convertExcelWorksheetsToMarkdown%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertExcelWorksheetsToCsv",
+        "title": "%commands.convertExcelWorksheetsToCsv%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertPowerPointSlidesToMarkdown",
+        "title": "%commands.convertPowerPointSlidesToMarkdown%",
+        "category": "OneClick Markdown Converter"
       }
     ],
     "menus": {
@@ -130,6 +145,16 @@
           "group": "document-converter@3"
         },
         {
+          "when": "resourceExtname == .xlsx || resourceExtname == .xls",
+          "command": "document-md-converter.convertExcelWorksheetsToMarkdown",
+          "group": "document-converter@3"
+        },
+        {
+          "when": "resourceExtname == .xlsx || resourceExtname == .xls",
+          "command": "document-md-converter.convertExcelWorksheetsToCsv",
+          "group": "document-converter@3"
+        },
+        {
           "when": "resourceExtname == .pdf",
           "command": "document-md-converter.convertPdfToText",
           "group": "document-converter@4"
@@ -142,6 +167,11 @@
         {
           "when": "resourceExtname == .pptx || resourceExtname == .ppt",
           "command": "document-md-converter.convertPowerPointToMarkdown",
+          "group": "document-converter@5"
+        },
+        {
+          "when": "resourceExtname == .pptx || resourceExtname == .ppt",
+          "command": "document-md-converter.convertPowerPointSlidesToMarkdown",
           "group": "document-converter@5"
         },
         {
@@ -194,6 +224,15 @@
         },
         {
           "command": "document-md-converter.convertPdfPagesToImages"
+        },
+        {
+          "command": "document-md-converter.convertExcelWorksheetsToMarkdown"
+        },
+        {
+          "command": "document-md-converter.convertExcelWorksheetsToCsv"
+        },
+        {
+          "command": "document-md-converter.convertPowerPointSlidesToMarkdown"
         }
       ]
     },

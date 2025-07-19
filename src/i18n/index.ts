@@ -29,6 +29,9 @@ export interface Messages {
     convertPdfTablesToCsv: string;
     convertPdfPagesToText: string;
     convertPdfPagesToImages: string;
+    convertExcelWorksheetsToMarkdown: string;
+    convertExcelWorksheetsToCsv: string;
+    convertPowerPointSlidesToMarkdown: string;
   };
 
   // Progress and status messages
@@ -48,6 +51,7 @@ export interface Messages {
     viewDetails: string;
     filesCount: string;
     imagesInFolder: string;
+    filesInFolder: string;
   };
 
   // Error messages
@@ -131,6 +135,16 @@ export interface Messages {
     whitespaceChar: string;
     convertedFrom: string;
     csvFilesSaved: string;
+    worksheetSelectionTitle: string;
+    selectWorksheets: string;
+    selectAllWorksheets: string;
+    selectNoneWorksheets: string;
+    selectedWorksheetsCount: string;
+    outputFormatTitle: string;
+    outputFormatMarkdown: string;
+    outputFormatCsv: string;
+    worksheetConversionComplete: string;
+    worksheetsConversionComplete: string;
   };
 
   // PDF conversion specific messages
@@ -237,6 +251,7 @@ export interface Messages {
     basicInfoOnly: string;
     importantNotice: string;
     pptFormatNotice: string;
+    pptFormatNoticeDetail: string;
     bestConversionSteps: string;
     recommendedMethod: string;
     openInPowerPoint: string;
@@ -246,6 +261,8 @@ export interface Messages {
     useLibreOffice: string;
     useOnlineConverter: string;
     manualExtraction: string;
+    continueAnyway: string;
+    slidesConversionComplete: string;
   };
 
   // Table extraction specific messages

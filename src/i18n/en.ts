@@ -24,8 +24,11 @@ export const EnglishMessages: Messages = {
     debugPdfEnvironment: 'Debug PDF Environment',
     convertWordTablesToCsv: 'Extract Word Tables to CSV',
     convertPdfTablesToCsv: 'Extract PDF Tables to CSV',
-    convertPdfPagesToText: 'Export PDF Pages to Text',
-    convertPdfPagesToImages: 'Export PDF Pages to Images'
+    convertPdfPagesToText: 'Export Specified PDF Pages to Text',
+    convertPdfPagesToImages: 'Export Specified PDF Pages to Images',
+    convertExcelWorksheetsToMarkdown: 'Export Selected Excel Worksheets to Markdown',
+    convertExcelWorksheetsToCsv: 'Export Selected Excel Worksheets to CSV',
+    convertPowerPointSlidesToMarkdown: 'Export PowerPoint Slides to Markdown'
   },
 
   // Progress and status messages
@@ -44,7 +47,8 @@ export const EnglishMessages: Messages = {
     openFile: 'Open File',
     viewDetails: 'View Details',
     filesCount: '{0} files',
-    imagesInFolder: '{0} image(s) in {1}'
+    imagesInFolder: '{0} image(s) in {1}',
+    filesInFolder: '{0} files in {1}'
   },
 
   // Error messages
@@ -127,7 +131,17 @@ export const EnglishMessages: Messages = {
     rowsLimitNotice: '*Note: Data rows exceed {0} rows, showing only the first {1} rows*',
     whitespaceChar: '(whitespace)',
     convertedFrom: '*Converted from: {0}*',
-    csvFilesSaved: 'Successfully converted to {0} CSV file(s)'
+    csvFilesSaved: 'Successfully converted to {0} CSV file(s)',
+    worksheetSelectionTitle: 'Select Worksheets to Export',
+    selectWorksheets: 'Choose which worksheets to convert:',
+    selectAllWorksheets: 'Select All',
+    selectNoneWorksheets: 'Select None',
+    selectedWorksheetsCount: '{0} worksheet(s) selected',
+    outputFormatTitle: 'Select Output Format',
+    outputFormatMarkdown: 'Markdown (.md)',
+    outputFormatCsv: 'CSV (.csv)',
+    worksheetConversionComplete: 'Worksheet conversion completed',
+    worksheetsConversionComplete: 'Worksheets conversion completed'
   },
 
   // PDF conversion specific messages
@@ -234,15 +248,18 @@ export const EnglishMessages: Messages = {
     basicInfoOnly: 'Only basic file information could be extracted.',
     importantNotice: '⚠️ Important Notice',
     pptFormatNotice: 'This file is in the old PowerPoint format (.ppt). The current converter primarily supports the new PowerPoint format (.pptx).',
+    pptFormatNoticeDetail: 'For better conversion results, please convert this file to .pptx format first.',
     bestConversionSteps: '**For best conversion results, please follow these steps:**',
     recommendedMethod: '**Recommended Method**: Convert to .pptx format',
-    openInPowerPoint: 'Open this file in Microsoft PowerPoint',
+    openInPowerPoint: 'Open in PowerPoint',
     saveAsPptx: 'Select "File" > "Save As" and choose "PowerPoint Presentation (*.pptx)" format',
     useThisExtensionAgain: 'Save and use this extension to convert again',
     alternativeMethods: '**Alternative Methods**:',
     useLibreOffice: 'Use LibreOffice Impress to open and save as .pptx',
     useOnlineConverter: 'Use online presentation conversion tools',
-    manualExtraction: 'Manually copy slide content to a new Markdown file'
+    manualExtraction: 'Manually copy slide content to a new Markdown file',
+    continueAnyway: 'Continue Anyway',
+    slidesConversionComplete: 'Slides {0} conversion completed'
   },
 
   // Table extraction specific messages
