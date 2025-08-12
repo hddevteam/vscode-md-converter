@@ -1,9 +1,10 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as JSZip from 'jszip';
-import { ConversionResult, ConversionOptions } from '../types';
+import { ConversionResult, ConversionOptions, MarkdownInfoConfig } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 import { I18n } from '../i18n';
+import { MarkdownInfoBlockGenerator, DocumentMetadata, ConversionWarning } from './markdownInfoBlockGenerator';
 
 /**
  * PowerPoint to Markdown converter
@@ -35,19 +36,24 @@ export class PowerPointToMarkdownConverter {
         };
       }
 
+      // Determine markdown info configuration
+      const fileExtension = path.extname(inputPath).toLowerCase();
+      const markdownConfig: MarkdownInfoConfig = options?.markdownInfo ||
+        FileUtils.getMarkdownInfoConfig() ||
+        MarkdownInfoBlockGenerator.getDefaultConfig(fileExtension);
+
       // Generate Markdown content
       let markdown: string;
-      
-      const fileExtension = path.extname(inputPath).toLowerCase();
       if (fileExtension === '.pptx') {
-        markdown = await this.convertPptxToMarkdown(inputPath);
+        markdown = await this.convertPptxToMarkdown(inputPath, markdownConfig);
       } else {
         // .ppt format - provide guidance for conversion
-        markdown = await this.handlePptFormat(inputPath);
+        markdown = await this.handlePptFormat(inputPath, markdownConfig);
       }
 
-      // Generate output path
-      const outputDir = options?.outputDirectory || path.dirname(inputPath);
+  // Generate output path
+  const convConfig = FileUtils.getConfig();
+  const outputDir = options?.outputDirectory || convConfig.outputDirectory || path.dirname(inputPath);
       const outputPath = FileUtils.generateOutputPath(inputPath, '.md', outputDir);
 
       // Save Markdown file
@@ -73,28 +79,32 @@ export class PowerPointToMarkdownConverter {
   /**
    * Convert PPTX file to Markdown format
    */
-  private static async convertPptxToMarkdown(filePath: string): Promise<string> {
+  private static async convertPptxToMarkdown(filePath: string, markdownConfig: MarkdownInfoConfig): Promise<string> {
     const fileContent = await fs.readFile(filePath);
     const zip = await JSZip.loadAsync(fileContent);
     
     // File information
     const fileStats = await fs.stat(filePath);
     const fileName = path.basename(filePath);
-    const fileNameWithoutExt = path.basename(filePath, path.extname(filePath));
 
     // Create Markdown content
     let markdown = '';
-    
-    // Add title and file information
-    markdown += `# ${fileNameWithoutExt}\n\n`;
-    markdown += `${I18n.t('powerpoint.convertedFrom', fileName)}\n\n`;
-    markdown += `---\n\n`;
-    
-    // Add file information section
-    markdown += `## ${I18n.t('powerpoint.fileInfo')}\n\n`;
-    markdown += `- **${I18n.t('powerpoint.fileName')}**: ${fileName}\n`;
-    markdown += `- **${I18n.t('powerpoint.fileSize')}**: ${FileUtils.formatFileSize(fileStats.size)}\n`;
-    markdown += `- **${I18n.t('powerpoint.modifiedDate')}**: ${fileStats.mtime.toLocaleDateString()}\n`;
+
+    // Prepare metadata and warnings
+    const metadata: DocumentMetadata = {
+      fileName,
+      fileSize: fileStats.size,
+      modifiedDate: fileStats.mtime
+    };
+    const warnings: ConversionWarning[] = [];
+
+    // Header and file info/metadata blocks
+    markdown += await MarkdownInfoBlockGenerator.generateMarkdownHeader(
+      filePath,
+      markdownConfig,
+      metadata,
+      warnings
+    );
 
     try {
       // Extract presentation metadata
@@ -105,7 +115,10 @@ export class PowerPointToMarkdownConverter {
         const appPropsContent = await appPropsFile.async('text');
         const slideCountMatch = appPropsContent.match(/<Slides>(\d+)<\/Slides>/);
         if (slideCountMatch) {
-          markdown += `- **${I18n.t('powerpoint.slideCount')}**: ${slideCountMatch[1]}\n`;
+          // Enrich metadata with slide count information if metadata section enabled later
+          if (markdownConfig.includeMetadata) {
+            markdown += `- **${I18n.t('common.slideCount')}**: ${slideCountMatch[1]}\n`;
+          }
         }
       }
 
@@ -114,21 +127,30 @@ export class PowerPointToMarkdownConverter {
         
         const authorMatch = corePropsContent.match(/<dc:creator[^>]*>([^<]+)<\/dc:creator>/);
         if (authorMatch) {
-          markdown += `- **${I18n.t('powerpoint.author')}**: ${authorMatch[1]}\n`;
+          if (markdownConfig.includeMetadata) {
+            markdown += `- **${I18n.t('common.author')}**: ${authorMatch[1]}\n`;
+          }
         }
 
         const titleMatch = corePropsContent.match(/<dc:title[^>]*>([^<]+)<\/dc:title>/);
         if (titleMatch) {
-          markdown += `- **${I18n.t('powerpoint.title')}**: ${titleMatch[1]}\n`;
+          if (markdownConfig.includeMetadata) {
+            markdown += `- **${I18n.t('common.documentTitle')}**: ${titleMatch[1]}\n`;
+          }
         }
 
         const subjectMatch = corePropsContent.match(/<dc:subject[^>]*>([^<]+)<\/dc:subject>/);
         if (subjectMatch) {
-          markdown += `- **${I18n.t('powerpoint.subject')}**: ${subjectMatch[1]}\n`;
+          if (markdownConfig.includeMetadata) {
+            markdown += `- **${I18n.t('common.subject')}**: ${subjectMatch[1]}\n`;
+          }
         }
       }
-
-      markdown += '\n---\n\n';
+      if (markdownConfig.includeSectionSeparators) {
+        markdown += '\n---\n\n';
+      } else {
+        markdown += '\n';
+      }
 
       // Extract slides content and their corresponding notes
       const slidesFolder = zip.folder('ppt/slides');
@@ -182,7 +204,11 @@ export class PowerPointToMarkdownConverter {
               }
             }
             
-            markdown += '\n\n---\n\n';
+            if (markdownConfig.includeSectionSeparators) {
+              markdown += '\n\n---\n\n';
+            } else {
+              markdown += '\n\n';
+            }
           }
         }
       }
@@ -202,23 +228,27 @@ export class PowerPointToMarkdownConverter {
   /**
    * Handle .ppt format with simple notice
    */
-  private static async handlePptFormat(filePath: string): Promise<string> {
+  private static async handlePptFormat(filePath: string, markdownConfig: MarkdownInfoConfig): Promise<string> {
     const fileStats = await fs.stat(filePath);
     const fileName = path.basename(filePath);
-    const fileNameWithoutExt = path.basename(filePath, path.extname(filePath));
 
     let markdown = '';
     
-    // Add title and file information
-    markdown += `# ${fileNameWithoutExt}\n\n`;
-    markdown += `${I18n.t('powerpoint.convertedFrom', fileName)}\n\n`;
-    markdown += `---\n\n`;
-    
-    // Add file information section
-    markdown += `## ${I18n.t('powerpoint.fileInfo')}\n\n`;
-    markdown += `- **${I18n.t('powerpoint.fileName')}**: ${fileName}\n`;
-    markdown += `- **${I18n.t('powerpoint.fileSize')}**: ${FileUtils.formatFileSize(fileStats.size)}\n`;
-    markdown += `- **${I18n.t('powerpoint.modifiedDate')}**: ${fileStats.mtime.toLocaleDateString()}\n\n`;
+    // Prepare metadata and warnings
+    const metadata: DocumentMetadata = {
+      fileName,
+      fileSize: fileStats.size,
+      modifiedDate: fileStats.mtime
+    };
+    const warnings: ConversionWarning[] = [];
+
+    // Header and file info/metadata blocks
+    markdown += await MarkdownInfoBlockGenerator.generateMarkdownHeader(
+      filePath,
+      markdownConfig,
+      metadata,
+      warnings
+    );
 
     // Simple notice about .ppt format limitation
     markdown += `## 已提取内容\n\n`;
