@@ -1,9 +1,10 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as xlsx from 'xlsx';
-import { ConversionResult, ConversionOptions } from '../types';
+import { ConversionResult, ConversionOptions, MarkdownInfoConfig } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 import { I18n } from '../i18n';
+import { MarkdownInfoBlockGenerator, DocumentMetadata, ConversionWarning } from './markdownInfoBlockGenerator';
 
 export class ExcelToMarkdownConverter {
   /**
@@ -34,9 +35,15 @@ export class ExcelToMarkdownConverter {
       // Get configuration
       const config = FileUtils.getConfig();
       const maxRows = options?.maxRows ?? config.maxRowsExcel;
+      
+      // Get Markdown info configuration
+      const fileExtension = path.extname(inputPath).toLowerCase();
+      const markdownConfig = options?.markdownInfo || 
+        FileUtils.getMarkdownInfoConfig() || 
+        MarkdownInfoBlockGenerator.getDefaultConfig(fileExtension);
 
       // Generate Markdown content
-      let markdown = await this.convertExcelToMarkdown(inputPath, maxRows);
+      let markdown = await this.convertExcelToMarkdown(inputPath, maxRows, markdownConfig);
 
       // Generate output path
       const outputDir = options?.outputDirectory || config.outputDirectory || path.dirname(inputPath);
@@ -65,7 +72,7 @@ export class ExcelToMarkdownConverter {
   /**
    * Convert Excel/CSV document to Markdown format
    */
-  private static async convertExcelToMarkdown(filePath: string, maxRows: number): Promise<string> {
+  private static async convertExcelToMarkdown(filePath: string, maxRows: number, markdownConfig: MarkdownInfoConfig): Promise<string> {
     // Read file
     const fileContent = await fs.readFile(filePath);
     const workbook = xlsx.read(fileContent, { 
@@ -78,21 +85,29 @@ export class ExcelToMarkdownConverter {
     // File information
     const fileStats = await fs.stat(filePath);
     const fileName = path.basename(filePath);
-    const fileNameWithoutExt = path.basename(filePath, path.extname(filePath));
+    
+    // Prepare document metadata
+    const metadata: DocumentMetadata = {
+      fileName,
+      fileSize: fileStats.size,
+      modifiedDate: fileStats.mtime,
+      worksheetCount: workbook.SheetNames.length,
+      worksheetNames: workbook.SheetNames
+    };
+
+    // Prepare conversion warnings
+    const warnings: ConversionWarning[] = [];
     
     // Create Markdown content
     let markdown = '';
     
-    // Add title and file information
-    markdown += `# ${fileNameWithoutExt}\n\n`;
-    markdown += `${I18n.t('excel.convertedFrom', fileName)}\n\n`;
-    markdown += `---\n\n`;
-    
-    markdown += `## ${I18n.t('excel.fileInfo')}\n\n`;
-    markdown += `- **${I18n.t('excel.fileName')}**: ${fileName}\n`;
-    markdown += `- **${I18n.t('excel.fileSize')}**: ${FileUtils.formatFileSize(fileStats.size)}\n`;
-    markdown += `- **${I18n.t('excel.sheetCount')}**: ${workbook.SheetNames.length}\n`;
-    markdown += `- **${I18n.t('excel.sheetList')}**: ${workbook.SheetNames.join(', ')}\n\n`;
+    // Generate configurable header
+    markdown += await MarkdownInfoBlockGenerator.generateMarkdownHeader(
+      filePath,
+      markdownConfig,
+      metadata,
+      warnings
+    );
     
     // Process each worksheet
     for (const sheetName of workbook.SheetNames) {
@@ -106,7 +121,9 @@ export class ExcelToMarkdownConverter {
       // Check if worksheet is empty
       if (!sheet['!ref'] || range.s.r > range.e.r || range.s.c > range.e.c) {
         markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
-        markdown += '---\n\n';
+        if (markdownConfig.includeSectionSeparators) {
+          markdown += '---\n\n';
+        }
         continue;
       }
       
@@ -124,7 +141,9 @@ export class ExcelToMarkdownConverter {
       
       if (nonEmptyData.length === 0) {
         markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
-        markdown += '---\n\n';
+        if (markdownConfig.includeSectionSeparators) {
+          markdown += '---\n\n';
+        }
         continue;
       }
       
@@ -159,7 +178,9 @@ export class ExcelToMarkdownConverter {
         }
       }
       
-      markdown += '\n---\n\n';
+      if (markdownConfig.includeSectionSeparators) {
+        markdown += '\n---\n\n';
+      }
     }
     
     return markdown;

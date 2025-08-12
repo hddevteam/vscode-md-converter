@@ -125,6 +125,11 @@
         "command": "document-md-converter.convertPowerPointSlidesToMarkdown",
         "title": "%commands.convertPowerPointSlidesToMarkdown%",
         "category": "OneClick Markdown Converter"
+      },
+      {
+        "command": "document-md-converter.convertSelectedToMarkdown",
+        "title": "%commands.convertSelectedToMarkdown%",
+        "category": "OneClick Markdown Converter"
       }
     ],
     "menus": {
@@ -198,6 +203,11 @@
           "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
           "group": "document-converter@10"
+        },
+        {
+          "when": "resourceExtname == .docx || resourceExtname == .doc || resourceExtname == .xlsx || resourceExtname == .xls || resourceExtname == .csv || resourceExtname == .pptx || resourceExtname == .ppt",
+          "command": "document-md-converter.convertSelectedToMarkdown",
+          "group": "document-converter@11"
         }
       ],
       "commandPalette": [
@@ -316,6 +326,34 @@
           "type": "boolean",
           "default": false,
           "description": "%config.includeTableMetadataDescription%"
+        },
+        "documentConverter.markdownInfoFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "title",
+              "sourceNotice",
+              "fileInfo",
+              "metadata",
+              "conversionWarnings",
+              "contentHeading",
+              "sectionSeparators"
+            ]
+          },
+          "default": [
+            "title",
+            "sourceNotice",
+            "fileInfo",
+            "contentHeading",
+            "sectionSeparators"
+          ],
+          "description": "%config.markdownInfoFieldsDescription%"
+        },
+        "documentConverter.rememberMarkdownInfoSelection": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.rememberMarkdownInfoSelectionDescription%"
         }
       }
     }

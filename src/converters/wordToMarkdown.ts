@@ -2,8 +2,9 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as mammoth from 'mammoth';
 import { I18n } from '../i18n';
-import { ConversionResult, ConversionOptions } from '../types';
+import { ConversionResult, ConversionOptions, MarkdownInfoConfig } from '../types';
 import { FileUtils } from '../utils/fileUtils';
+import { MarkdownInfoBlockGenerator, DocumentMetadata, ConversionWarning } from './markdownInfoBlockGenerator';
 
 export class WordToMarkdownConverter {
   /**
@@ -50,6 +51,121 @@ export class WordToMarkdownConverter {
   }
 
   /**
+   * Convert DOCX file to Markdown with configurable info blocks
+   */
+  private static async convertDocxToMarkdown(
+    inputPath: string,
+    markdownConfig: MarkdownInfoConfig,
+    metadata: DocumentMetadata,
+    warnings: ConversionWarning[]
+  ): Promise<string> {
+    const buffer = await fs.readFile(inputPath);
+    
+    // Use mammoth conversion options for better output control
+    const options = {
+      styleMap: "p[style-name='Heading 1'] => h1:fresh\np[style-name='Heading 2'] => h2:fresh\np[style-name='Heading 3'] => h3:fresh\np[style-name='Heading 4'] => h4:fresh\np[style-name='Heading 5'] => h5:fresh\np[style-name='Heading 6'] => h6:fresh\nr[style-name='Strong'] => strong\nr[style-name='Emphasis'] => em",
+      ignoreEmptyParagraphs: true,
+      convertImage: (image: any) => {
+        // Convert images to base64 format
+        return {
+          src: `data:${image.contentType};base64,${image.buffer.toString('base64')}`,
+          altText: image.altText || 'Image'
+        };
+      }
+    };
+    
+    const result = await mammoth.convertToHtml({ buffer }, options);
+    
+    // Collect conversion warnings
+    if (result.messages.length > 0) {
+      for (const message of result.messages) {
+        if (message.type === 'warning') {
+          warnings.push({
+            type: 'warning',
+            message: message.message
+          });
+        }
+      }
+    }
+    
+    let markdown = '';
+    
+    // Add content heading if configured
+    if (markdownConfig.includeContentHeading) {
+      markdown += `## ${I18n.t('word.content')}\n\n`;
+    }
+    
+    // Add document content
+    if (result.value && result.value.trim()) {
+      let cleanedContent = result.value;
+      
+      // Convert basic HTML to Markdown
+      cleanedContent = this.convertHtmlToMarkdown(cleanedContent);
+      
+      // Clean up unwanted HTML tags and formatting
+      cleanedContent = WordToMarkdownConverter.cleanupMarkdown(cleanedContent);
+      
+      markdown += cleanedContent;
+    } else {
+      warnings.push({
+        type: 'warning',
+        message: I18n.t('word.noTextContent')
+      });
+      
+      markdown += `${I18n.t('word.noTextContent')}\n\n`;
+      markdown += `${I18n.t('word.possibleReasons')}\n`;
+      markdown += `${I18n.t('word.mainlyImages')}\n`;
+      markdown += `${I18n.t('word.documentFormatSpecial')}\n`;
+      markdown += `${I18n.t('word.passwordProtected')}\n`;
+    }
+    
+    return markdown;
+  }
+
+  /**
+   * Convert basic HTML to Markdown
+   */
+  private static convertHtmlToMarkdown(html: string): string {
+    let markdown = html;
+    
+    // Convert headers
+    markdown = markdown.replace(/<h([1-6])[^>]*>(.*?)<\/h[1-6]>/gi, (match, level, content) => {
+      const hashes = '#'.repeat(parseInt(level));
+      return `${hashes} ${content.trim()}\n\n`;
+    });
+    
+    // Convert bold
+    markdown = markdown.replace(/<(strong|b)[^>]*>(.*?)<\/(strong|b)>/gi, '**$2**');
+    
+    // Convert italic
+    markdown = markdown.replace(/<(em|i)[^>]*>(.*?)<\/(em|i)>/gi, '*$2*');
+    
+    // Convert paragraphs
+    markdown = markdown.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
+    
+    // Convert line breaks
+    markdown = markdown.replace(/<br[^>]*>/gi, '\n');
+    
+    // Convert lists
+    markdown = markdown.replace(/<ul[^>]*>(.*?)<\/ul>/gis, (match, content) => {
+      return content.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n') + '\n';
+    });
+    
+    markdown = markdown.replace(/<ol[^>]*>(.*?)<\/ol>/gis, (match, content) => {
+      let counter = 1;
+      return content.replace(/<li[^>]*>(.*?)<\/li>/gi, () => `${counter++}. $1\n`) + '\n';
+    });
+    
+    // Remove remaining HTML tags
+    markdown = markdown.replace(/<[^>]*>/g, '');
+    
+    // Clean up excessive whitespace
+    markdown = markdown.replace(/\n\s*\n\s*\n/g, '\n\n');
+    
+    return markdown.trim();
+  }
+
+  /**
    * Convert Word document to Markdown format
    */
   static async convert(inputPath: string, options?: ConversionOptions): Promise<ConversionResult> {
@@ -77,27 +193,58 @@ export class WordToMarkdownConverter {
       // Get file information
       const fileStats = await fs.stat(inputPath);
       const fileName = path.basename(inputPath);
-      const fileNameWithoutExt = path.basename(inputPath, path.extname(inputPath));
       const fileExtension = path.extname(inputPath).toLowerCase();
+      
+      // Get Markdown info configuration
+      const markdownConfig = options?.markdownInfo || 
+        FileUtils.getMarkdownInfoConfig() || 
+        MarkdownInfoBlockGenerator.getDefaultConfig(fileExtension);
+      
+      // Prepare document metadata
+      const metadata: DocumentMetadata = {
+        fileName,
+        fileSize: fileStats.size,
+        modifiedDate: fileStats.mtime
+      };
+
+      // Prepare conversion warnings
+      const warnings: ConversionWarning[] = [];
       
       let markdown = '';
       
-      // Add document title and meta information
-      markdown += `# ${fileNameWithoutExt}\n\n`;
-      markdown += `${I18n.t('word.convertedFrom', fileName)}\n\n`;
-      markdown += `---\n\n`;
-      
-      markdown += `## ${I18n.t('word.fileInfo')}\n\n`;
-      markdown += `- **${I18n.t('word.fileName')}**: ${fileName}\n`;
-      markdown += `- **${I18n.t('word.fileSize')}**: ${FileUtils.formatFileSize(fileStats.size)}\n`;
-      markdown += `- **${I18n.t('word.modifiedDate')}**: ${fileStats.mtime.toLocaleString()}\n\n`;
+      // Generate configurable header
+      markdown += await MarkdownInfoBlockGenerator.generateMarkdownHeader(
+        inputPath,
+        markdownConfig,
+        metadata,
+        warnings
+      );
       
       // Check file format and handle accordingly
       if (fileExtension === '.doc') {
+        // Add warnings for .doc files
+        warnings.push({
+          type: 'warning',
+          message: I18n.t('word.docFormatNotice')
+        });
+        
+        warnings.push({
+          type: 'info',
+          message: I18n.t('word.bestConversionSteps')
+        });
+
+        // Regenerate header with warnings if warnings should be included
+        if (markdownConfig.includeConversionWarnings) {
+          markdown = await MarkdownInfoBlockGenerator.generateMarkdownHeader(
+            inputPath,
+            markdownConfig,
+            metadata,
+            warnings
+          );
+        }
+        
         // Handle .doc files - provide clear guidance without attempting potentially hanging conversions
         markdown += `## ${I18n.t('word.importantNotice')}\n\n`;
-        markdown += `${I18n.t('word.docFormatNotice')}\n\n`;
-        markdown += `${I18n.t('word.bestConversionSteps')}\n\n`;
         markdown += `1. ${I18n.t('word.recommendedMethod')}\n`;
         markdown += `   - 在Microsoft Word中打开此文件\n`;
         markdown += `   - 选择"文件" > "另存为"\n`;
@@ -114,7 +261,7 @@ export class WordToMarkdownConverter {
           const buffer = await fs.readFile(inputPath);
           
           // Use Promise.race to set timeout
-          const extractionPromise = mammoth.extractRawText(buffer);
+          const extractionPromise = mammoth.extractRawText({ buffer });
           const timeoutPromise = new Promise<never>((_, reject) => {
             setTimeout(() => reject(new Error(I18n.t('error.unknownError'))), 5000); // 5 second timeout
           });
@@ -160,54 +307,14 @@ export class WordToMarkdownConverter {
       } else {
         // Handle .docx files
         try {
-          const buffer = await fs.readFile(inputPath);
-          
-          // Use mammoth conversion options for better output control
-          const options = {
-            styleMap: "p[style-name='Heading 1'] => h1:fresh\np[style-name='Heading 2'] => h2:fresh\np[style-name='Heading 3'] => h3:fresh\np[style-name='Heading 4'] => h4:fresh\np[style-name='Heading 5'] => h5:fresh\np[style-name='Heading 6'] => h6:fresh\nr[style-name='Strong'] => strong\nr[style-name='Emphasis'] => em",
-            ignoreEmptyParagraphs: true,
-            convertImage: (image: any) => {
-              // Convert images to base64 format
-              return {
-                src: `data:${image.contentType};base64,${image.buffer.toString('base64')}`,
-                altText: image.altText || 'Image'
-              };
-            }
-          };
-          
-          const result = await mammoth.convertToMarkdown(buffer, options);
-          
-          // Add conversion warning information (if any)
-          if (result.messages.length > 0) {
-            markdown += `## ${I18n.t('word.conversionWarnings')}\n\n`;
-            for (const message of result.messages) {
-              if (message.type === 'warning') {
-                markdown += `- ${message.message}\n`;
-              }
-            }
-            markdown += `\n`;
-          }
-          
-          // Add document content
-          markdown += `${I18n.t('word.content')}\n\n`;
-          if (result.value && result.value.trim()) {
-            let cleanedMarkdown = result.value;
-            
-            // Clean up unwanted HTML tags and formatting
-            cleanedMarkdown = WordToMarkdownConverter.cleanupMarkdown(cleanedMarkdown);
-            
-            markdown += cleanedMarkdown;
-          } else {
-            markdown += `${I18n.t('word.noTextContent')}\n\n`;
-            markdown += `${I18n.t('word.possibleReasons')}\n`;
-            markdown += `${I18n.t('word.mainlyImages')}\n`;
-            markdown += `${I18n.t('word.documentFormatSpecial')}\n`;
-            markdown += `${I18n.t('word.passwordProtected')}\n`;
-          }
-          
+          markdown += await this.convertDocxToMarkdown(inputPath, markdownConfig, metadata, warnings);
         } catch (docxError) {
-          markdown += `${I18n.t('word.conversionError')}\n\n`;
-          markdown += `${I18n.t('word.processingDocxError', docxError instanceof Error ? docxError.message : I18n.t('error.unknownError'))}\n\n`;
+          warnings.push({
+            type: 'error',
+            message: I18n.t('word.processingDocxError', docxError instanceof Error ? docxError.message : I18n.t('error.unknownError'))
+          });
+          
+          markdown += `## ${I18n.t('word.conversionError')}\n\n`;
           markdown += `${I18n.t('word.possibleSolutions')}\n`;
           markdown += `${I18n.t('word.checkFileIntegrity')}\n`;
           markdown += `${I18n.t('word.resaveInWord')}\n`;

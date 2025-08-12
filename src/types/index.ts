@@ -25,7 +25,28 @@ export interface ConversionOptions {
   tableOutputMode?: 'separate' | 'combined' | 'ask';
   tableCsvEncoding?: BufferEncoding;
   tableCsvDelimiter?: ',' | ';' | '\t';
+  // Markdown info block configuration
+  markdownInfo?: MarkdownInfoConfig;
 }
+
+export interface MarkdownInfoConfig {
+  includeTitle?: boolean;
+  includeSourceNotice?: boolean;
+  includeFileInfo?: boolean;
+  includeMetadata?: boolean;
+  includeConversionWarnings?: boolean;
+  includeContentHeading?: boolean;
+  includeSectionSeparators?: boolean;
+}
+
+export type MarkdownInfoField = 
+  | 'title'
+  | 'sourceNotice' 
+  | 'fileInfo'
+  | 'metadata'
+  | 'conversionWarnings'
+  | 'contentHeading'
+  | 'sectionSeparators';
 
 export interface ProgressInfo {
   current: number;
@@ -53,6 +74,9 @@ export interface ConversionConfig {
   tableCsvEncoding: BufferEncoding;
   tableCsvDelimiter: ',' | ';' | '\t';
   includeTableMetadata: boolean;  // Add missing property
+  // Markdown info block configuration
+  markdownInfoFields: MarkdownInfoField[];
+  rememberMarkdownInfoSelection: boolean;
 }
 
 // Table extraction specific types

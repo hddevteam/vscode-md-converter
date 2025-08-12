@@ -32,6 +32,7 @@ export interface Messages {
     convertExcelWorksheetsToMarkdown: string;
     convertExcelWorksheetsToCsv: string;
     convertPowerPointSlidesToMarkdown: string;
+    convertSelectedToMarkdown: string;
   };
 
   // Progress and status messages
@@ -86,6 +87,37 @@ export interface Messages {
     no: string;
   };
 
+  // QuickPick for Markdown info blocks
+  quickpick: {
+    markdownInfo: {
+      title: string;
+      placeholder: string;
+      rememberTitle: string;
+      rememberPlaceholder: string;
+      rememberDescription: string;
+      defaultSaved: string;
+      options: {
+        title: string;
+        sourceNotice: string;
+        fileInfo: string;
+        metadata: string;
+        conversionWarnings: string;
+        contentHeading: string;
+        sectionSeparators: string;
+      };
+      descriptions: {
+        title: string;
+        sourceNotice: string;
+        fileInfo: string;
+        metadata: string;
+        conversionWarnings: string;
+        contentHeading: string;
+        sectionSeparators: string;
+      };
+    };
+    rememberChoice: string;
+  };
+
   // File types
   fileTypes: {
     wordDocuments: string;
@@ -118,6 +150,8 @@ export interface Messages {
     autoOpenResultDescription: string;
     showWelcomeMessage: string;
     showWelcomeMessageDescription: string;
+    markdownInfoFieldsDescription: string;
+    rememberMarkdownInfoSelectionDescription: string;
   };
 
   // Excel conversion specific messages
@@ -189,6 +223,25 @@ export interface Messages {
     noPages: string;
     directoryCreated: string;
     imagesSaved: string;
+  };
+
+  // Common messages for all converters
+  common: {
+    convertedFrom: string;
+    fileInfo: string;
+    fileName: string;
+    fileSize: string;
+    modifiedDate: string;
+    content: string;
+    metadata: string;
+    author: string;
+    documentTitle: string;
+    subject: string;
+    pageCount: string;
+    slideCount: string;
+    worksheetCount: string;
+    worksheetNames: string;
+    conversionWarnings: string;
   };
 
   // Word conversion specific messages

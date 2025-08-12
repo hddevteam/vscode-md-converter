@@ -28,7 +28,8 @@ export const EnglishMessages: Messages = {
     convertPdfPagesToImages: 'Export Specified PDF Pages to Images',
     convertExcelWorksheetsToMarkdown: 'Export Selected Excel Worksheets to Markdown',
     convertExcelWorksheetsToCsv: 'Export Selected Excel Worksheets to CSV',
-    convertPowerPointSlidesToMarkdown: 'Export PowerPoint Slides to Markdown'
+    convertPowerPointSlidesToMarkdown: 'Export PowerPoint Slides to Markdown',
+    convertSelectedToMarkdown: 'Convert Selected to Markdown'
   },
 
   // Progress and status messages
@@ -83,6 +84,37 @@ export const EnglishMessages: Messages = {
     no: 'No'
   },
 
+  // QuickPick for Markdown info blocks
+  quickpick: {
+    markdownInfo: {
+      title: 'Select Information Blocks for Markdown Output',
+      placeholder: 'Choose which information blocks to include in the generated Markdown',
+      rememberTitle: 'Save as Default?',
+      rememberPlaceholder: 'Do you want to save this selection as your default preference?',
+      rememberDescription: 'Save this selection as default for future conversions',
+      defaultSaved: 'Your selection has been saved as the default preference',
+      options: {
+        title: 'Document Title',
+        sourceNotice: 'Source Notice',
+        fileInfo: 'File Information',
+        metadata: 'Document Metadata',
+        conversionWarnings: 'Conversion Warnings',
+        contentHeading: 'Content Heading',
+        sectionSeparators: 'Section Separators'
+      },
+      descriptions: {
+        title: 'Include document title header (# Title)',
+        sourceNotice: 'Include "Converted from [filename]" notice',
+        fileInfo: 'Include file size, modification date, etc.',
+        metadata: 'Include author, creation date, page/sheet/slide count',
+        conversionWarnings: 'Include conversion warnings and notices',
+        contentHeading: 'Include "Content" or section headings',
+        sectionSeparators: 'Include horizontal rules (---) between sections'
+      }
+    },
+    rememberChoice: '✓ Remember this choice as default'
+  },
+
   // File types
   fileTypes: {
     wordDocuments: 'Word Documents (.docx, .doc)',
@@ -114,7 +146,9 @@ export const EnglishMessages: Messages = {
     autoOpenResult: 'Auto Open Result',
     autoOpenResultDescription: 'Automatically open converted files',
     showWelcomeMessage: 'Show Welcome Message',
-    showWelcomeMessageDescription: 'Show a welcome message when the extension is activated'
+    showWelcomeMessageDescription: 'Show a welcome message when the extension is activated',
+    markdownInfoFieldsDescription: 'Default information blocks to include in Markdown output (title, source notice, file info, metadata, warnings, content heading, section separators)',
+    rememberMarkdownInfoSelectionDescription: 'Remember user choices for Markdown information blocks as default for future conversions'
   },
 
   // Excel conversion specific messages
@@ -186,6 +220,25 @@ export const EnglishMessages: Messages = {
     noPages: 'No pages found in PDF file.',
     directoryCreated: 'Created output directory: {0}',
     imagesSaved: 'Successfully saved {0} image(s)'
+  },
+
+  // Common messages for all converters
+  common: {
+    convertedFrom: 'Converted from: {0}',
+    fileInfo: 'File Information',
+    fileName: 'File Name',
+    fileSize: 'File Size',
+    modifiedDate: 'Modified Date',
+    content: 'Content',
+    metadata: 'Document Metadata',
+    author: 'Author',
+    documentTitle: 'Document Title',
+    subject: 'Subject',
+    pageCount: 'Page Count',
+    slideCount: 'Slide Count',
+    worksheetCount: 'Worksheet Count',
+    worksheetNames: 'Worksheet Names',
+    conversionWarnings: 'Conversion Warnings'
   },
 
   // Word conversion specific messages

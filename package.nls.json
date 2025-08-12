@@ -13,6 +13,7 @@
   "commands.convertExcelWorksheetsToCsv": "Export Selected Excel Worksheets to CSV",
   "commands.convertPowerPointSlidesToMarkdown": "Export PowerPoint Slides to Markdown",
   "commands.batchConvert": "Batch Convert to Markdown",
+  "commands.convertSelectedToMarkdown": "Convert Selected to Markdown",
   "commands.openConverter": "Open OneClick Markdown Converter",
   "commands.debugPdfEnvironment": "Debug PDF Environment",
   "commands.debugPdfToImageEnvironment": "Debug PDF to Image Environment",
@@ -27,5 +28,7 @@
   "config.tableOutputModeDescription": "How to save multiple tables: separate files, combined file, or ask each time",
   "config.tableCsvEncodingDescription": "CSV file encoding (UTF-8 recommended for international use, GBK for Chinese Excel compatibility)",
   "config.tableCsvDelimiterDescription": "CSV field delimiter character",
-  "config.includeTableMetadataDescription": "Include table metadata (title, source location) as comments in CSV files"
+  "config.includeTableMetadataDescription": "Include table metadata (title, source location) as comments in CSV files",
+  "config.markdownInfoFieldsDescription": "Default information blocks to include in Markdown output (title, source notice, file info, metadata, warnings, content heading, section separators)",
+  "config.rememberMarkdownInfoSelectionDescription": "Remember user choices for Markdown information blocks as default for future conversions"
 }

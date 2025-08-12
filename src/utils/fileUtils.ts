@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs/promises';
-import { FileValidationResult, SupportedFileType, ConversionConfig } from '../types';
+import { FileValidationResult, SupportedFileType, ConversionConfig, MarkdownInfoField, MarkdownInfoConfig } from '../types';
 
 export class FileUtils {
   /**
@@ -171,7 +171,10 @@ export class FileUtils {
       tableOutputMode: config.get<'separate' | 'combined' | 'ask'>('tableOutputMode') || 'separate',
       tableCsvEncoding: config.get<BufferEncoding>('tableCsvEncoding') || 'utf8',
       tableCsvDelimiter: config.get<',' | ';' | '\t'>('tableCsvDelimiter') || ',',
-      includeTableMetadata: config.get<boolean>('includeTableMetadata') || false
+      includeTableMetadata: config.get<boolean>('includeTableMetadata') || false,
+      // Markdown info block configuration with defaults
+      markdownInfoFields: (config.get<string[]>('markdownInfoFields') as MarkdownInfoField[]) || ['title', 'sourceNotice', 'fileInfo', 'contentHeading', 'sectionSeparators'],
+      rememberMarkdownInfoSelection: config.get<boolean>('rememberMarkdownInfoSelection') || true
     };
   }
 
@@ -182,6 +185,24 @@ export class FileUtils {
     const config = vscode.workspace.getConfiguration('documentConverter');
     return {
       includeMetadata: config.get<boolean>('includeTableMetadata') || false
+    };
+  }
+
+  /**
+   * Get markdown info block configuration
+   */
+  static getMarkdownInfoConfig(): MarkdownInfoConfig {
+    const config = vscode.workspace.getConfiguration('documentConverter');
+    const selectedFields = (config.get<string[]>('markdownInfoFields') as MarkdownInfoField[]) || [];
+    
+    return {
+      includeTitle: selectedFields.includes('title'),
+      includeSourceNotice: selectedFields.includes('sourceNotice'),
+      includeFileInfo: selectedFields.includes('fileInfo'),
+      includeMetadata: selectedFields.includes('metadata'),
+      includeConversionWarnings: selectedFields.includes('conversionWarnings'),
+      includeContentHeading: selectedFields.includes('contentHeading'),
+      includeSectionSeparators: selectedFields.includes('sectionSeparators')
     };
   }
 

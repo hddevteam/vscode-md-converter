@@ -28,7 +28,8 @@ export const ChineseMessages: Messages = {
     convertPdfPagesToImages: '导出指定页码PDF到图片',
     convertExcelWorksheetsToMarkdown: '导出指定Excel工作表到Markdown',
     convertExcelWorksheetsToCsv: '导出指定Excel工作表到CSV',
-    convertPowerPointSlidesToMarkdown: '导出指定幻灯片到Markdown'
+    convertPowerPointSlidesToMarkdown: '导出指定幻灯片到Markdown',
+    convertSelectedToMarkdown: '将所选转换为Markdown'
   },
 
   // Progress and status messages
@@ -83,6 +84,37 @@ export const ChineseMessages: Messages = {
     no: '否'
   },
 
+  // QuickPick for Markdown info blocks
+  quickpick: {
+    markdownInfo: {
+      title: '选择Markdown输出信息块',
+      placeholder: '选择要在生成的Markdown中包含的信息块',
+      rememberTitle: '保存为默认设置？',
+      rememberPlaceholder: '您希望将此选择保存为默认偏好吗？',
+      rememberDescription: '将此选择保存为未来转换的默认设置',
+      defaultSaved: '您的选择已保存为默认偏好',
+      options: {
+        title: '文档标题',
+        sourceNotice: '来源说明',
+        fileInfo: '文件信息',
+        metadata: '文档元数据',
+        conversionWarnings: '转换警告',
+        contentHeading: '内容标题',
+        sectionSeparators: '分节线'
+      },
+      descriptions: {
+        title: '包含文档标题头（# 标题）',
+        sourceNotice: '包含"转换自[文件名]"说明',
+        fileInfo: '包含文件大小、修改日期等信息',
+        metadata: '包含作者、创建日期、页数/表数/幻灯片数',
+        conversionWarnings: '包含转换警告和提示',
+        contentHeading: '包含"内容"或章节标题',
+        sectionSeparators: '包含分节线（---）'
+      }
+    },
+    rememberChoice: '✓ 记住此选择作为默认'
+  },
+
   // File types
   fileTypes: {
     wordDocuments: 'Word文档 (.docx, .doc)',
@@ -114,7 +146,9 @@ export const ChineseMessages: Messages = {
     autoOpenResult: '自动打开结果',
     autoOpenResultDescription: '自动打开转换后的文件',
     showWelcomeMessage: '显示欢迎消息',
-    showWelcomeMessageDescription: '扩展激活时显示欢迎消息'
+    showWelcomeMessageDescription: '扩展激活时显示欢迎消息',
+    markdownInfoFieldsDescription: 'Markdown输出中包含的默认信息块（标题、来源说明、文件信息、元数据、警告、内容标题、分节线）',
+    rememberMarkdownInfoSelectionDescription: '记住用户对Markdown信息块的选择作为未来转换的默认值'
   },
 
   // Excel conversion specific messages
@@ -186,6 +220,25 @@ export const ChineseMessages: Messages = {
     noPages: 'PDF文件中未找到页面。',
     directoryCreated: '已创建输出目录：{0}',
     imagesSaved: '成功保存 {0} 张图片'
+  },
+
+  // Common messages for all converters
+  common: {
+    convertedFrom: '转换自：{0}',
+    fileInfo: '文件信息',
+    fileName: '文件名',
+    fileSize: '文件大小',
+    modifiedDate: '修改日期',
+    content: '内容',
+    metadata: '文档元数据',
+    author: '作者',
+    documentTitle: '文档标题',
+    subject: '主题',
+    pageCount: '页数',
+    slideCount: '幻灯片数',
+    worksheetCount: '工作表数',
+    worksheetNames: '工作表名称',
+    conversionWarnings: '转换警告'
   },
 
   // Word conversion specific messages

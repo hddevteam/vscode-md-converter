@@ -13,6 +13,7 @@
   "commands.convertExcelWorksheetsToCsv": "导出指定Excel工作表到CSV",
   "commands.convertPowerPointSlidesToMarkdown": "导出指定幻灯片到Markdown",
   "commands.batchConvert": "批量转换为Markdown",
+  "commands.convertSelectedToMarkdown": "将所选转换为Markdown",
   "commands.openConverter": "打开一键Markdown转换器",
   "commands.debugPdfEnvironment": "调试PDF环境",
   "commands.debugPdfToImageEnvironment": "调试PDF图片转换环境",
@@ -27,5 +28,7 @@
   "config.tableOutputModeDescription": "多表格保存方式：单独文件、合并文件或每次询问",
   "config.tableCsvEncodingDescription": "CSV文件编码（UTF-8适用于国际化，GBK适用于中文Excel兼容性）",
   "config.tableCsvDelimiterDescription": "CSV字段分隔符",
-  "config.includeTableMetadataDescription": "在CSV文件中包含表格元数据（标题、来源位置）作为注释"
+  "config.includeTableMetadataDescription": "在CSV文件中包含表格元数据（标题、来源位置）作为注释",
+  "config.markdownInfoFieldsDescription": "Markdown输出中包含的默认信息块（标题、来源说明、文件信息、元数据、警告、内容标题、分节线）",
+  "config.rememberMarkdownInfoSelectionDescription": "记住用户对Markdown信息块的选择作为未来转换的默认值"
 }
