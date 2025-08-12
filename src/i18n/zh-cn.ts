@@ -81,7 +81,34 @@ export const ChineseMessages: Messages = {
     continue: '继续',
     cancel: '取消',
     yes: '是',
-    no: '否'
+    no: '否',
+    
+    // Multi-select conversion messages
+    multiSelect: {
+      noFilesSelected: '未选择文件进行转换',
+      noSupportedFiles: '选择的文件中没有支持的格式: {0}',
+      someFilesSkipped: '部分文件被跳过（不支持的格式）: {0}',
+      converting: '正在转换文件为Markdown...',
+      executionFailed: '转换执行失败: {0}',
+      isDirectory: '不支持目录',
+      fileNotFound: '文件未找到或无法访问',
+      pdfNotSupported: 'PDF文件不支持Markdown转换（请使用PDF转文本功能）',
+      unsupportedFormat: '不支持的文件格式: {0}',
+      unsupportedFileType: '不支持的文件类型: {0}',
+      starting: '准备转换中...',
+      processingFile: '正在转换: {0}',
+      singleFileSuccess: '已成功转换为 {0}',
+      batchSuccess: '成功转换了 {0} 个文件，共 {1} 个',
+      partialSuccess: '成功转换 {0} 个文件，共 {1} 个，{2} 个失败',
+      allFailed: '全部 {0} 个文件转换失败',
+      success: '成功',
+      failed: '失败',
+      openFile: '打开文件',
+      showDetails: '显示详情',
+      resultsTitle: '转换结果',
+      resultsHeader: 'Markdown转换结果',
+      resultsSummary: '总计: {0} | 成功: {1} | 失败: {2}'
+    }
   },
 
   // QuickPick for Markdown info blocks

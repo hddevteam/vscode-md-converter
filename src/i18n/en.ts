@@ -81,7 +81,34 @@ export const EnglishMessages: Messages = {
     continue: 'Continue',
     cancel: 'Cancel',
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
+    
+    // Multi-select conversion messages
+    multiSelect: {
+      noFilesSelected: 'No files selected for conversion',
+      noSupportedFiles: 'No supported files found in selection: {0}',
+      someFilesSkipped: 'Some files were skipped (unsupported format): {0}',
+      converting: 'Converting files to Markdown...',
+      executionFailed: 'Failed to execute conversion: {0}',
+      isDirectory: 'Directories are not supported',
+      fileNotFound: 'File not found or cannot be accessed',
+      pdfNotSupported: 'PDF files are not supported for Markdown conversion (use PDF to Text instead)',
+      unsupportedFormat: 'Unsupported file format: {0}',
+      unsupportedFileType: 'Unsupported file type: {0}',
+      starting: 'Preparing conversion...',
+      processingFile: 'Converting: {0}',
+      singleFileSuccess: 'Successfully converted to {0}',
+      batchSuccess: 'Successfully converted {0} of {1} files',
+      partialSuccess: 'Converted {0} of {1} files successfully, {2} failed',
+      allFailed: 'Failed to convert all {0} files',
+      success: 'Success',
+      failed: 'Failed',
+      openFile: 'Open File',
+      showDetails: 'Show Details',
+      resultsTitle: 'Conversion Results',
+      resultsHeader: 'Markdown Conversion Results',
+      resultsSummary: 'Total: {0} | Success: {1} | Failed: {2}'
+    }
   },
 
   // QuickPick for Markdown info blocks

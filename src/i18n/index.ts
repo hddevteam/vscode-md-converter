@@ -85,6 +85,33 @@ export interface Messages {
     cancel: string;
     yes: string;
     no: string;
+    
+    // Multi-select conversion messages
+    multiSelect: {
+      noFilesSelected: string;
+      noSupportedFiles: string;
+      someFilesSkipped: string;
+      converting: string;
+      executionFailed: string;
+      isDirectory: string;
+      fileNotFound: string;
+      pdfNotSupported: string;
+      unsupportedFormat: string;
+      unsupportedFileType: string;
+      starting: string;
+      processingFile: string;
+      singleFileSuccess: string;
+      batchSuccess: string;
+      partialSuccess: string;
+      allFailed: string;
+      success: string;
+      failed: string;
+      openFile: string;
+      showDetails: string;
+      resultsTitle: string;
+      resultsHeader: string;
+      resultsSummary: string;
+    };
   };
 
   // QuickPick for Markdown info blocks

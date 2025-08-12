@@ -11,6 +11,7 @@ import { convertPdfPagesToText } from './commands/convertPdfPagesToText';
 import { convertPdfPagesToImages } from './commands/convertPdfPagesToImages';
 import { convertExcelWorksheetsToMarkdown, convertExcelWorksheetsToCsv } from './commands/convertExcelWorksheetsRange';
 import { convertPowerPointSlidesToMarkdown } from './commands/convertPowerPointSlidesRange';
+import { ConvertSelectedToMarkdownCommand } from './commands/convertSelectedToMarkdown';
 import { batchConvert } from './commands/batchConvert';
 import { openConverter } from './commands/openConverter';
 import { debugPdfEnvironment } from './commands/debugPdfEnvironment';
@@ -137,6 +138,13 @@ export async function activate(context: vscode.ExtensionContext) {
         () => {
           console.log('Executing PDF environment debug command');
           return debugPdfEnvironment();
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertSelectedToMarkdown',
+        async (uri?: vscode.Uri, uris?: vscode.Uri[]) => {
+          console.log('Executing Convert Selected to Markdown command, URI:', uri?.fsPath, 'URIs:', uris?.map(u => u.fsPath));
+          return ConvertSelectedToMarkdownCommand.execute(uri, uris);
         }
       )
     ];
