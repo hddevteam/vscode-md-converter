@@ -207,6 +207,24 @@ export class FileUtils {
   }
 
   /**
+   * Check if the user has explicitly customized markdown info fields
+   * rather than using the default values from package.json
+   */
+  static hasUserDefinedMarkdownInfoFields(): boolean {
+    const config = vscode.workspace.getConfiguration('documentConverter');
+    const inspected = config.inspect<string[]>('markdownInfoFields');
+    if (!inspected) {
+      return false;
+    }
+    // If any of these are defined (even empty array), user/workspace has overridden the default
+    return (
+      inspected.globalValue !== undefined ||
+      inspected.workspaceValue !== undefined ||
+      inspected.workspaceFolderValue !== undefined
+    );
+  }
+
+  /**
    * Open file
    */
   static async openFile(filePath: string): Promise<void> {

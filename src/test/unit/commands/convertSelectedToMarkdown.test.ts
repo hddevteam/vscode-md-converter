@@ -10,7 +10,7 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
   let originalShowWarningMessage: typeof vscode.window.showWarningMessage;
   let originalShowErrorMessage: typeof vscode.window.showErrorMessage;
   let originalWithProgress: typeof vscode.window.withProgress;
-  let originalStat: typeof vscode.workspace.fs.stat;
+  let restoreWrappers: Array<() => void> = [];
 
   setup(() => {
     // Store original methods
@@ -19,12 +19,21 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
     originalShowWarningMessage = vscode.window.showWarningMessage;
     originalShowErrorMessage = vscode.window.showErrorMessage;
     originalWithProgress = vscode.window.withProgress;
-    originalStat = vscode.workspace.fs.stat;
+  restoreWrappers = [];
   });
 
   teardown(() => {
-    // Restore original implementations after each test
-    // This is handled within each test to avoid conflicts
+  // Restore VS Code window methods if overridden
+  vscode.window.showQuickPick = originalShowQuickPick;
+  vscode.window.showInformationMessage = originalShowInformationMessage;
+  vscode.window.showWarningMessage = originalShowWarningMessage;
+  vscode.window.showErrorMessage = originalShowErrorMessage;
+  vscode.window.withProgress = originalWithProgress;
+  // Restore wrappers
+    for (const r of restoreWrappers) {
+      r();
+    }
+  restoreWrappers = [];
   });
 
   test('should handle no files selected', async () => {
@@ -49,13 +58,12 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
 
   test('should handle single file selection', async () => {
     const testUri = vscode.Uri.file('/test/document.docx');
-    
-    // Mock file stat to return valid file
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
 
-    // Mock showQuickPick for configuration selection
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
+  // Mock showQuickPick for configuration selection
     (vscode.window.showQuickPick as any) = async () => [
       { label: 'Document Title', picked: true }
     ];
@@ -93,10 +101,10 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       vscode.Uri.file('/test/document3.pptx')
     ];
 
-    // Mock file stat to return valid files
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     // Mock showQuickPick for configuration selection
     (vscode.window.showQuickPick as any) = async () => [
@@ -136,10 +144,10 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       vscode.Uri.file('/test/data.xlsx')       // Supported
     ];
 
-    // Mock file stat
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     let warningMessage = '';
     vscode.window.showWarningMessage = async (message: string) => {
@@ -178,13 +186,15 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       vscode.Uri.file('/test/folder')          // Directory
     ];
 
-    // Mock file stat to return appropriate types
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
+    // Mock file stat via wrapper to return appropriate types
+    const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+    ConvertSelectedToMarkdownCommand.fsStat = async (uri: vscode.Uri) => {
       if (uri.fsPath.includes('folder')) {
         return { type: vscode.FileType.Directory, ctime: 0, mtime: 0, size: 0 } as vscode.FileStat;
       }
       return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
     };
+    restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     let warningMessage = '';
     vscode.window.showWarningMessage = async (message: string) => {
@@ -222,10 +232,10 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       vscode.Uri.file('/test/nonexistent.docx')
     ];
 
-    // Mock file stat to throw error for non-existent file
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      throw new vscode.FileSystemError('File not found');
-    };
+  // Mock file stat via wrapper to throw error for non-existent file
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (_: vscode.Uri) => { throw new vscode.FileSystemError('File not found'); };
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     let warningMessage = '';
     vscode.window.showWarningMessage = async (message: string) => {
@@ -241,10 +251,10 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
   test('should handle user cancellation of configuration selection', async () => {
     const testUri = vscode.Uri.file('/test/document.docx');
 
-    // Mock file stat
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     // Mock showQuickPick to return undefined (user cancellation)
     (vscode.window.showQuickPick as any) = async () => undefined;
@@ -270,17 +280,17 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       vscode.Uri.file('/test/old_doc.doc')
     ];
 
-    // Mock file stat
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     // Mock showQuickPick for configuration selection
     (vscode.window.showQuickPick as any) = async () => [
       { label: 'Document Title', picked: true }
     ];
 
-    // Mock withProgress to track progress calls
+  // Mock withProgress to track progress calls
     let progressCalls: string[] = [];
     (vscode.window.withProgress as any) = async (options: any, task: any) => {
       progressCalls.push(options.title);
@@ -311,9 +321,18 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
 
   test('should handle error during execution', async () => {
     const testUri = vscode.Uri.file('/test/document.docx');
+    // Make file supported so we reach the progress task
+    const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+    ConvertSelectedToMarkdownCommand.fsStat = async (_: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+    restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
-    // Mock file stat to throw an unexpected error
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
+    // Mock showQuickPick to simulate a selection
+    (vscode.window.showQuickPick as any) = async () => [
+      { label: 'Document Title', picked: true }
+    ];
+
+    // Make withProgress throw an unexpected error to be caught at top-level
+    (vscode.window.withProgress as any) = async (_options: any, _task: any) => {
       throw new Error('Unexpected error');
     };
 
@@ -323,7 +342,7 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       return undefined;
     };
 
-    await ConvertSelectedToMarkdownCommand.execute(testUri);
+  await ConvertSelectedToMarkdownCommand.execute(testUri);
 
     assert.ok(errorMessage.includes('Failed to execute'), 'Should show execution failed error');
     assert.ok(errorMessage.includes('Unexpected error'), 'Should include the original error message');
@@ -339,13 +358,15 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       document: mockDocument
     };
 
-    const originalActiveTextEditor = vscode.window.activeTextEditor;
-    (vscode.window as any).activeTextEditor = mockEditor;
+  // Mock active editor via wrapper
+  const originalGetActiveEditor = ConvertSelectedToMarkdownCommand.getActiveEditor;
+  ConvertSelectedToMarkdownCommand.getActiveEditor = () => mockEditor as any;
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.getActiveEditor = originalGetActiveEditor; });
 
-    // Mock file stat
-    vscode.workspace.fs.stat = async (uri: vscode.Uri) => {
-      return { type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat;
-    };
+  // Mock file stat via wrapper
+  const origStat = ConvertSelectedToMarkdownCommand.fsStat;
+  ConvertSelectedToMarkdownCommand.fsStat = async (u: vscode.Uri) => ({ type: vscode.FileType.File, ctime: 0, mtime: 0, size: 1000 } as vscode.FileStat);
+  restoreWrappers.push(() => { ConvertSelectedToMarkdownCommand.fsStat = origStat; });
 
     // Mock showQuickPick for configuration selection
     (vscode.window.showQuickPick as any) = async () => [
@@ -373,7 +394,7 @@ suite('ConvertSelectedToMarkdownCommand Unit Tests', () => {
       
       assert.ok(progressTitle.includes('Converting'), 'Should process active editor file');
     } finally {
-      (vscode.window as any).activeTextEditor = originalActiveTextEditor;
+      // restoration handled by teardown restoreWrappers
     }
   });
 });

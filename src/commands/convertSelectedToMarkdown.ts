@@ -35,6 +35,13 @@ interface FileProcessingInfo {
  */
 export class ConvertSelectedToMarkdownCommand {
   /**
+   * Injectable wrappers for VS Code APIs to enable safe testing without
+   * assigning to readonly VS Code properties.
+   */
+  static fsStat: (uri: vscode.Uri) => Thenable<vscode.FileStat> = (uri: vscode.Uri) => vscode.workspace.fs.stat(uri);
+  static getActiveEditor: () => vscode.TextEditor | undefined = () => vscode.window.activeTextEditor;
+
+  /**
    * Execute the convert selected to Markdown command
    * Handles both single file and multi-file selection
    */
@@ -116,7 +123,7 @@ export class ConvertSelectedToMarkdownCommand {
     }
 
     // Fallback: check active editor
-    const activeEditor = vscode.window.activeTextEditor;
+  const activeEditor = this.getActiveEditor();
     if (activeEditor && activeEditor.document.uri.scheme === 'file') {
       return [activeEditor.document.uri];
     }
@@ -136,7 +143,7 @@ export class ConvertSelectedToMarkdownCommand {
 
       // Check if file exists and is not a directory
       try {
-        const stats = await vscode.workspace.fs.stat(file);
+        const stats = await this.fsStat(file);
         if (stats.type === vscode.FileType.Directory) {
           analysis.push({
             filePath,
@@ -205,17 +212,17 @@ export class ConvertSelectedToMarkdownCommand {
    * Get Markdown configuration from user or saved preferences
    */
   private static async getMarkdownConfiguration(isBatchMode: boolean): Promise<MarkdownInfoConfig | null> {
-    // Check if user wants to remember choices and has saved preferences
     const config = FileUtils.getConfig();
     const rememberChoice = config.rememberMarkdownInfoSelection;
-    const savedFields = config.markdownInfoFields;
-
-    // If remembering choices and have saved preferences, use them
-    if (rememberChoice && savedFields && savedFields.length > 0) {
+    
+    // Only use saved preferences if user has explicitly enabled "remember choice"
+    // and has actual saved field selections (not empty defaults)
+    if (rememberChoice && FileUtils.hasUserDefinedMarkdownInfoFields()) {
       return FileUtils.getMarkdownInfoConfig();
     }
 
-    // Otherwise, show selection UI
+    // Show selection UI for new users or when remember choice is disabled
+    // or when no fields have been selected yet
     try {
       const selectedConfig = await MarkdownInfoSelector.showSelector();
       return selectedConfig || null;
