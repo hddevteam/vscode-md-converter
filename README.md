@@ -14,7 +14,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
-### 🆕 Advanced Range Export Features (v0.2.0)
+### 🆕 Advanced Range Export Features (v0.3.0)
 - **📄 PDF Page Range Export** - Extract specific pages as text or images
 - **📊 Excel Worksheet Range Export** - Export selected worksheets to Markdown/CSV
 - **🎨 PowerPoint Slide Range Export** - Convert specific slides to Markdown
@@ -71,7 +71,7 @@ npm run compile
 2. Select "Batch Convert Documents"
 3. Follow prompts to select conversion types and options
 
-### 🆕 Multi-Select Conversion (v0.2.0)
+### 🆕 Multi-Select Conversion (v0.3.0)
 1. **Multi-file Selection**: Select multiple files in VS Code Explorer (Ctrl/Cmd+Click)
 2. **Flexible Conversion**: Convert different file types to Markdown in one operation
 3. **Customizable Output**: Choose what information to include in the converted Markdown:
@@ -99,7 +99,7 @@ npm run compile
 - `Batch Convert Documents` - Batch convert documents
 - `Open Document Converter` - Open converter interface
 
-#### 🆕 Advanced Range Export Commands (v0.2.0)
+#### 🆕 Advanced Range Export Commands (v0.3.0)
 - `Export Specified PDF Pages to Text` - Convert selected PDF pages to text
 - `Export Specified PDF Pages to Images` - Convert selected PDF pages to images
 - `Export Selected Excel Worksheets to Markdown` - Convert chosen worksheets to Markdown
@@ -214,7 +214,7 @@ All converted files are saved in the same directory as the original files with a
 - Enhanced Chinese text handling in forex and financial documents
 - Robust parsing algorithms for complex table structures
 
-## 🚀 Upcoming Features (v0.2.0)
+## 🚀 Upcoming Features (v0.4.0)
 
 We're actively working on expanding format support and adding new capabilities:
 
@@ -223,7 +223,7 @@ We're actively working on expanding format support and adding new capabilities:
 - **🏗️ Architecture Improvements**: Better plugin system for future format extensions
 - **🎨 Custom Templates**: User-defined output templates for different conversion scenarios
 
-[View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.2.0)
+[View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.4.0)
 
 ## ⚙️ Configuration Options
 
