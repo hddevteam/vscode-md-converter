@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import { I18n } from '../i18n';
 import { FileValidationResult, SupportedFileType, ConversionConfig, MarkdownInfoField, MarkdownInfoConfig } from '../types';
 
 export class FileUtils {
@@ -9,31 +10,31 @@ export class FileUtils {
    */
   static async validateFile(filePath: string): Promise<FileValidationResult> {
     try {
-      console.log(`正在验证文件: ${filePath}`);
+      console.log(I18n.t('fileUtils.validatingFile', filePath));
       
       // Check if file exists
       try {
         await fs.access(filePath);
       } catch (error) {
-        console.error(`文件访问错误: ${error}`);
+        console.error(I18n.t('fileUtils.fileAccessError', error));
         return { 
           isValid: false, 
-          error: `文件不存在或无法访问: ${filePath}`,
-          suggestions: ['检查文件路径是否正确', '确认文件是否有读取权限']
+          error: I18n.t('fileUtils.fileNotExistOrAccessible', filePath),
+          suggestions: [I18n.t('fileUtils.checkFilePath'), I18n.t('fileUtils.confirmReadPermission')]
         };
       }
       
       const stats = await fs.stat(filePath);
       
       if (!stats.isFile()) {
-        return { isValid: false, error: '路径不是一个文件' };
+        return { isValid: false, error: I18n.t('fileUtils.pathNotFile') };
       }
 
       if (stats.size === 0) {
         return { 
           isValid: false, 
-          error: '文件为空',
-          suggestions: ['检查文件是否损坏或不完整']
+          error: I18n.t('fileUtils.fileEmpty'),
+          suggestions: [I18n.t('fileUtils.checkFileCorrupted')]
         };
       }
 

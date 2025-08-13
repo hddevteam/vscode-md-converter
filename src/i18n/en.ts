@@ -32,6 +32,36 @@ export const EnglishMessages: Messages = {
     convertSelectedToMarkdown: 'Convert Selected to Markdown'
   },
 
+  // Webview strings for the document converter
+  webview: {
+    title: 'Document Converter',
+    wordToMarkdown: {
+      title: 'Word to Markdown',
+      description: 'Convert Word documents (.docx, .doc) to Markdown format, preserving text structure and basic formatting.',
+      buttonText: 'Select File to Convert'
+    },
+    excelToMarkdown: {
+      title: 'Excel/CSV to Markdown',
+      description: 'Convert Excel workbooks or CSV files to Markdown tables, preserving data from multiple worksheets.',
+      buttonText: 'Select File to Convert'
+    },
+    pdfToText: {
+      title: 'PDF to Text',
+      description: 'Extract text content from PDF files and save as plain text files.',
+      buttonText: 'Select File to Convert'
+    },
+    powerPointToMarkdown: {
+      title: 'PowerPoint to Markdown',
+      description: 'Convert PowerPoint presentations (.pptx, .ppt) to Markdown format, extracting slide content and speaker notes.',
+      buttonText: 'Select File to Convert'
+    },
+    batchConvert: {
+      title: 'Batch Conversion',
+      description: 'Select a folder to batch convert all supported file types within it.',
+      buttonText: 'Select Folder'
+    }
+  },
+
   // Progress and status messages
   progress: {
     processing: 'Processing...',
@@ -277,6 +307,11 @@ export const EnglishMessages: Messages = {
     convertedFrom: '*Converted from: {0}*',
     importantNotice: '⚠️ Important Notice',
     docFormatNotice: 'This file is in the old Word format (.doc). The current converter primarily supports the new Word format (.docx).',
+    docFormatDetail: 'For better conversion results, please first convert this file to .docx format.',
+    openInWord: 'Open this file in Microsoft Word',
+    continueAnyway: 'Continue anyway',
+    converting: 'Converting...',
+    conversionComplete: 'Conversion complete',
     bestConversionSteps: '**For best conversion results, please follow these steps:**',
     recommendedMethod: '**Recommended Method**: Convert to .docx format',
     alternativeMethods: '**Alternative Methods**:',
@@ -307,6 +342,37 @@ export const EnglishMessages: Messages = {
     passwordProtected: '- Document is password protected'
   },
 
+  // Debug environment messages
+  debug: {
+    currentWorkDir: 'Current working directory: {0}',
+    vscodeWorkspace: 'VS Code workspace: {0}',
+    extensionDir: 'Extension directory: {0}',
+    projectRootDir: 'Project root directory: {0}',
+    pdfParseModulePath: 'pdf-parse module path: {0}',
+    testFilePath: 'Test file path: {0}',
+    nodeModulesExists: 'node_modules exists: {0}',
+    pdfParseExists: 'pdf-parse exists: {0}',
+    testFileExists: 'Test file exists: {0}',
+    pdfParseLoadSuccess: 'pdf-parse loaded successfully: {0}',
+    pdfParseLoadFailed: 'pdf-parse load failed: {0}',
+    debugInfoTitle: 'PDF Environment Debug Information',
+    copyToClipboard: 'Copy to Clipboard',
+    debugFailed: 'Debug failed: {0}',
+    none: 'None'
+  },
+
+  // File utility messages
+  fileUtils: {
+    validatingFile: 'Validating file: {0}',
+    fileAccessError: 'File access error: {0}',
+    fileNotExistOrAccessible: 'File does not exist or is not accessible: {0}',
+    checkFilePath: 'Check if the file path is correct',
+    confirmReadPermission: 'Confirm if the file has read permission',
+    pathNotFile: 'Path is not a file',
+    fileEmpty: 'File is empty',
+    checkFileCorrupted: 'Check if the file is corrupted or incomplete'
+  },
+
   // PowerPoint conversion specific messages
   powerpoint: {
     fileInfo: '📊 File Information',
@@ -328,6 +394,7 @@ export const EnglishMessages: Messages = {
     basicInfoOnly: 'Only basic file information could be extracted.',
     importantNotice: '⚠️ Important Notice',
     pptFormatNotice: 'This file is in the old PowerPoint format (.ppt). The current converter primarily supports the new PowerPoint format (.pptx).',
+    pptFormatDetail: 'For better conversion results, please first convert this file to .pptx format.',
     pptFormatNoticeDetail: 'For better conversion results, please convert this file to .pptx format first.',
     bestConversionSteps: '**For best conversion results, please follow these steps:**',
     recommendedMethod: '**Recommended Method**: Convert to .pptx format',
@@ -339,6 +406,11 @@ export const EnglishMessages: Messages = {
     useOnlineConverter: 'Use online presentation conversion tools',
     manualExtraction: 'Manually copy slide content to a new Markdown file',
     continueAnyway: 'Continue Anyway',
+    converting: 'Converting...',
+    conversionComplete: 'Conversion complete',
+    extractedContent: 'Extracted Content',
+    pptLimitedSupport: '.ppt format has limited support. Basic file information has been extracted.',
+    convertToPptxSuggestion: 'For complete content extraction, please save this presentation as .pptx format and convert again.',
     slidesConversionComplete: 'Slides {0} conversion completed'
   },
 

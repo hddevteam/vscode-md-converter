@@ -35,6 +35,36 @@ export interface Messages {
     convertSelectedToMarkdown: string;
   };
 
+  // Webview strings for the document converter
+  webview: {
+    title: string;
+    wordToMarkdown: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+    excelToMarkdown: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+    pdfToText: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+    powerPointToMarkdown: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+    batchConvert: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+  };
+
   // Progress and status messages
   progress: {
     processing: string;
@@ -280,6 +310,11 @@ export interface Messages {
     convertedFrom: string;
     importantNotice: string;
     docFormatNotice: string;
+    docFormatDetail: string;
+    openInWord: string;
+    continueAnyway: string;
+    converting: string;
+    conversionComplete: string;
     bestConversionSteps: string;
     recommendedMethod: string;
     alternativeMethods: string;
@@ -310,6 +345,37 @@ export interface Messages {
     passwordProtected: string;
   };
 
+  // Debug environment messages
+  debug: {
+    currentWorkDir: string;
+    vscodeWorkspace: string;
+    extensionDir: string;
+    projectRootDir: string;
+    pdfParseModulePath: string;
+    testFilePath: string;
+    nodeModulesExists: string;
+    pdfParseExists: string;
+    testFileExists: string;
+    pdfParseLoadSuccess: string;
+    pdfParseLoadFailed: string;
+    debugInfoTitle: string;
+    copyToClipboard: string;
+    debugFailed: string;
+    none: string;
+  };
+
+  // File utility messages
+  fileUtils: {
+    validatingFile: string;
+    fileAccessError: string;
+    fileNotExistOrAccessible: string;
+    checkFilePath: string;
+    confirmReadPermission: string;
+    pathNotFile: string;
+    fileEmpty: string;
+    checkFileCorrupted: string;
+  };
+
   // PowerPoint conversion specific messages
   powerpoint: {
     fileInfo: string;
@@ -331,6 +397,7 @@ export interface Messages {
     basicInfoOnly: string;
     importantNotice: string;
     pptFormatNotice: string;
+    pptFormatDetail: string;
     pptFormatNoticeDetail: string;
     bestConversionSteps: string;
     recommendedMethod: string;
@@ -342,6 +409,11 @@ export interface Messages {
     useOnlineConverter: string;
     manualExtraction: string;
     continueAnyway: string;
+    converting: string;
+    conversionComplete: string;
+    extractedContent: string;
+    pptLimitedSupport: string;
+    convertToPptxSuggestion: string;
     slidesConversionComplete: string;
   };
 

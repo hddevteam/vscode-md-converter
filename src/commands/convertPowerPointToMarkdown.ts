@@ -27,7 +27,7 @@ export async function convertPowerPointToMarkdown(uri?: vscode.Uri, uris?: vscod
       canSelectMany: false,
       openLabel: I18n.t('commands.convertPowerPointToMarkdown'),
       filters: {
-        'PowerPoint演示文稿 (.pptx, .ppt)': ['pptx', 'ppt']
+        'PowerPoint Presentations (.pptx, .ppt)': ['pptx', 'ppt']
       }
     });
 
@@ -57,30 +57,30 @@ export async function convertPowerPointToMarkdown(uri?: vscode.Uri, uris?: vscod
       if (fileExt === '.ppt') {
         const action = await vscode.window.showWarningMessage(
           I18n.t('powerpoint.pptFormatNotice'),
-          { detail: '为获得更好的转换效果，请先将此文件转换为.pptx格式。' },
+          { detail: I18n.t('powerpoint.pptFormatDetail') },
           I18n.t('powerpoint.openInPowerPoint'),
-          '仍要继续'
+          I18n.t('powerpoint.continueAnyway')
         );
         
         if (action === I18n.t('powerpoint.openInPowerPoint')) {
           // Try to open the file in PowerPoint
           await vscode.commands.executeCommand('vscode.open', vscode.Uri.file(filePath));
           return;
-        } else if (action !== '仍要继续') {
+        } else if (action !== I18n.t('powerpoint.continueAnyway')) {
           return; // User cancelled
         }
       }
       
       progress.report({ 
         increment: 50,
-        message: '转换中...'
+        message: I18n.t('powerpoint.converting')
       });
       
       const result = await PowerPointToMarkdownConverter.convert(filePath);
 
       progress.report({ 
         increment: 100,
-        message: '转换完成'
+        message: I18n.t('powerpoint.conversionComplete')
       });
 
       if (result.success) {

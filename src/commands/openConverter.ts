@@ -59,31 +59,31 @@ function getWebviewContent() {
   
   // Define localized strings for the webview
   const webviewStrings = {
-    title: isZh ? '文档转换器' : 'Document Converter',
+    title: I18n.t('webview.title'),
     wordToMarkdown: {
-      title: isZh ? 'Word 转 Markdown' : 'Word to Markdown',
-      description: isZh ? '将 Word 文档 (.docx, .doc) 转换为 Markdown 格式，保留文本结构和基本格式。' : 'Convert Word documents (.docx, .doc) to Markdown format, preserving text structure and basic formatting.',
-      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+      title: I18n.t('webview.wordToMarkdown.title'),
+      description: I18n.t('webview.wordToMarkdown.description'),
+      buttonText: I18n.t('webview.wordToMarkdown.buttonText')
     },
     excelToMarkdown: {
-      title: isZh ? 'Excel/CSV 转 Markdown' : 'Excel/CSV to Markdown',
-      description: isZh ? '将 Excel 工作簿或 CSV 文件转换为 Markdown 表格，保留多个工作表的数据。' : 'Convert Excel workbooks or CSV files to Markdown tables, preserving data from multiple worksheets.',
-      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+      title: I18n.t('webview.excelToMarkdown.title'),
+      description: I18n.t('webview.excelToMarkdown.description'),
+      buttonText: I18n.t('webview.excelToMarkdown.buttonText')
     },
     pdfToText: {
-      title: isZh ? 'PDF 转文本' : 'PDF to Text',
-      description: isZh ? '从 PDF 文件中提取文本内容，并保存为纯文本文件。' : 'Extract text content from PDF files and save as plain text files.',
-      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+      title: I18n.t('webview.pdfToText.title'),
+      description: I18n.t('webview.pdfToText.description'),
+      buttonText: I18n.t('webview.pdfToText.buttonText')
     },
     powerPointToMarkdown: {
-      title: isZh ? 'PowerPoint 转 Markdown' : 'PowerPoint to Markdown',
-      description: isZh ? '将 PowerPoint 演示文稿 (.pptx, .ppt) 转换为 Markdown 格式，提取幻灯片内容和演讲者备注。' : 'Convert PowerPoint presentations (.pptx, .ppt) to Markdown format, extracting slide content and speaker notes.',
-      buttonText: isZh ? '选择文件转换' : 'Select File to Convert'
+      title: I18n.t('webview.powerPointToMarkdown.title'),
+      description: I18n.t('webview.powerPointToMarkdown.description'),
+      buttonText: I18n.t('webview.powerPointToMarkdown.buttonText')
     },
     batchConvert: {
-      title: isZh ? '批量转换' : 'Batch Conversion',
-      description: isZh ? '选择一个文件夹，批量转换其中的所有支持文件类型。' : 'Select a folder to batch convert all supported file types within it.',
-      buttonText: isZh ? '选择文件夹' : 'Select Folder'
+      title: I18n.t('webview.batchConvert.title'),
+      description: I18n.t('webview.batchConvert.description'),
+      buttonText: I18n.t('webview.batchConvert.buttonText')
     }
   };
 

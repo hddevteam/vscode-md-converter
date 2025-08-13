@@ -32,6 +32,36 @@ export const ChineseMessages: Messages = {
     convertSelectedToMarkdown: '将所选转换为Markdown'
   },
 
+  // Webview strings for the document converter
+  webview: {
+    title: '文档转换器',
+    wordToMarkdown: {
+      title: 'Word 转 Markdown',
+      description: '将 Word 文档 (.docx, .doc) 转换为 Markdown 格式，保留文本结构和基本格式。',
+      buttonText: '选择文件转换'
+    },
+    excelToMarkdown: {
+      title: 'Excel/CSV 转 Markdown',
+      description: '将 Excel 工作簿或 CSV 文件转换为 Markdown 表格，保留多个工作表的数据。',
+      buttonText: '选择文件转换'
+    },
+    pdfToText: {
+      title: 'PDF 转文本',
+      description: '从 PDF 文件中提取文本内容，并保存为纯文本文件。',
+      buttonText: '选择文件转换'
+    },
+    powerPointToMarkdown: {
+      title: 'PowerPoint 转 Markdown',
+      description: '将 PowerPoint 演示文稿 (.pptx, .ppt) 转换为 Markdown 格式，提取幻灯片内容和演讲者备注。',
+      buttonText: '选择文件转换'
+    },
+    batchConvert: {
+      title: '批量转换',
+      description: '选择一个文件夹，批量转换其中的所有支持文件类型。',
+      buttonText: '选择文件夹'
+    }
+  },
+
   // Progress and status messages
   progress: {
     processing: '处理中...',
@@ -276,7 +306,12 @@ export const ChineseMessages: Messages = {
     modifiedDate: '修改日期',
     convertedFrom: '*转换自: {0}*',
     importantNotice: '⚠️ 重要提示',
-    docFormatNotice: '此文件是旧版Word格式（.doc），当前转换器主要支持新版Word格式（.docx）。',
+        docFormatNotice: '此文件为较旧的Word格式(.doc)。当前转换器主要支持新的Word格式(.docx)。',
+    docFormatDetail: '为获得更好的转换效果，请先将此文件转换为.docx格式。',
+    openInWord: '在Microsoft Word中打开此文件',
+    continueAnyway: '仍要继续',
+    converting: '转换中...',
+    conversionComplete: '转换完成',
     bestConversionSteps: '**为获得最佳转换效果，请按以下步骤操作：**',
     recommendedMethod: '**推荐方法**：转换为.docx格式',
     alternativeMethods: '**替代方法**：',
@@ -304,9 +339,41 @@ export const ChineseMessages: Messages = {
     checkValidDocument: '3. 检查文件是否为有效的Word文档',
     conversionWarnings: '⚠️ 转换警告',
     documentFormatSpecial: '- 文档格式特殊或已损坏',
-    passwordProtected: '- 文档被密码保护'
+    passwordProtected: '- 文档受密码保护'
   },
-  
+
+  // Debug environment messages
+  debug: {
+    currentWorkDir: '当前工作目录: {0}',
+    vscodeWorkspace: 'VS Code工作区: {0}',
+    extensionDir: '扩展目录: {0}',
+    projectRootDir: '项目根目录: {0}',
+    pdfParseModulePath: 'pdf-parse模块路径: {0}',
+    testFilePath: '测试文件路径: {0}',
+    nodeModulesExists: 'node_modules存在: {0}',
+    pdfParseExists: 'pdf-parse存在: {0}',
+    testFileExists: '测试文件存在: {0}',
+    pdfParseLoadSuccess: 'pdf-parse加载成功: {0}',
+    pdfParseLoadFailed: 'pdf-parse加载失败: {0}',
+    debugInfoTitle: 'PDF环境调试信息',
+    copyToClipboard: '复制到剪贴板',
+    debugFailed: '调试失败: {0}',
+    none: '无'
+  },
+
+  // File utility messages
+  fileUtils: {
+    validatingFile: '正在验证文件: {0}',
+    fileAccessError: '文件访问错误: {0}',
+    fileNotExistOrAccessible: '文件不存在或无法访问: {0}',
+    checkFilePath: '检查文件路径是否正确',
+    confirmReadPermission: '确认文件是否有读取权限',
+    pathNotFile: '路径不是一个文件',
+    fileEmpty: '文件为空',
+    checkFileCorrupted: '检查文件是否损坏或不完整'
+  },
+
+  // PowerPoint conversion specific messages
   powerpoint: {
     fileInfo: '📊 文件信息',
     fileName: '文件名',
@@ -326,7 +393,8 @@ export const ChineseMessages: Messages = {
     extractionErrorMessage: '无法提取幻灯片内容。错误：{0}',
     basicInfoOnly: '仅提取了基本文件信息。',
     importantNotice: '⚠️ 重要提示',
-    pptFormatNotice: '此文件是旧的PowerPoint格式（.ppt）。当前转换器主要支持新的PowerPoint格式（.pptx）。',
+    pptFormatNotice: '此文件为较旧的PowerPoint格式(.ppt)。当前转换器主要支持新的PowerPoint格式(.pptx)。',
+    pptFormatDetail: '为获得更好的转换效果，请先将此文件转换为.pptx格式。',
     pptFormatNoticeDetail: '为获得更好的转换效果，建议先将此文件转换为.pptx格式。',
     bestConversionSteps: '**为获得最佳转换效果，请按以下步骤操作：**',
     recommendedMethod: '**推荐方法**：转换为.pptx格式',
@@ -338,6 +406,11 @@ export const ChineseMessages: Messages = {
     useOnlineConverter: '使用在线演示文稿转换工具',
     manualExtraction: '手动将幻灯片内容复制到新的Markdown文件中',
     continueAnyway: '仍然继续',
+    converting: '转换中...',
+    conversionComplete: '转换完成',
+    extractedContent: '已提取内容',
+    pptLimitedSupport: '.ppt格式的支持有限。已提取基本文件信息。',
+    convertToPptxSuggestion: '要获得完整内容提取，请将此演示文稿另存为.pptx格式后重新转换。',
     slidesConversionComplete: '幻灯片 {0} 转换完成'
   },
 

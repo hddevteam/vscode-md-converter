@@ -22,7 +22,9 @@ suite('PDF Table to CSV Converter Test Suite', () => {
         assert.ok(
             result.error.includes('文件不存在') || 
             result.error.includes('无法访问') || 
-            result.error.includes('Cannot access'),
+            result.error.includes('Cannot access') ||
+            result.error.includes('File does not exist') ||
+            result.error.includes('not accessible'),
             `Error should indicate file access issue, got: ${result.error}`
         );
     });

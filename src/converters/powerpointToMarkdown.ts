@@ -1,9 +1,9 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
+import { I18n } from '../i18n';
 import { ConversionResult, ConversionOptions, MarkdownInfoConfig } from '../types';
 import { FileUtils } from '../utils/fileUtils';
-import { I18n } from '../i18n';
 import { MarkdownInfoBlockGenerator, DocumentMetadata, ConversionWarning } from './markdownInfoBlockGenerator';
 
 /**
@@ -251,9 +251,9 @@ export class PowerPointToMarkdownConverter {
     );
 
     // Simple notice about .ppt format limitation
-    markdown += `## 已提取内容\n\n`;
-    markdown += `.ppt格式的支持有限。已提取基本文件信息。\n\n`;
-    markdown += `要获得完整内容提取，请将此演示文稿另存为.pptx格式后重新转换。\n\n`;
+    markdown += `## ${I18n.t('powerpoint.extractedContent')}\n\n`;
+    markdown += `${I18n.t('powerpoint.pptLimitedSupport')}\n\n`;
+    markdown += `${I18n.t('powerpoint.convertToPptxSuggestion')}\n\n`;
 
     return markdown;
   }
