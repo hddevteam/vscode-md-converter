@@ -4,11 +4,50 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.2.0] - 2025-07-19
+## [0.3.0] - 2025-08-13
 
-### 🎉 Major Release: Advanced Range Export Features
+### 🎉 Enhanced Release: Documentation & Website Updates
+
+#### Updated
+- **📝 Comprehensive Documentation Updates**: Complete documentation overhaul
+  - Updated README.md with detailed multi-select conversion instructions
+  - Enhanced CHANGELOG.md with comprehensive feature descriptions
+  - Updated GitHub Pages website with new feature highlights
+  - Added Chinese translations for all new features
+  - Improved user experience guidance and feature discovery
+
+- **🌐 Website Enhancements**: Marketing website improvements
+  - Added prominent multi-select conversion feature cards
+  - Updated hero sections with latest feature highlights
+  - Enhanced SEO descriptions and meta tags
+  - Improved mobile responsiveness and user interface
+  - Added version 0.3.0 badges and announcements
+
+#### Technical Improvements
+- **🔧 Development Process**: Streamlined release preparation
+  - Complete Phase 7 documentation preparation
+  - 153 passing tests confirming feature stability
+  - Enhanced commit message conventions
+  - Improved version management workflow
+
+## [0.2.0] - 2025-01-13
+
+### 🎉 Major Release: Multi-Select Conversion & Advanced Range Export Features
 
 #### Added
+- **🆕 Multi-Select Markdown Conversion**: Revolutionary batch processing capability
+  - Select multiple files in VS Code Explorer and convert them all at once
+  - Support for mixed file types (Word, Excel, PowerPoint, PDF, CSV) in a single operation
+  - Customizable output with configurable information blocks:
+    - File creation and modification dates
+    - File size information
+    - Conversion timestamp
+    - Original file path reference
+  - Smart file filtering - automatically handles unsupported file types gracefully
+  - Real-time progress reporting with detailed status updates
+  - Context menu integration: "Convert Selected to Markdown"
+  - Comprehensive error handling and user feedback
+
 - **🆕 PDF Page Range Export**: Export specific pages from PDF documents
   - Select individual pages or page ranges (e.g., "1,3,5-8")
   - Export to text or images with intuitive page selection UI

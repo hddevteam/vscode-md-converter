@@ -24,6 +24,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 ### Core Features
 - ✅ **Context Menu Integration** - Convert directly from file explorer
 - ✅ **Command Palette Support** - Access via Cmd+Shift+P
+- ✅ **Multi-Select Conversion** - Convert multiple files at once with customizable output
 - ✅ **Batch Conversion** - Select folders for bulk processing
 - ✅ **Range Selection** - Choose specific pages, worksheets, or slides to convert
 - ✅ **Smart Text Processing** - Automatically optimize conversion quality
@@ -70,6 +71,22 @@ npm run compile
 2. Select "Batch Convert Documents"
 3. Follow prompts to select conversion types and options
 
+### 🆕 Multi-Select Conversion (v0.2.0)
+1. **Multi-file Selection**: Select multiple files in VS Code Explorer (Ctrl/Cmd+Click)
+2. **Flexible Conversion**: Convert different file types to Markdown in one operation
+3. **Customizable Output**: Choose what information to include in the converted Markdown:
+   - File creation and modification dates
+   - File size information
+   - Conversion timestamp
+   - Original file path
+4. **Smart Processing**: Automatically filters supported file types and handles unsupported files gracefully
+
+**How to use Multi-Select Conversion:**
+- Select multiple files in the Explorer (hold Ctrl/Cmd and click files)
+- Right-click and choose "Convert Selected to Markdown"
+- Choose which information blocks to include in the output
+- Watch the progress as files are converted with detailed status updates
+
 ### Available Commands
 - `Convert Word to Markdown` - Convert Word documents to Markdown
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
@@ -88,6 +105,7 @@ npm run compile
 - `Export Selected Excel Worksheets to Markdown` - Convert chosen worksheets to Markdown
 - `Export Selected Excel Worksheets to CSV` - Convert chosen worksheets to CSV
 - `Export PowerPoint Slides to Markdown` - Convert selected slides to Markdown
+- **`Convert Selected to Markdown`** - Convert multiple selected files to Markdown with customizable info blocks
 
 ## 🔧 Conversion Features
 
