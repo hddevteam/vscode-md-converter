@@ -14,7 +14,19 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
-### 🆕 Advanced Range Export Features (v0.3.0)
+### 🆕 Multi-Select Markdown Conversion (v0.3.0)
+- **🔥 Multi-File Selection** - Select multiple files in VS Code Explorer and convert them all to Markdown at once
+- **🎛️ Configurable Info Blocks** - Choose what information to include in converted Markdown:
+  - File title headers and source notices
+  - File metadata (size, modification date, creation date)
+  - Document-specific metadata (author, sheet count, slide count)
+  - Conversion warnings and content headings
+  - Section separators and custom formatting
+- **🔄 Mixed File Type Support** - Process Word, Excel, and PowerPoint files in a single operation
+- **💾 Preference Persistence** - Remember your info block choices for future conversions
+- **📊 Smart Progress Reporting** - Real-time conversion progress with detailed status updates
+
+### 🆕 Advanced Range Export Features (v0.2.0)
 - **📄 PDF Page Range Export** - Extract specific pages as text or images
 - **📊 Excel Worksheet Range Export** - Export selected worksheets to Markdown/CSV
 - **🎨 PowerPoint Slide Range Export** - Convert specific slides to Markdown
@@ -75,17 +87,22 @@ npm run compile
 1. **Multi-file Selection**: Select multiple files in VS Code Explorer (Ctrl/Cmd+Click)
 2. **Flexible Conversion**: Convert different file types to Markdown in one operation
 3. **Customizable Output**: Choose what information to include in the converted Markdown:
-   - File creation and modification dates
-   - File size information
-   - Conversion timestamp
-   - Original file path
+   - **Title Headers**: Add document title as main heading
+   - **Source Notice**: "Converted from [filename]" attribution
+   - **File Metadata**: Creation date, modification date, file size
+   - **Document Metadata**: Author, sheet count, slide count, etc.
+   - **Conversion Warnings**: Important notices and conversion notes
+   - **Content Headings**: Section headers for better organization
+   - **Section Separators**: Horizontal rules between content sections
 4. **Smart Processing**: Automatically filters supported file types and handles unsupported files gracefully
+5. **Preference Memory**: Remembers your info block choices for future conversions
 
 **How to use Multi-Select Conversion:**
 - Select multiple files in the Explorer (hold Ctrl/Cmd and click files)
-- Right-click and choose "Convert Selected to Markdown"
-- Choose which information blocks to include in the output
+- Right-click and choose "Convert Selected to Markdown"  
+- Choose which information blocks to include in the output (or use remembered preferences)
 - Watch the progress as files are converted with detailed status updates
+- Review the consolidated results with success/failure breakdown
 
 ### Available Commands
 - `Convert Word to Markdown` - Convert Word documents to Markdown

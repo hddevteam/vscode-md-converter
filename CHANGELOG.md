@@ -6,29 +6,59 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.3.0] - 2025-08-13
 
-### 🎉 Enhanced Release: Documentation & Website Updates
+### 🎉 Major Release: Multi-Select Markdown Conversion Feature
 
-#### Updated
-- **📝 Comprehensive Documentation Updates**: Complete documentation overhaul
-  - Updated README.md with detailed multi-select conversion instructions
-  - Enhanced CHANGELOG.md with comprehensive feature descriptions
-  - Updated GitHub Pages website with new feature highlights
-  - Added Chinese translations for all new features
-  - Improved user experience guidance and feature discovery
+#### Added
+- **🆕 Multi-Select Markdown Conversion**: Revolutionary batch processing capability
+  - Select multiple files in VS Code Explorer and convert them all to Markdown at once
+  - Support for mixed file types (Word, Excel, PowerPoint) in a single operation
+  - Customizable output with configurable information blocks:
+    - File title headers
+    - Source notice ("Converted from filename")
+    - File metadata (size, modification date, etc.)
+    - Document-specific metadata (author, sheet count, slide count)
+    - Conversion warnings and notices
+    - Content headings and section separators
+  - Smart file filtering - automatically handles unsupported file types gracefully
+  - Real-time progress reporting with detailed status updates
+  - Context menu integration: "Convert Selected to Markdown"
+  - Comprehensive error handling and user feedback
 
-- **🌐 Website Enhancements**: Marketing website improvements
-  - Added prominent multi-select conversion feature cards
-  - Updated hero sections with latest feature highlights
-  - Enhanced SEO descriptions and meta tags
-  - Improved mobile responsiveness and user interface
-  - Added version 0.3.0 badges and announcements
+- **🎛️ Configurable Info Blocks**: Granular control over Markdown output
+  - Info block selection UI with multi-select functionality
+  - "Remember choice" functionality with preference persistence
+  - Configuration reading and writing utilities
+  - Preview/description for each info block option
+  - Full internationalization support (English/Chinese)
+
+- **🔧 Enhanced Converter Architecture**: Refactored for flexibility
+  - MarkdownInfoBlockGenerator utility class for configurable output
+  - Word converter with configurable info blocks
+  - Excel converter with configurable info blocks  
+  - PowerPoint converter with configurable info blocks
+  - Backward compatibility with existing behavior maintained
 
 #### Technical Improvements
-- **🔧 Development Process**: Streamlined release preparation
-  - Complete Phase 7 documentation preparation
-  - 153 passing tests confirming feature stability
-  - Enhanced commit message conventions
-  - Improved version management workflow
+- **🏗️ Core Infrastructure**: Enhanced TypeScript interfaces and configuration
+  - New ConversionOptions interface with markdownInfo configuration
+  - Enhanced configuration schema in package.json
+  - Complete internationalization framework expansion
+  - New command definition and menu integration
+
+#### Enhanced Documentation & Localization
+- **� Complete Documentation Updates**: Comprehensive feature documentation
+  - Updated README.md with detailed multi-select conversion instructions
+  - Enhanced README.zh-cn.md with complete Chinese translations
+  - Updated GitHub Pages website with new feature highlights
+  - Improved SEO descriptions and meta tags
+
+#### Quality Assurance
+- **🧪 Comprehensive Testing**: 153 passing tests confirming feature stability
+  - Unit tests for info block selection logic
+  - Unit tests for configurable converter output
+  - Integration tests for multi-select command
+  - Edge case testing (mixed file types, large batches)
+  - End-to-end user workflow testing
 
 ## [0.2.0] - 2025-01-13
 
