@@ -3,12 +3,21 @@ import * as path from 'path';
 import { ExcelToMarkdownConverter } from '../converters/excelToMarkdown';
 import { UIUtils } from '../ui/uiUtils';
 import { I18n } from '../i18n';
+import { ConvertSelectedToMarkdownCommand } from './convertSelectedToMarkdown';
 
 /**
  * Handle Excel/CSV to Markdown conversion command
+ * Supports both single file and multi-file selection
  */
-export async function convertExcelToMarkdown(uri?: vscode.Uri) {
+export async function convertExcelToMarkdown(uri?: vscode.Uri, uris?: vscode.Uri[]) {
   try {
+    // If multiple files are selected, use batch conversion
+    if (uris && uris.length > 1) {
+      return ConvertSelectedToMarkdownCommand.execute(uri, uris);
+    }
+    
+    // Single file conversion logic continues below...
+    
     // If no URI provided, prompt user to select file
     if (!uri) {
       const fileUris = await vscode.window.showOpenDialog({

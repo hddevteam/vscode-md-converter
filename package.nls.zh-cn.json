@@ -13,7 +13,6 @@
   "commands.convertExcelWorksheetsToCsv": "导出指定Excel工作表到CSV",
   "commands.convertPowerPointSlidesToMarkdown": "导出指定幻灯片到Markdown",
   "commands.batchConvert": "批量转换为Markdown",
-  "commands.convertSelectedToMarkdown": "将所选转换为Markdown",
   "commands.openConverter": "打开一键Markdown转换器",
   "commands.debugPdfEnvironment": "调试PDF环境",
   "commands.debugPdfToImageEnvironment": "调试PDF图片转换环境",

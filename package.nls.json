@@ -13,7 +13,6 @@
   "commands.convertExcelWorksheetsToCsv": "Export Selected Excel Worksheets to CSV",
   "commands.convertPowerPointSlidesToMarkdown": "Export PowerPoint Slides to Markdown",
   "commands.batchConvert": "Batch Convert to Markdown",
-  "commands.convertSelectedToMarkdown": "Convert Selected to Markdown",
   "commands.openConverter": "Open OneClick Markdown Converter",
   "commands.debugPdfEnvironment": "Debug PDF Environment",
   "commands.debugPdfToImageEnvironment": "Debug PDF to Image Environment",

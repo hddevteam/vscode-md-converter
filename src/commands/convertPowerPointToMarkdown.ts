@@ -3,11 +3,20 @@ import * as path from 'path';
 import { PowerPointToMarkdownConverter } from '../converters/powerpointToMarkdown';
 import { UIUtils } from '../ui/uiUtils';
 import { I18n } from '../i18n';
+import { ConvertSelectedToMarkdownCommand } from './convertSelectedToMarkdown';
 
 /**
  * Handle PowerPoint to Markdown conversion command
+ * Supports both single file and multi-file selection
  */
-export async function convertPowerPointToMarkdown(uri?: vscode.Uri) {
+export async function convertPowerPointToMarkdown(uri?: vscode.Uri, uris?: vscode.Uri[]) {
+  // If multiple files are selected, use batch conversion
+  if (uris && uris.length > 1) {
+    return ConvertSelectedToMarkdownCommand.execute(uri, uris);
+  }
+  
+  // Single file conversion logic continues below...
+  
   let filePath: string;
 
   if (uri) {

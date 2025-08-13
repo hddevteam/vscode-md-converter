@@ -125,11 +125,6 @@
         "command": "document-md-converter.convertPowerPointSlidesToMarkdown",
         "title": "%commands.convertPowerPointSlidesToMarkdown%",
         "category": "OneClick Markdown Converter"
-      },
-      {
-        "command": "document-md-converter.convertSelectedToMarkdown",
-        "title": "%commands.convertSelectedToMarkdown%",
-        "category": "OneClick Markdown Converter"
       }
     ],
     "menus": {
@@ -203,11 +198,6 @@
           "when": "explorerResourceIsFolder",
           "command": "document-md-converter.batchConvert",
           "group": "document-converter@10"
-        },
-        {
-          "when": "resourceExtname == .docx || resourceExtname == .doc || resourceExtname == .xlsx || resourceExtname == .xls || resourceExtname == .csv || resourceExtname == .pptx || resourceExtname == .ppt",
-          "command": "document-md-converter.convertSelectedToMarkdown",
-          "group": "document-converter@11"
         }
       ],
       "commandPalette": [
