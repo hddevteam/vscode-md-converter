@@ -4,6 +4,56 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.0] - 2025-10-31
+
+### 🎉 Major Release: Enhanced Markdown to Word Conversion with HTML Support
+
+#### Added
+- **✨ HTML List Support in Markdown Tables**: Full HTML list conversion in table cells
+  - Support for `<ul>` and `<ol>` tags with `<li>` items in table content
+  - Proper Word list formatting (bullet and numbered lists) for all list items
+  - Comprehensive handling of complex nested HTML structures
+  - Multiple list items now correctly render as individual list items (not just the first)
+
+- **🧪 Comprehensive Test Suite Enhancement**:
+  - Added strict regression tests for HTML list rendering in tables
+  - Implemented comprehensive validation for all list items conversion
+  - New test verifies all 3+ list items render correctly as Word list format
+  - Enhanced TDD practices with more specific assertions (counting `<w:numPr>` markers)
+  - Fixed weak test cases that only verified existence, not quantity
+
+- **🐛 Bug Fixes**:
+  - Fixed HTML list conversion in table cells where only first item converted to list
+  - Resolved issue where additional list items displayed as dashes (`-`) instead of list items
+  - Improved `createTableCellContent()` method with direct HTML list processing
+  - Better handling of HTML tag context-awareness in table cells
+
+#### Improvements
+- **Test Quality**: TDD improvements to catch similar regressions in future
+  - Better test assertions for list item count validation
+  - Specific testing for user's real-world training outline example
+  - Detailed debug output for XML structure analysis
+
+- **Code Quality**: 
+  - Refactored table cell content handler for better HTML processing
+  - Proper fallback logic for mixed Markdown and HTML content
+  - Improved error messages and handling
+
+#### Technical Details
+- **Tests Updated**:
+  - `markdownToWord.tableHtmlLists.test.ts`: Added new test case for all list items
+  - Total tests: 306 passing (up from 304)
+  - No regressions, all existing tests continue to pass
+
+- **Implementation Files**:
+  - `src/converters/markdownToWord.ts`: Enhanced `createTableCellContent()` method
+  - `src/ui/uiUtils.ts`: File opening improvements with `revealFileInOS`
+
+#### Documentation
+- Updated README with HTML list support in tables
+- Added user examples showing proper list rendering
+- Documented the fix for common table list issues
+
 ## [0.3.1] - 2025-10-31
 
 ### 🎉 New Feature: Markdown to Word Conversion

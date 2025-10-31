@@ -8,7 +8,7 @@ A powerful VS Code extension for converting various document formats to Markdown
 
 ### Supported Document Types
 - **Word Documents** (.docx, .doc) → Markdown
-- **Markdown Files** (.md, .markdown) → Word Documents (.docx) ⭐ **NEW in v0.3.1**
+- **Markdown Files** (.md, .markdown) → Word Documents (.docx) ⭐ **NEW in v0.4.0**
 - **Excel Spreadsheets** (.xlsx, .xls, .csv) → Markdown Tables
 - **Excel Spreadsheets** (.xlsx, .xls) → CSV Files
 - **PDF Documents** (.pdf) → Text Files
@@ -128,7 +128,7 @@ npm run compile
 
 ## 🔧 Conversion Features
 
-### Markdown Document Conversion ⭐ **NEW (v0.3.1)**
+### Markdown Document Conversion ⭐ **NEW (v0.4.0)**
 - **Comprehensive Markdown Support**:
   - All heading levels (H1-H6)
   - Text formatting (bold, italic, strikethrough)
@@ -247,9 +247,18 @@ All converted files are saved in the same directory as the original files with a
 - Excel → `.md` files (with tables)
 - PDF → `.txt` files
 
-## 🚀 Latest Features (v0.1.5)
+## 🚀 Latest Features (v0.4.0)
 
-### Table Extraction Support ✨
+### Markdown to Word Conversion Enhancement ✨
+- **🆕 HTML List Support in Tables**: Full support for HTML `<ul>`, `<ol>`, and `<li>` tags in table cells
+- **📝 Complete List Rendering**: All list items now properly convert to Word list format (not just the first item)
+- **🧪 Improved Test Coverage**: Enhanced TDD practices with 306 passing tests
+- **🐛 Bug Fixes**: Fixed issue where only first HTML list item in tables was converting
+- **📊 Quality Improvements**: Better error handling and comprehensive regression tests
+
+### Previous Features (v0.1.5)
+
+#### Table Extraction Support
 - **📊 Word Table Extraction**: Export tables from Word documents directly to CSV format
 - **📋 PDF Table Extraction**: Advanced table detection and CSV export from PDF documents
 - **🔧 Flexible Output Options**: Choose between separate files or combined CSV output
