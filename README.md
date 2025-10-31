@@ -15,7 +15,9 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
-### 🆕 Multi-Select Markdown Conversion (v0.3.0)
+### 🆕 v0.4.0 New Features
+- **📝 Markdown to Word Conversion** - Convert Markdown files to professional Word documents with full formatting support
+- **📋 HTML List Support** - Complete support for HTML lists in table cells with proper Word formatting
 - **🔥 Multi-File Selection** - Select multiple files in VS Code Explorer and convert them all to Markdown at once
 - **🎛️ Configurable Info Blocks** - Choose what information to include in converted Markdown:
   - File title headers and source notices
@@ -23,16 +25,12 @@ A powerful VS Code extension for converting various document formats to Markdown
   - Document-specific metadata (author, sheet count, slide count)
   - Conversion warnings and content headings
   - Section separators and custom formatting
-- **🔄 Mixed File Type Support** - Process Word, Excel, and PowerPoint files in a single operation
-- **💾 Preference Persistence** - Remember your info block choices for future conversions
-- **📊 Smart Progress Reporting** - Real-time conversion progress with detailed status updates
-
-### 🆕 Advanced Range Export Features (v0.2.0)
-- **📄 PDF Page Range Export** - Extract specific pages as text or images
+- ** PDF Page Range Export** - Extract specific pages as text or images
 - **📊 Excel Worksheet Range Export** - Export selected worksheets to Markdown/CSV
 - **🎨 PowerPoint Slide Range Export** - Convert specific slides to Markdown
-- **🔢 CSV Table Range Export** - Extract tables from specific PDF pages
-- **🎛️ Unified Page Range Selector** - Intuitive interface for selecting page/slide ranges
+- **� Mixed File Type Support** - Process Word, Excel, and PowerPoint files in a single operation
+- **💾 Preference Persistence** - Remember your info block choices for future conversions
+- **📊 Smart Progress Reporting** - Real-time conversion progress with detailed status updates
 
 ### Core Features
 - ✅ **Context Menu Integration** - Convert directly from file explorer
@@ -84,30 +82,9 @@ npm run compile
 2. Select "Batch Convert Documents"
 3. Follow prompts to select conversion types and options
 
-### 🆕 Multi-Select Conversion (v0.3.0)
-1. **Multi-file Selection**: Select multiple files in VS Code Explorer (Ctrl/Cmd+Click)
-2. **Flexible Conversion**: Convert different file types to Markdown in one operation
-3. **Customizable Output**: Choose what information to include in the converted Markdown:
-   - **Title Headers**: Add document title as main heading
-   - **Source Notice**: "Converted from [filename]" attribution
-   - **File Metadata**: Creation date, modification date, file size
-   - **Document Metadata**: Author, sheet count, slide count, etc.
-   - **Conversion Warnings**: Important notices and conversion notes
-   - **Content Headings**: Section headers for better organization
-   - **Section Separators**: Horizontal rules between content sections
-4. **Smart Processing**: Automatically filters supported file types and handles unsupported files gracefully
-5. **Preference Memory**: Remembers your info block choices for future conversions
-
-**How to use Multi-Select Conversion:**
-- Select multiple files in the Explorer (hold Ctrl/Cmd and click files)
-- Right-click and choose "Convert Selected to Markdown"  
-- Choose which information blocks to include in the output (or use remembered preferences)
-- Watch the progress as files are converted with detailed status updates
-- Review the consolidated results with success/failure breakdown
-
-### Available Commands
+### Available Commands (v0.4.0)
 - `Convert Word to Markdown` - Convert Word documents to Markdown
-- `Convert Markdown to Word` - Convert Markdown files to Word documents (.docx) ⭐ **NEW**
+- `Convert Markdown to Word` - Convert Markdown files to Word documents (.docx)
 - `Convert Excel to Markdown` - Convert Excel files to Markdown tables
 - `Convert Excel to CSV` - Convert Excel files to CSV format
 - `Convert PDF to Text` - Convert PDF to text files
@@ -115,16 +92,14 @@ npm run compile
 - `Convert PowerPoint to Markdown` - Convert PowerPoint presentations to Markdown
 - `Extract Word Tables to CSV` - Extract tables from Word documents to CSV format
 - `Extract PDF Tables to CSV` - Extract tables from PDF documents to CSV format
-- `Batch Convert Documents` - Batch convert documents
-- `Open Document Converter` - Open converter interface
-
-#### 🆕 Advanced Range Export Commands (v0.3.0)
 - `Export Specified PDF Pages to Text` - Convert selected PDF pages to text
 - `Export Specified PDF Pages to Images` - Convert selected PDF pages to images
 - `Export Selected Excel Worksheets to Markdown` - Convert chosen worksheets to Markdown
 - `Export Selected Excel Worksheets to CSV` - Convert chosen worksheets to CSV
 - `Export PowerPoint Slides to Markdown` - Convert selected slides to Markdown
-- **`Convert Selected to Markdown`** - Convert multiple selected files to Markdown with customizable info blocks
+- `Convert Selected to Markdown` - Convert multiple selected files to Markdown with customizable info blocks
+- `Batch Convert Documents` - Batch convert documents
+- `Open Document Converter` - Open converter interface
 
 ## 🔧 Conversion Features
 
@@ -256,23 +231,7 @@ All converted files are saved in the same directory as the original files with a
 - **🐛 Bug Fixes**: Fixed issue where only first HTML list item in tables was converting
 - **📊 Quality Improvements**: Better error handling and comprehensive regression tests
 
-### Previous Features (v0.1.5)
-
-#### Table Extraction Support
-- **📊 Word Table Extraction**: Export tables from Word documents directly to CSV format
-- **📋 PDF Table Extraction**: Advanced table detection and CSV export from PDF documents
-- **🔧 Flexible Output Options**: Choose between separate files or combined CSV output
-- **🌏 Encoding Support**: UTF-8 and GBK encoding options for Chinese compatibility
-- **⚙️ Customizable CSV Format**: Configure delimiters (comma, semicolon, tab)
-- **📝 Table Metadata**: Optional metadata inclusion for table analysis
-
-### Advanced Table Detection
-- Intelligent table recognition for various PDF formats
-- Support for space-separated, tab-separated, and comma-separated tables
-- Enhanced Chinese text handling in forex and financial documents
-- Robust parsing algorithms for complex table structures
-
-## 🚀 Upcoming Features (v0.4.0)
+## 🚀 Upcoming Features (v0.5.0+)
 
 We're actively working on expanding format support and adding new capabilities:
 
@@ -281,7 +240,7 @@ We're actively working on expanding format support and adding new capabilities:
 - **🏗️ Architecture Improvements**: Better plugin system for future format extensions
 - **🎨 Custom Templates**: User-defined output templates for different conversion scenarios
 
-[View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues?q=is%3Aissue+is%3Aopen+label%3Av0.4.0)
+[View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues)
 
 ## ⚙️ Configuration Options
 
