@@ -19,6 +19,7 @@ export const ChineseMessages: Messages = {
     convertPdfToText: '将PDF转换为文本',
     convertPdfToImage: '将PDF转换为图片',
     convertPowerPointToMarkdown: '将PowerPoint转换为Markdown',
+    convertMarkdownToWord: '将Markdown转换为Word',
     batchConvert: '批量转换Markdown',
     openConverter: '打开文档转换器',
     debugPdfEnvironment: '调试PDF环境',

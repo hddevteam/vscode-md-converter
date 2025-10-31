@@ -38,7 +38,9 @@ export class UIUtils {
       vscode.window.showInformationMessage(message, openButton).then(selection => {
         if (selection === openButton && result.outputPath) {
           const uri = vscode.Uri.file(result.outputPath);
-          vscode.commands.executeCommand('vscode.open', uri);
+          // Use revealFileInOS to open with system default application
+          // This works better for binary formats like .docx that VS Code cannot edit
+          vscode.commands.executeCommand('revealFileInOS', uri);
         }
       });
     } else {

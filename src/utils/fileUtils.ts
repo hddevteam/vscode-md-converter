@@ -47,7 +47,9 @@ export class FileUtils {
         '.csv': 'csv',
         '.pdf': 'pdf',
         '.pptx': 'pptx',
-        '.ppt': 'ppt'
+        '.ppt': 'ppt',
+        '.md': 'md',
+        '.markdown': 'md'
       };
 
       const fileType = supportedExtensions[ext];

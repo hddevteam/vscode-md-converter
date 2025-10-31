@@ -5,6 +5,7 @@ import { convertExcelToCsv } from './commands/convertExcelToCsv';
 import { convertPdfToText } from './commands/convertPdfToText';
 import { convertPdfToImage, batchConvertPdfToImage } from './commands/convertPdfToImage';
 import { convertPowerPointToMarkdown } from './commands/convertPowerPointToMarkdown';
+import { convertMarkdownToWord } from './commands/convertMarkdownToWord';
 import { convertWordTablesToCsv } from './commands/convertWordTablesToCsv';
 import { convertPdfTablesToCsv } from './commands/convertPdfTablesToCsv';
 import { convertPdfPagesToText } from './commands/convertPdfPagesToText';
@@ -67,6 +68,13 @@ export async function activate(context: vscode.ExtensionContext) {
         async (uri?: vscode.Uri, uris?: vscode.Uri[]) => {
           console.log('Executing PowerPoint to Markdown command, URI:', uri?.fsPath, 'URIs:', uris?.map(u => u.fsPath));
           return convertPowerPointToMarkdown(uri, uris);
+        }
+      ),
+      vscode.commands.registerCommand(
+        'document-md-converter.convertMarkdownToWord',
+        async (uri?: vscode.Uri) => {
+          console.log('Executing Markdown to Word command, URI:', uri?.fsPath);
+          return convertMarkdownToWord(uri);
         }
       ),
       vscode.commands.registerCommand(

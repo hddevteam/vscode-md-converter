@@ -5,6 +5,7 @@
   "commands.convertPdfToText": "Convert PDF to Text",
   "commands.convertPdfToImage": "Convert PDF to Images",
   "commands.convertPowerPointToMarkdown": "Convert PowerPoint to Markdown",
+  "commands.convertMarkdownToWord": "Convert Markdown to Word",
   "commands.convertWordTablesToCsv": "Extract Word Tables to CSV",
   "commands.convertPdfTablesToCsv": "Extract PDF Tables to CSV",
   "commands.convertPdfPagesToText": "Export PDF Pages to Text",

@@ -5,6 +5,7 @@
   "commands.convertPdfToText": "将PDF转换为文本",
   "commands.convertPdfToImage": "将PDF转换为图片",
   "commands.convertPowerPointToMarkdown": "将PowerPoint转换为Markdown",
+  "commands.convertMarkdownToWord": "将Markdown转换为Word",
   "commands.convertWordTablesToCsv": "提取Word表格到CSV",
   "commands.convertPdfTablesToCsv": "提取PDF表格到CSV",
   "commands.convertPdfPagesToText": "导出指定页码PDF到文本",

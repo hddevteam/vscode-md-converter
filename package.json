@@ -71,6 +71,11 @@
         "category": "OneClick Markdown Converter"
       },
       {
+        "command": "document-md-converter.convertMarkdownToWord",
+        "title": "%commands.convertMarkdownToWord%",
+        "category": "OneClick Markdown Converter"
+      },
+      {
         "command": "document-md-converter.convertWordTablesToCsv",
         "title": "%commands.convertWordTablesToCsv%",
         "category": "OneClick Markdown Converter"
@@ -175,6 +180,11 @@
           "group": "document-converter@5"
         },
         {
+          "when": "resourceExtname == .md || resourceExtname == .markdown",
+          "command": "document-md-converter.convertMarkdownToWord",
+          "group": "document-converter@5"
+        },
+        {
           "when": "resourceExtname == .docx || resourceExtname == .doc",
           "command": "document-md-converter.convertWordTablesToCsv",
           "group": "document-converter@6"
@@ -218,6 +228,9 @@
         },
         {
           "command": "document-md-converter.convertPowerPointToMarkdown"
+        },
+        {
+          "command": "document-md-converter.convertMarkdownToWord"
         },
         {
           "command": "document-md-converter.convertPdfPagesToText"

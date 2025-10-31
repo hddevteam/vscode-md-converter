@@ -8,6 +8,7 @@
 
 ### 支持的文档类型
 - **Word文档** (.docx, .doc) → Markdown
+- **Markdown文件** (.md, .markdown) → Word文档 (.docx) ⭐ **v0.3.1新增**
 - **Excel表格** (.xlsx, .xls, .csv) → Markdown表格
 - **Excel表格** (.xlsx, .xls) → CSV文件
 - **PDF文档** (.pdf) → 文本文件
@@ -101,6 +102,7 @@ npm run compile
 
 ### 可用命令
 - `将Word转换为Markdown` - 转换Word文档为Markdown
+- `将Markdown转换为Word` - 转换Markdown文件为Word文档 (.docx) ⭐ **新增**
 - `将Excel转换为Markdown` - 转换Excel文件为Markdown表格
 - `将Excel转换为CSV` - 转换Excel文件为CSV格式
 - `将PDF转换为文本` - 转换PDF为文本文件
@@ -120,6 +122,36 @@ npm run compile
 - **`将选定文件转换为Markdown`** - 将多个选定文件转换为Markdown，支持自定义信息块
 
 ## 🔧 转换特性
+
+### Markdown文档转换 ⭐ **新增 (v0.3.1)**
+- **全面Markdown支持**:
+  - 所有标题级别 (H1-H6)
+  - 文本格式化（粗体、斜体、删除线）
+  - 行内代码和代码块（带语法高亮）
+  - 有序和无序列表（支持嵌套）
+  - 表格支持（包括对齐）
+  - 引用块和水平线
+  - 链接和图片
+- **专业输出**:
+  - 清晰的Word文档 (.docx) 结构
+  - 格式保留完美
+  - 中英文和多语言支持
+  - 高效的文件大小优化
+- **性能优化**:
+  - 快速转换（通常 < 50ms）
+  - 高效处理大型文档
+  - 流式输出提高内存效率
+- **质量功能**:
+  - 保留文档结构和层级
+  - 所有元素的文本格式保留
+  - 处理边界情况和复杂嵌套结构
+  - 跨平台输出一致
+
+**使用方法**:
+1. 在VS Code资源管理器中右键点击 `.md` 或 `.markdown` 文件
+2. 从上下文菜单选择 "将Markdown转换为Word"
+3. 或使用命令面板: `Cmd+Shift+P` → "将Markdown转换为Word"
+4. 输出Word文档将在同一目录中创建
 
 ### Word文档转换
 - 保留文本格式（粗体、斜体等）

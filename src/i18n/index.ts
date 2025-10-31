@@ -22,6 +22,7 @@ export interface Messages {
     convertPdfToText: string;
     convertPdfToImage: string;
     convertPowerPointToMarkdown: string;
+    convertMarkdownToWord: string;
     batchConvert: string;
     openConverter: string;
     debugPdfEnvironment: string;

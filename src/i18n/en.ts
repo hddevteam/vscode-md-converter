@@ -19,6 +19,7 @@ export const EnglishMessages: Messages = {
     convertPdfToText: 'Convert PDF to Text',
     convertPdfToImage: 'Convert PDF to Images',
     convertPowerPointToMarkdown: 'Convert PowerPoint to Markdown',
+    convertMarkdownToWord: 'Convert Markdown to Word',
     batchConvert: 'Batch Convert to Markdown',
     openConverter: 'Open Document Converter',
     debugPdfEnvironment: 'Debug PDF Environment',
