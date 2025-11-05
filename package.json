@@ -2,7 +2,7 @@
   "name": "document-md-converter",
   "displayName": "OneClick Markdown Converter",
   "description": "Convert Word, Excel, PDF, and PowerPoint to Markdown/text with advanced range selection and batch processing. Export specific pages, worksheets, or slides with intuitive UI.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "luckyXmobile",
   "icon": "images/icon.png",
   "repository": {

@@ -15,8 +15,9 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
-### 🆕 v0.4.0 New Features
+### 🆕 v0.4.x Highlights
 - **📝 Markdown to Word Conversion** - Convert Markdown files to professional Word documents with full formatting support
+- **📋 Better Lists in Word (v0.4.1)** - Bullet lists with "*" now render as real symbol lists with proper indent; nested items look clean and structured
 - **📋 HTML List Support** - Complete support for HTML lists in table cells with proper Word formatting
 - **🔥 Multi-File Selection** - Select multiple files in VS Code Explorer and convert them all to Markdown at once
 - **🎛️ Configurable Info Blocks** - Choose what information to include in converted Markdown:
@@ -222,14 +223,12 @@ All converted files are saved in the same directory as the original files with a
 - Excel → `.md` files (with tables)
 - PDF → `.txt` files
 
-## 🚀 Latest Features (v0.4.0)
+## 🚀 Latest Features (v0.4.1)
 
-### Markdown to Word Conversion Enhancement ✨
-- **🆕 HTML List Support in Tables**: Full support for HTML `<ul>`, `<ol>`, and `<li>` tags in table cells
-- **📝 Complete List Rendering**: All list items now properly convert to Word list format (not just the first item)
-- **🧪 Improved Test Coverage**: Enhanced TDD practices with 306 passing tests
-- **🐛 Bug Fixes**: Fixed issue where only first HTML list item in tables was converting
-- **📊 Quality Improvements**: Better error handling and comprehensive regression tests
+### Smoother Lists in Word ✨
+- Bulleted lists (using "*") keep their dot symbols instead of turning into numbers
+- Sub-items自动缩进，层级更清晰，阅读更舒适
+- 表格和HTML中的列表也能一致呈现，复制粘贴后不乱形
 
 ## 🚀 Upcoming Features (v0.5.0+)
 

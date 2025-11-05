@@ -5,6 +5,20 @@ All notable changes to the "document-md-converter" extension will be documented 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [0.4.0] - 2025-10-31
+## [0.4.1] - 2025-11-05
+
+### ✨ Improved Markdown → Word lists (better readability)
+
+#### Fixed
+- Nested bullet lists using "*" now display correctly as symbol lists, not numbers
+- Second-level and deeper items show proper indentation and hierarchy
+- Lists inside tables and HTML lists render consistently across all levels
+
+#### Why it matters
+- Cleaner Word documents: your notes and outlines look exactly as intended
+- Less manual fixing: no more reformatting bullets after export
+- Reliable for mixed content: works in normal text, tables, and HTML lists
+
 
 ### 🎉 Major Release: Enhanced Markdown to Word Conversion with HTML Support
 

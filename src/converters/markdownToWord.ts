@@ -163,6 +163,33 @@ export class MarkdownToWordConverter {
     const allElements = [...infoParagraphs, ...sections[0].children];
 
     return new Document({
+      // Define numbering for ordered and unordered lists to ensure Word compatibility
+      numbering: {
+        config: [
+          {
+            reference: 'default-list',
+            levels: [
+              { level: 0, format: 'decimal', text: '%1.', alignment: AlignmentType.START },
+              { level: 1, format: 'decimal', text: '%2.', alignment: AlignmentType.START },
+              { level: 2, format: 'decimal', text: '%3.', alignment: AlignmentType.START },
+              { level: 3, format: 'decimal', text: '%4.', alignment: AlignmentType.START },
+              { level: 4, format: 'decimal', text: '%5.', alignment: AlignmentType.START },
+              { level: 5, format: 'decimal', text: '%6.', alignment: AlignmentType.START }
+            ]
+          },
+          {
+            reference: 'default-bullet',
+            levels: [
+              { level: 0, format: 'bullet', text: '•', alignment: AlignmentType.START },
+              { level: 1, format: 'bullet', text: '◦', alignment: AlignmentType.START },
+              { level: 2, format: 'bullet', text: '▪', alignment: AlignmentType.START },
+              { level: 3, format: 'bullet', text: '•', alignment: AlignmentType.START },
+              { level: 4, format: 'bullet', text: '◦', alignment: AlignmentType.START },
+              { level: 5, format: 'bullet', text: '▪', alignment: AlignmentType.START }
+            ]
+          }
+        ]
+      },
       sections: [
         {
           children: allElements
@@ -421,8 +448,6 @@ export class MarkdownToWordConverter {
     startIndex: number
   ): { tokens: MarkdownToken[]; nextIndex: number } {
     const tokens: MarkdownToken[] = [];
-    const firstLine = lines[startIndex].trim();
-    const isOrdered = /^\d+\./.test(firstLine);
     let i = startIndex;
 
     while (i < lines.length) {
@@ -435,15 +460,17 @@ export class MarkdownToWordConverter {
       }
 
       const indent = line.length - line.trimLeft().length;
-      const isListItem = /^(\d+\.|\-|\+|\*)\s+/.test(trimmed);
+      const markerMatch = trimmed.match(/^(\d+\.|\-|\+|\*)\s+/);
 
-      if (!isListItem) {
+      if (!markerMatch) {
         break;
       }
 
-      const content = trimmed.replace(/^(\d+\.|\-|\+|\*)\s+/, '');
+      const marker = markerMatch[1];
+      const content = trimmed.substring(markerMatch[0].length);
+      const isOrderedItem = /^\d+\.$/.test(marker);
       tokens.push({
-        type: isOrdered ? TokenType.OrderedListItem : TokenType.UnorderedListItem,
+        type: isOrderedItem ? TokenType.OrderedListItem : TokenType.UnorderedListItem,
         content,
         level: Math.floor(indent / 2)
       });
@@ -655,9 +682,11 @@ export class MarkdownToWordConverter {
         const unorderedContent = this.parseInlineFormatting(token.content);
         return new Paragraph({
           children: unorderedContent.length > 0 ? unorderedContent : [new TextRun(token.content)],
-          bullet: {
-            level: token.level || 0
-          }
+          numbering: {
+            reference: 'default-bullet',
+            level: Math.min(token.level || 0, 5)
+          },
+          indent: (token.level && token.level > 0) ? { left: 360 * Math.min(token.level, 5) } : undefined
         });
 
       case TokenType.OrderedListItem:
@@ -665,9 +694,10 @@ export class MarkdownToWordConverter {
         return new Paragraph({
           children: orderedContent.length > 0 ? orderedContent : [new TextRun(token.content)],
           numbering: {
-            level: token.level || 0,
-            reference: 'default-list'
-          }
+            reference: 'default-list',
+            level: Math.min(token.level || 0, 5)
+          },
+          indent: (token.level && token.level > 0) ? { left: 360 * Math.min(token.level, 5) } : undefined
         });
 
       case TokenType.HtmlUnorderedList:
@@ -726,9 +756,11 @@ export class MarkdownToWordConverter {
           
           paragraphs.push(new Paragraph({
             children: runs.length > 0 ? runs : [new TextRun(liContent)],
-            bullet: {
+            numbering: {
+              reference: 'default-bullet',
               level: 0
             },
+            indent: { left: 360 },
             spacing: { after: 100 }
           }));
         });
@@ -803,8 +835,8 @@ export class MarkdownToWordConverter {
               new Paragraph({
                 children: formattedContent.length > 0 ? formattedContent : [new TextRun(liContent)],
                 numbering: {
-                  level: 0,
-                  reference: 'default-list'
+                  reference: 'default-list',
+                  level: 0
                 },
                 spacing: { after: 100 }
               })
@@ -826,7 +858,8 @@ export class MarkdownToWordConverter {
             paragraphs.push(
               new Paragraph({
                 children: formattedContent.length > 0 ? formattedContent : [new TextRun(liContent)],
-                bullet: {
+                numbering: {
+                  reference: 'default-bullet',
                   level: 0
                 },
                 spacing: { after: 100 }
@@ -843,28 +876,42 @@ export class MarkdownToWordConverter {
     }
     
     // Handle <br> tags by splitting into multiple paragraphs
-    const lines = cellContent.split(/<br\s*\/?>/gi);
+    const lines = cellContent.split(/<br\s*\/?>/i);
 
     for (const line of lines) {
+      // Determine leading spaces BEFORE trimming to keep indentation info
+      const leadingSpacesMatch = line.match(/^\s*/);
+      const leadingSpaces = leadingSpacesMatch ? leadingSpacesMatch[0].length : 0;
+      // Support 2 or 4 spaces, and tabs as 2 spaces
+      const normalizedSpaces = leadingSpaces;
+      const level = Math.max(0, Math.floor(normalizedSpaces / 2));
+
       // Check if this line is a list item (- item or * item or + item or 1. item)
-      const listMatch = line.trim().match(/^(\d+\.|\-|\+|\*)\s+(.+)$/);
+      const trimmedLine = line.trim();
+      const listMatch = trimmedLine.match(/^(\d+\.|\-|\+|\*)\s+(.+)$/);
       
       if (listMatch) {
         // It's a list item - parse formatting with br preserved
+        const marker = listMatch[1];
         const listContent = listMatch[2];
         const formattedContent = this.parseInlineFormatting(listContent, true);
-        
+
+        const isOrdered = /^\d+\.$/.test(marker);
+        const reference = isOrdered ? 'default-list' : 'default-bullet';
+        const safeLevel = Math.min(level, 5);
+
         paragraphs.push(
           new Paragraph({
             children: formattedContent.length > 0 ? formattedContent : [new TextRun(listContent)],
-            bullet: {
-              level: 0
-            }
+            numbering: {
+              reference,
+              level: safeLevel
+            },
+            indent: safeLevel > 0 ? { left: 360 * safeLevel } : undefined
           })
         );
       } else {
         // Regular paragraph content - parse formatting with br preserved
-        const trimmedLine = line.trim();
         if (trimmedLine) {
           const formattedContent = this.parseInlineFormatting(trimmedLine, true);
           
