@@ -49,6 +49,8 @@ src/**/*.js.map
 
 # Test artifacts (do not commit generated outputs)
 src/test/temp/**/*.docx
+src/test/temp/**/*.md
+src/test/temp/**/*.markdown
 src/test/**/e2e_*.docx
 src/test/**/html_list_*.docx
 src/test/**/table_enhance_*.docx

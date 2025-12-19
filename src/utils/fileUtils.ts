@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import * as fsSync from 'fs';
 import { I18n } from '../i18n';
 import { FileValidationResult, SupportedFileType, ConversionConfig, MarkdownInfoField, MarkdownInfoConfig } from '../types';
 
@@ -77,8 +78,21 @@ export class FileUtils {
     const inputDir = path.dirname(inputPath);
     const baseName = path.basename(inputPath, path.extname(inputPath));
     const outputDirectory = outputDir || inputDir;
-    
-    return path.join(outputDirectory, `${baseName}${targetExtension}`);
+
+    const basePath = path.join(outputDirectory, `${baseName}${targetExtension}`);
+    if (!fsSync.existsSync(basePath)) {
+      return basePath;
+    }
+
+    // If file exists, generate a unique name by appending an incrementing suffix.
+    let counter = 1;
+    while (true) {
+      const candidate = path.join(outputDirectory, `${baseName}_${counter}${targetExtension}`);
+      if (!fsSync.existsSync(candidate)) {
+        return candidate;
+      }
+      counter++;
+    }
   }
 
   /**
