@@ -66,6 +66,13 @@ interface InlineFormat {
 }
 
 /**
+ * Shared numbering context to ensure unique numbering instances across the whole document.
+ */
+interface NumberingContext {
+  nextOrderedInstance: number;
+}
+
+/**
  * Main Markdown to Word converter class
  */
 export class MarkdownToWordConverter {
@@ -136,10 +143,65 @@ export class MarkdownToWordConverter {
    * Convert tokens to docx elements for blockquotes.
    * Every paragraph-like element receives blockquote styling.
    */
-  private static tokensToDocxElementsInBlockquote(tokens: MarkdownToken[]): any[] {
+  private static tokensToDocxElementsInBlockquote(tokens: MarkdownToken[], ctx: NumberingContext): any[] {
     const elements: any[] = [];
 
+    // Restart numbering per blockquote ordered-list block, but allocate instance IDs globally.
+    let currentOrderedListInstance: number | undefined;
+
     for (const token of tokens) {
+      if (token.type === TokenType.Blockquote) {
+        // End any active ordered list in this quote before entering a nested quote.
+        currentOrderedListInstance = undefined;
+
+        const innerTokens = this.parseMarkdown(token.content);
+        const nestedQuoteElements = this.tokensToDocxElementsInBlockquote(innerTokens, ctx);
+        if (nestedQuoteElements.length > 0) {
+          elements.push(...nestedQuoteElements);
+        }
+        continue;
+      }
+
+      if (token.type === TokenType.OrderedListItem) {
+        if (currentOrderedListInstance === undefined) {
+          currentOrderedListInstance = ctx.nextOrderedInstance++;
+        }
+
+        const base = this.getBlockquoteParagraphBaseOptions();
+        const runs = this.createRunsWithLineBreaks(token.content);
+        const safeLevel = Math.min(token.level || 0, 5);
+
+        elements.push(
+          new Paragraph({
+            ...base,
+            children: runs.length > 0 ? runs : [new TextRun(token.content)],
+            numbering: {
+              reference: 'default-list',
+              level: safeLevel,
+              instance: currentOrderedListInstance
+            },
+            indent: { left: 720 + 360 * safeLevel }
+          })
+        );
+        continue;
+      }
+
+      // Keep ordered-list context when encountering nested list items (e.g., bullets under an ordered list item)
+      if (token.type === TokenType.UnorderedListItem && (token.level ?? 0) > 0) {
+        const converted = this.tokenToDocxElementInBlockquote(token);
+        if (converted) {
+          if (Array.isArray(converted)) {
+            elements.push(...converted);
+          } else {
+            elements.push(converted);
+          }
+        }
+        continue;
+      }
+
+      // Leaving ordered-list context
+      currentOrderedListInstance = undefined;
+
       const converted = this.tokenToDocxElementInBlockquote(token);
       if (!converted) {
         continue;
@@ -238,20 +300,6 @@ export class MarkdownToWordConverter {
         });
       }
 
-      case TokenType.OrderedListItem: {
-        const runs = this.createRunsWithLineBreaks(token.content);
-        const safeLevel = Math.min(token.level || 0, 5);
-        return new Paragraph({
-          ...base,
-          children: runs.length > 0 ? runs : [new TextRun(token.content)],
-          numbering: {
-            reference: 'default-list',
-            level: safeLevel
-          },
-          indent: { left: 720 + 360 * safeLevel }
-        });
-      }
-
       case TokenType.HorizontalRule:
         return new Paragraph({
           ...base,
@@ -265,11 +313,6 @@ export class MarkdownToWordConverter {
             }
           }
         });
-
-      case TokenType.Blockquote: {
-        const nestedTokens = this.parseMarkdown(token.content);
-        return this.tokensToDocxElementsInBlockquote(nestedTokens);
-      }
 
       // For other complex elements, fall back to normal conversion.
       default:
@@ -768,18 +811,94 @@ export class MarkdownToWordConverter {
   /**
    * Convert tokens to docx elements
    */
-  private static tokensToDocxElements(tokens: MarkdownToken[]): any[] {
+  private static tokensToDocxElements(tokens: MarkdownToken[], ctx?: NumberingContext): any[] {
     const elements: any[] = [];
 
+    const numberingContext: NumberingContext = ctx ?? { nextOrderedInstance: 0 };
+
+    // Restart numbering per ordered-list block (Markdown semantics)
+    let currentOrderedListInstance: number | undefined;
+
     for (const token of tokens) {
-      const converted = this.tokenToDocxElement(token);
-      if (converted) {
-        // Handle both single elements and arrays of elements
-        if (Array.isArray(converted)) {
-          elements.push(...converted);
-        } else {
-          elements.push(converted);
+      if (token.type === TokenType.Blockquote) {
+        // End any active ordered list in main flow before entering a quote.
+        currentOrderedListInstance = undefined;
+
+        const innerTokens = this.parseMarkdown(token.content);
+        const quoteElements = this.tokensToDocxElementsInBlockquote(innerTokens, numberingContext);
+        if (quoteElements.length > 0) {
+          elements.push(...quoteElements);
         }
+        continue;
+      }
+
+      if (token.type === TokenType.OrderedListItem) {
+        if (currentOrderedListInstance === undefined) {
+          currentOrderedListInstance = numberingContext.nextOrderedInstance++;
+        }
+
+        const orderedContent = this.createRunsWithLineBreaks(token.content);
+        const safeLevel = Math.min(token.level || 0, 5);
+        elements.push(
+          new Paragraph({
+            children: orderedContent.length > 0 ? orderedContent : [new TextRun(token.content)],
+            numbering: {
+              reference: 'default-list',
+              level: safeLevel,
+              instance: currentOrderedListInstance
+            },
+            indent: (token.level && token.level > 0) ? { left: 360 * safeLevel } : undefined
+          })
+        );
+        continue;
+      }
+
+      // Keep current ordered-list instance when encountering nested list items (e.g., bullets under ordered list items)
+      if (currentOrderedListInstance !== undefined) {
+        const level = token.level ?? 0;
+        // Nested unordered list items (level>0) should not break the parent ordered list numbering
+        if (token.type === TokenType.UnorderedListItem && level > 0) {
+          const converted = this.tokenToDocxElement(token);
+          if (converted) {
+            if (Array.isArray(converted)) {
+              elements.push(...converted);
+            } else {
+              elements.push(converted);
+            }
+          }
+          continue;
+        }
+
+        // A top-level unordered list starts a new list block, so it ends the ordered-list context
+        if (token.type === TokenType.UnorderedListItem && level === 0) {
+          currentOrderedListInstance = undefined;
+        }
+      }
+
+      // leaving ordered-list context when hitting non-list content
+      if (token.type !== TokenType.UnorderedListItem) {
+        currentOrderedListInstance = undefined;
+      }
+
+      if (token.type === TokenType.HtmlOrderedList) {
+        // Each <ol> block should get a unique numbering instance, otherwise Word will continue numbering.
+        const instance = numberingContext.nextOrderedInstance++;
+        const converted = this.convertHtmlListToParagraphs(token.content, true, instance);
+        if (converted.length > 0) {
+          elements.push(...converted);
+        }
+        continue;
+      }
+
+      const converted = this.tokenToDocxElement(token);
+      if (!converted) {
+        continue;
+      }
+      // Handle both single elements and arrays of elements
+      if (Array.isArray(converted)) {
+        elements.push(...converted);
+      } else {
+        elements.push(converted);
       }
     }
 
@@ -854,7 +973,7 @@ export class MarkdownToWordConverter {
       case TokenType.Blockquote: {
         // Re-parse quote content as markdown and apply quote style to each element.
         const innerTokens = this.parseMarkdown(token.content);
-        return this.tokensToDocxElementsInBlockquote(innerTokens);
+        return this.tokensToDocxElementsInBlockquote(innerTokens, { nextOrderedInstance: 0 });
       }
 
       case TokenType.Table:
@@ -884,21 +1003,11 @@ export class MarkdownToWordConverter {
           indent: (token.level && token.level > 0) ? { left: 360 * Math.min(token.level, 5) } : undefined
         });
 
-      case TokenType.OrderedListItem:
-        const orderedContent = this.parseInlineFormatting(token.content);
-        return new Paragraph({
-          children: orderedContent.length > 0 ? orderedContent : [new TextRun(token.content)],
-          numbering: {
-            reference: 'default-list',
-            level: Math.min(token.level || 0, 5)
-          },
-          indent: (token.level && token.level > 0) ? { left: 360 * Math.min(token.level, 5) } : undefined
-        });
-
       case TokenType.HtmlUnorderedList:
         return this.convertHtmlListToParagraphs(token.content, false);
 
       case TokenType.HtmlOrderedList:
+        // Ordered HTML lists should restart numbering per block (handled in tokensToDocxElements)
         return this.convertHtmlListToParagraphs(token.content, true);
 
       default:
@@ -911,8 +1020,9 @@ export class MarkdownToWordConverter {
    * Returns an array of Paragraph elements representing the list items
    * @param htmlContent - HTML content containing list tags
    * @param isOrdered - true for ordered list (<ol>), false for unordered list (<ul>)
+   * @param orderedInstance - numbering instance id for ordered lists (used to restart numbering per list block)
    */
-  private static convertHtmlListToParagraphs(htmlContent: string, isOrdered: boolean): Paragraph[] {
+  private static convertHtmlListToParagraphs(htmlContent: string, isOrdered: boolean, orderedInstance?: number): Paragraph[] {
     const paragraphs: Paragraph[] = [];
     
     if (isOrdered) {
@@ -931,7 +1041,8 @@ export class MarkdownToWordConverter {
             children: runs.length > 0 ? runs : [new TextRun(liContent)],
             numbering: {
               level: 0,
-              reference: 'default-list'
+              reference: 'default-list',
+              instance: orderedInstance
             },
             spacing: { after: 100 }
           }));
