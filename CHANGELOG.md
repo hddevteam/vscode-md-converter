@@ -4,7 +4,6 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.4.0] - 2025-10-31
 ## [0.5.0] - 2025-12-20
 
 ### ✨ Enhanced Markdown → Word Conversion
