@@ -5,6 +5,21 @@ All notable changes to the "document-md-converter" extension will be documented 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [0.4.0] - 2025-10-31
+## [0.5.0] - 2025-12-20
+
+### ✨ Enhanced Markdown → Word Conversion
+
+#### Added
+- **Smart List Numbering**: Ordered lists now restart numbering for separate list blocks, ensuring each list starts from 1.
+- **Nested List Support**: Bullets nested under ordered items no longer break the numbering sequence of the parent list.
+- **Blockquote Isolation**: Lists inside blockquotes now have independent numbering from the main text.
+- **Preserve Line Breaks**: Hard line breaks in Markdown paragraphs are now correctly preserved in the generated Word document.
+- **Improved Blockquote Rendering**: Blockquotes with multiple paragraphs and lists are now rendered properly without being collapsed into a single line.
+
+#### Fixed
+- Fixed an issue where ordered lists would continue numbering from previous unrelated list blocks.
+- Fixed blockquote rendering where content was sometimes lost or incorrectly formatted.
+
 ## [0.4.1] - 2025-11-05
 
 ### ✨ Improved Markdown → Word lists (better readability)
