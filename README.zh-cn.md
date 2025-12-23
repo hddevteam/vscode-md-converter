@@ -15,6 +15,9 @@
 - **PDF文档** (.pdf) → PNG图片 *(需要poppler-utils工具)*
 - **PowerPoint演示文稿** (.pptx, .ppt) → Markdown
 
+### 🆕 v0.5.1 亮点
+- **✅ Word 转 Markdown** - 有序列表内容显示正确（不再出现重复的 "$1"）。
+
 ### 🆕 v0.5.0 亮点
 - **📝 增强的 Markdown 转 Word** - DOCX 生成器重大改进：
   - **智能列表编号** - 有序列表在不同区块间会自动重新编号（从1开始）

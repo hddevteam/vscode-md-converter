@@ -147,13 +147,18 @@ export class WordToMarkdownConverter {
     markdown = markdown.replace(/<br[^>]*>/gi, '\n');
     
     // Convert lists
-    markdown = markdown.replace(/<ul[^>]*>(.*?)<\/ul>/gis, (match, content) => {
-      return content.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n') + '\n';
+    // NOTE: mammoth may output newlines inside <li> content (e.g. due to <br> tags).
+    // Use [\s\S]*? to match across lines.
+    markdown = markdown.replace(/<ul[^>]*>([\s\S]*?)<\/ul>/gi, (match: string, content: string) => {
+      return content.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, (_liMatch: string, liContent: string) => `- ${liContent}\n`) + '\n';
     });
     
-    markdown = markdown.replace(/<ol[^>]*>(.*?)<\/ol>/gis, (match, content) => {
+    markdown = markdown.replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, (match: string, content: string) => {
       let counter = 1;
-      return content.replace(/<li[^>]*>(.*?)<\/li>/gi, () => `${counter++}. $1\n`) + '\n';
+      return content.replace(
+        /<li[^>]*>([\s\S]*?)<\/li>/gi,
+        (_liMatch: string, liContent: string) => `${counter++}. ${liContent}\n`
+      ) + '\n';
     });
     
     // Remove remaining HTML tags

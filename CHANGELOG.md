@@ -4,6 +4,11 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.1] - 2025-12-23
+
+### Fixed
+- Word → Markdown: Numbered lists keep the right text (no repeated "$1").
+
 ## [0.5.0] - 2025-12-20
 
 ### ✨ Enhanced Markdown → Word Conversion

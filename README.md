@@ -15,6 +15,9 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
+### 🆕 v0.5.1 Highlights
+- **✅ Word to Markdown** - Numbered lists keep the right text (no repeated "$1").
+
 ### 🆕 v0.5.0 Highlights
 - **📝 Enhanced Markdown to Word** - Significant improvements to the DOCX generator:
   - **Smart List Numbering** - Ordered lists now restart numbering for separate list blocks
