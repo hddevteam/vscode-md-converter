@@ -159,11 +159,23 @@ export class ExcelToCsvConverter extends CsvWriterBase {
     sheetName: string,
     includeMetadata: boolean = false
   ): Promise<void> {
-    // Convert sheet to CSV
-    const csvContent = xlsx.utils.sheet_to_csv(sheet, { 
-      FS: delimiter,
+    // Extract data as array to process
+    const data = xlsx.utils.sheet_to_json<Record<string, any>>(sheet, {
+      header: 1,
+      defval: '',
       blankrows: false  // Skip blank rows
-    });
+    }) as any[][];
+    
+    // Filter out empty rows and trim trailing empty columns
+    const cleanedData = this.cleanSheetData(data);
+    
+    // Convert cleaned data back to CSV
+    let csvContent = '';
+    if (cleanedData.length > 0) {
+      csvContent = cleanedData
+        .map(row => row.map(cell => this.escapeCsvCell(String(cell), delimiter)).join(delimiter))
+        .join('\n');
+    }
     
     // Write file using base class method
     await this.writeCsvFile(
@@ -195,13 +207,21 @@ export class ExcelToCsvConverter extends CsvWriterBase {
         continue;
       }
       
-      // Convert sheet to CSV
-      const csvContent = xlsx.utils.sheet_to_csv(sheet, { 
-        FS: delimiter,
+      // Extract data as array to process
+      const data = xlsx.utils.sheet_to_json<Record<string, any>>(sheet, {
+        header: 1,
+        defval: '',
         blankrows: false
-      });
+      }) as any[][];
       
-      if (csvContent.trim().length > 0) {
+      // Filter out empty rows and trim trailing empty columns
+      const cleanedData = this.cleanSheetData(data);
+      
+      if (cleanedData.length > 0) {
+        const csvContent = cleanedData
+          .map(row => row.map(cell => this.escapeCsvCell(String(cell), delimiter)).join(delimiter))
+          .join('\n');
+        
         sections.push({
           name: sheetName,
           content: csvContent
@@ -219,6 +239,51 @@ export class ExcelToCsvConverter extends CsvWriterBase {
         title: I18n.t('table.combinedTablesFrom', path.basename(outputPath, '.csv'))
       }
     );
+  }
+
+  /**
+   * Clean sheet data by removing empty rows and trimming trailing empty columns
+   */
+  private static cleanSheetData(data: any[][]): any[][] {
+    if (data.length === 0) {
+      return data;
+    }
+    
+    // Filter out completely empty rows
+    const nonEmptyRows = data.filter(row => 
+      row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')
+    );
+    
+    if (nonEmptyRows.length === 0) {
+      return [];
+    }
+    
+    // Find the rightmost column that has any non-empty content
+    let maxNonEmptyCol = 0;
+    
+    for (const row of nonEmptyRows) {
+      for (let colIndex = row.length - 1; colIndex >= 0; colIndex--) {
+        const cell = row[colIndex];
+        if (cell !== null && cell !== undefined && String(cell).trim() !== '') {
+          maxNonEmptyCol = Math.max(maxNonEmptyCol, colIndex);
+          break;
+        }
+      }
+    }
+    
+    // Trim all rows to the maxNonEmptyCol + 1 length
+    return nonEmptyRows.map(row => row.slice(0, maxNonEmptyCol + 1));
+  }
+
+  /**
+   * Escape CSV cell content properly
+   */
+  private static escapeCsvCell(value: string, delimiter: string): string {
+    // If value contains delimiter, newline, or quotes, wrap in quotes and escape quotes
+    if (value.includes(delimiter) || value.includes('\n') || value.includes('"')) {
+      return '"' + value.replace(/"/g, '""') + '"';
+    }
+    return value;
   }
 
   /**

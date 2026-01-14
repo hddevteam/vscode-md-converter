@@ -118,15 +118,6 @@ export class ExcelToMarkdownConverter {
       
       markdown += `## ${I18n.t('excel.worksheet')}: ${sheetName}\n\n`;
       
-      // Check if worksheet is empty
-      if (!sheet['!ref'] || range.s.r > range.e.r || range.s.c > range.e.c) {
-        markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
-        if (markdownConfig.includeSectionSeparators) {
-          markdown += '---\n\n';
-        }
-        continue;
-      }
-      
       // Extract data using different approach to preserve all content
       const data = xlsx.utils.sheet_to_json<Record<string, any>>(sheet, {
         header: 1,  // Use array format, preserve all rows
@@ -139,7 +130,8 @@ export class ExcelToMarkdownConverter {
         row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')
       );
       
-      if (nonEmptyData.length === 0) {
+      // Check if worksheet is effectively empty after filtering
+      if (!sheet['!ref'] || nonEmptyData.length === 0) {
         markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
         if (markdownConfig.includeSectionSeparators) {
           markdown += '---\n\n';
@@ -147,13 +139,16 @@ export class ExcelToMarkdownConverter {
         continue;
       }
       
-      markdown += `**${I18n.t('excel.dataDimensions')}**: ${I18n.t('excel.dataDimensionsValue', nonEmptyData.length, Math.max(...nonEmptyData.map(row => row.length)))}\n\n`;
+      // Remove trailing empty columns from each row
+      const trimmedData = this.trimTrailingEmptyColumns(nonEmptyData);
+      
+      markdown += `**${I18n.t('excel.dataDimensions')}**: ${I18n.t('excel.dataDimensionsValue', trimmedData.length, Math.max(...trimmedData.map(row => row.length)))}\n\n`;
       
       // Truncate data if too many rows
-      let displayData = nonEmptyData;
-      if (nonEmptyData.length > maxRows) {
+      let displayData = trimmedData;
+      if (trimmedData.length > maxRows) {
         markdown += `${I18n.t('excel.rowsLimitNotice', maxRows)}\n\n`;
-        displayData = nonEmptyData.slice(0, maxRows);
+        displayData = trimmedData.slice(0, maxRows);
       }
       
       // Determine maximum number of columns
@@ -184,6 +179,31 @@ export class ExcelToMarkdownConverter {
     }
     
     return markdown;
+  }
+
+  /**
+   * Trim trailing empty columns from data rows
+   */
+  private static trimTrailingEmptyColumns(data: any[][]): any[][] {
+    if (data.length === 0) {
+      return data;
+    }
+    
+    // Find the rightmost column that has any non-empty content
+    let maxNonEmptyCol = 0;
+    
+    for (const row of data) {
+      for (let colIndex = row.length - 1; colIndex >= 0; colIndex--) {
+        const cell = row[colIndex];
+        if (cell !== null && cell !== undefined && String(cell).trim() !== '') {
+          maxNonEmptyCol = Math.max(maxNonEmptyCol, colIndex);
+          break;
+        }
+      }
+    }
+    
+    // Trim all rows to the maxNonEmptyCol + 1 length
+    return data.map(row => row.slice(0, maxNonEmptyCol + 1));
   }
 
   /**

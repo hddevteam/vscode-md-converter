@@ -286,13 +286,6 @@ export class ExcelWorksheetRangeConverter extends CsvWriterBase {
     markdown += `${I18n.t('excel.convertedFrom', `${basename} - ${worksheetName}`)}\n\n`;
     markdown += `---\n\n`;
     
-    // Check if worksheet is empty
-    if (!sheet['!ref']) {
-      markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
-      await FileUtils.writeFile(outputPath, markdown);
-      return;
-    }
-    
     // Extract data
     const data = xlsx.utils.sheet_to_json<Record<string, any>>(sheet, {
       header: 1,
@@ -305,24 +298,28 @@ export class ExcelWorksheetRangeConverter extends CsvWriterBase {
       row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')
     );
     
-    if (nonEmptyData.length === 0) {
+    // Check if worksheet is empty after filtering
+    if (!sheet['!ref'] || nonEmptyData.length === 0) {
       markdown += `${I18n.t('excel.emptyWorksheet')}\n\n`;
       await FileUtils.writeFile(outputPath, markdown);
       return;
     }
     
+    // Remove trailing empty columns
+    const trimmedData = this.trimTrailingEmptyColumns(nonEmptyData);
+    
     markdown += `## ${I18n.t('excel.worksheet')}: ${worksheetName}\n\n`;
     markdown += `**${I18n.t('excel.dataDimensions')}**: ${I18n.t('excel.dataDimensionsValue', 
-      nonEmptyData.length, 
-      Math.max(...nonEmptyData.map(row => row.length))
+      trimmedData.length, 
+      Math.max(...trimmedData.map(row => row.length))
     )}\n\n`;
     
     // Determine maximum number of columns
-    const maxCols = Math.max(...nonEmptyData.map(row => row.length));
+    const maxCols = Math.max(...trimmedData.map(row => row.length));
     
     // Create table
-    for (let rowIndex = 0; rowIndex < nonEmptyData.length; rowIndex++) {
-      const row = nonEmptyData[rowIndex];
+    for (let rowIndex = 0; rowIndex < trimmedData.length; rowIndex++) {
+      const row = trimmedData[rowIndex];
       const formattedRow = [];
       
       // Fill each column
@@ -345,6 +342,31 @@ export class ExcelWorksheetRangeConverter extends CsvWriterBase {
   }
 
   /**
+   * Trim trailing empty columns from data rows
+   */
+  private static trimTrailingEmptyColumns(data: any[][]): any[][] {
+    if (data.length === 0) {
+      return data;
+    }
+    
+    // Find the rightmost column that has any non-empty content
+    let maxNonEmptyCol = 0;
+    
+    for (const row of data) {
+      for (let colIndex = row.length - 1; colIndex >= 0; colIndex--) {
+        const cell = row[colIndex];
+        if (cell !== null && cell !== undefined && String(cell).trim() !== '') {
+          maxNonEmptyCol = Math.max(maxNonEmptyCol, colIndex);
+          break;
+        }
+      }
+    }
+    
+    // Trim all rows to the maxNonEmptyCol + 1 length
+    return data.map(row => row.slice(0, maxNonEmptyCol + 1));
+  }
+
+  /**
    * Convert single worksheet to CSV
    */
   private static async convertWorksheetToCsv(
@@ -357,11 +379,27 @@ export class ExcelWorksheetRangeConverter extends CsvWriterBase {
     const encoding = config.tableCsvEncoding || 'utf8';
     const delimiter = this.getDelimiterFromConfig(config.tableCsvDelimiter || ',');
     
-    // Convert sheet to CSV
-    const csvContent = xlsx.utils.sheet_to_csv(sheet, { 
-      FS: delimiter,
+    // Extract data as array to process
+    const data = xlsx.utils.sheet_to_json<Record<string, any>>(sheet, {
+      header: 1,
+      defval: '',
       blankrows: false
-    });
+    }) as any[][];
+    
+    // Filter out empty rows and trim trailing empty columns
+    const nonEmptyData = data.filter(row => 
+      row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')
+    );
+    
+    const cleanedData = this.trimTrailingEmptyColumns(nonEmptyData);
+    
+    // Convert cleaned data to CSV
+    let csvContent = '';
+    if (cleanedData.length > 0) {
+      csvContent = cleanedData
+        .map(row => row.map(cell => this.escapeCsvCell(String(cell), delimiter)).join(delimiter))
+        .join('\n');
+    }
     
     // Write CSV file using base class method
     await this.writeCsvFile(
@@ -371,6 +409,17 @@ export class ExcelWorksheetRangeConverter extends CsvWriterBase {
       config.includeTableMetadata,
       { source: worksheetName }
     );
+  }
+
+  /**
+   * Escape CSV cell content properly
+   */
+  private static escapeCsvCell(value: string, delimiter: string): string {
+    // If value contains delimiter, newline, or quotes, wrap in quotes and escape quotes
+    if (value.includes(delimiter) || value.includes('\n') || value.includes('"')) {
+      return '"' + value.replace(/"/g, '""') + '"';
+    }
+    return value;
   }
 
   /**

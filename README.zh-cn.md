@@ -15,6 +15,9 @@
 - **PDF文档** (.pdf) → PNG图片 *(需要poppler-utils工具)*
 - **PowerPoint演示文稿** (.pptx, .ppt) → Markdown
 
+### 🆕 v0.5.2 亮点
+- **✅ Excel 转 Markdown/CSV** - 修复了转换结果中出现的冗余空行和空列问题。
+
 ### 🆕 v0.5.1 亮点
 - **✅ Word 转 Markdown** - 有序列表内容显示正确（不再出现重复的 "$1"）。
 
