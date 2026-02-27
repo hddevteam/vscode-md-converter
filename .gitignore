@@ -4,6 +4,7 @@ dist/
 node_modules/
 .vscode-test/
 *.vsix
+.vscode/settings.json
 
 # Python Environment
 .venv/
