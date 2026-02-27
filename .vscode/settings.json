@@ -12,5 +12,7 @@
     "js/ts.tsc.autoDetect": "off",
     "terminal.integrated.env.windows": {
         "PATH": "C:\\Program Files\\nodejs;${env:PATH}"
-    }
+    },
+    "github.copilot.chat.edits.gemini3MultiReplaceString": true,
+    "github.copilot.chat.anthropic.toolSearchTool.enabled": true
 }
