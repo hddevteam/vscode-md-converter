@@ -4,6 +4,16 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.3] - 2026-02-27
+
+### Fixed
+- Windows compatibility: improved runtime behavior and command reliability on Windows environments.
+
+### Why it matters
+- More stable conversion flow on Windows projects.
+- Fewer interruptions during command execution.
+- Better cross-platform consistency for teams using macOS and Windows together.
+
 ## [0.5.2] - 2026-01-14
 
 ### Fixed

@@ -15,8 +15,9 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
-### 🆕 v0.5.2 Highlights
-- **✅ Excel to Markdown/CSV** - Fixed redundant empty rows and columns in conversion results.
+### 🆕 v0.5.3 Highlights
+- **✅ Windows Compatibility Improvements** - Improved runtime stability and command reliability on Windows.
+- **🎯 User Value** - Fewer interruptions, smoother conversion workflows, and better cross-platform consistency.
 
 ### 🆕 v0.5.1 Highlights
 - **✅ Word to Markdown** - Numbered lists keep the right text (no repeated "$1").
