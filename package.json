@@ -373,7 +373,7 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "node --no-deprecation ./node_modules/@vscode/test-cli/out/bin.mjs"
   },
   "devDependencies": {
     "@types/iconv-lite": "^0.0.1",

@@ -221,4 +221,41 @@ suite('MarkdownToWord line breaks and blockquote rendering', () => {
     assert.ok(mainNumId && quoteNumId, 'Expected both main list item and quote list item to have numId');
     assert.notStrictEqual(mainNumId, quoteNumId, `Expected different numId for main list vs blockquote list, got same numId=${mainNumId}`);
   });
+
+  test('should strip generated markdown info header and keep only content section', async () => {
+    await fs.mkdir(tempDir, { recursive: true });
+    const mdPath = path.join(tempDir, 'md_info_roundtrip_case.md');
+
+    const markdown = [
+      '# 磁盘设备测试结果20251217',
+      '',
+      'Converted from: 磁盘设备测试结果20251217.docx',
+      '',
+      '---',
+      '',
+      '## File Information',
+      '',
+      '- **File Name**: 磁盘设备测试结果20251217.docx',
+      '- **File Size**: 2.15 MB',
+      '',
+      '## Content',
+      '',
+      '## 实际文档内容标题',
+      '',
+      '这是正文内容，不应出现 MD 信息块。'
+    ].join('\n');
+
+    await fs.writeFile(mdPath, markdown, 'utf-8');
+
+    const result = await MarkdownToWordConverter.convert(mdPath, { outputDirectory: tempDir });
+    assert.strictEqual(result.success, true, `Conversion failed: ${(result as any).error}`);
+    assert.ok(result.outputPath);
+
+    const xml = await getDocumentXml(result.outputPath!);
+
+    assert.ok(xml.includes('实际文档内容标题'), 'Expected content section heading to be preserved');
+    assert.ok(!xml.includes('Converted from: 磁盘设备测试结果20251217.docx'), 'Expected generated source notice to be removed');
+    assert.ok(!xml.includes('File Information'), 'Expected generated file info block to be removed');
+    assert.ok(!xml.includes(path.basename(mdPath)), 'Expected converter not to inject md file metadata into output');
+  });
 });

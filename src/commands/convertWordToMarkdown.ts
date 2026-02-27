@@ -11,15 +11,24 @@ import { ConvertSelectedToMarkdownCommand } from './convertSelectedToMarkdown';
  */
 export async function convertWordToMarkdown(uri?: vscode.Uri, uris?: vscode.Uri[]) {
   try {
+    // Some invocation paths may pass selected resources in different argument positions.
+    const normalizedUris = Array.isArray(uri as unknown)
+      ? (uri as unknown as vscode.Uri[])
+      : (uris || []);
+
+    const primaryUri = (uri && !Array.isArray(uri as unknown))
+      ? uri
+      : normalizedUris[0];
+
     // If multiple files are selected, use batch conversion
-    if (uris && uris.length > 1) {
-      return ConvertSelectedToMarkdownCommand.execute(uri, uris);
+    if (normalizedUris.length > 1) {
+      return ConvertSelectedToMarkdownCommand.execute(primaryUri, normalizedUris);
     }
     
     // Single file conversion logic continues below...
     
     // If no URI provided, prompt user to select file
-    if (!uri) {
+    if (!primaryUri) {
       const fileUris = await vscode.window.showOpenDialog({
         canSelectMany: false,
         filters: {
@@ -33,6 +42,8 @@ export async function convertWordToMarkdown(uri?: vscode.Uri, uris?: vscode.Uri[
       }
 
       uri = fileUris[0];
+    } else {
+      uri = primaryUri;
     }
 
     const filePath = uri.fsPath;

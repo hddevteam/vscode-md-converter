@@ -4,42 +4,51 @@ import { ConversionResult, ConversionOptions } from '../types';
 import { FileUtils } from '../utils/fileUtils';
 import { I18n } from '../i18n';
 
-// Set correct working directory during module loading, then import pdf-parse
 let pdfParse: any;
 
-try {
-  // Save current working directory
+function loadPdfParse(): any {
+  if (pdfParse) {
+    return pdfParse;
+  }
+
   const originalCwd = process.cwd();
-  
-  // Find project root directory containing node_modules
   let projectRoot = __dirname;
-  while (projectRoot && projectRoot !== '/') {
+
+  while (projectRoot) {
     const nodeModulesPath = require('path').join(projectRoot, 'node_modules');
     if (require('fs').existsSync(nodeModulesPath)) {
       break;
     }
-    projectRoot = require('path').dirname(projectRoot);
+
+    const parentDir = require('path').dirname(projectRoot);
+    if (parentDir === projectRoot) {
+      break;
+    }
+    projectRoot = parentDir;
   }
-  
+
   try {
-    // Temporarily switch to project root directory
     if (projectRoot && projectRoot !== originalCwd) {
       process.chdir(projectRoot);
     }
-    
-    // Import pdf-parse
     pdfParse = require('pdf-parse');
+    return pdfParse;
   } finally {
-    // Restore original working directory
     process.chdir(originalCwd);
   }
-} catch (error) {
-  console.warn('PDF-parse loading warning:', error);
-  // If still fails, try importing directly without changing working directory
+}
+
+function getPdfParse(): any {
+  if (pdfParse) {
+    return pdfParse;
+  }
+
   try {
+    return loadPdfParse();
+  } catch {
+    // Fallback to direct require without cwd changes.
     pdfParse = require('pdf-parse');
-  } catch (fallbackError) {
-    console.error('PDF-parse loading failed:', fallbackError);
+    return pdfParse;
   }
 }
 
@@ -84,8 +93,9 @@ export class PdfToTextConverter {
       // Parse PDF
       let pdfData;
       try {
+        const parser = getPdfParse();
         // Use basic parsing options, avoid complex custom renderers
-        pdfData = await pdfParse(dataBuffer, {
+        pdfData = await parser(dataBuffer, {
           max: 0 // Parse all pages
         });
       } catch (err) {

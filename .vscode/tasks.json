@@ -21,7 +21,19 @@
             "type": "npm",
             "script": "watch:esbuild",
             "group": "build",
-            "problemMatcher": "$esbuild-watch",
+            "problemMatcher": {
+                "owner": "esbuild",
+                "source": "esbuild",
+                "pattern": {
+                    "regexp": "^(.*ERROR.*)$",
+                    "message": 1
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^\\[watch\\] build started$",
+                    "endsPattern": "^\\[watch\\] build finished$"
+                }
+            },
             "isBackground": true,
             "label": "npm: watch:esbuild",
             "presentation": {
@@ -44,6 +56,7 @@
 		{
 			"type": "npm",
 			"script": "watch-tests",
+            "label": "npm: watch-tests",
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
 			"presentation": {
@@ -55,7 +68,7 @@
 		{
 			"label": "tasks: watch-tests",
 			"dependsOn": [
-				"npm: watch",
+                "watch",
 				"npm: watch-tests"
 			],
 			"problemMatcher": []

@@ -5,42 +5,51 @@ import { FileUtils } from '../utils/fileUtils';
 import { I18n } from '../i18n';
 import { PageRangeSelector, PageRangeResult } from '../ui/pageRangeSelector';
 
-// Set correct working directory during module loading, then import pdf-parse
 let pdfParse: any;
 
-try {
-  // Save current working directory
+function loadPdfParse(): any {
+  if (pdfParse) {
+    return pdfParse;
+  }
+
   const originalCwd = process.cwd();
-  
-  // Find project root directory containing node_modules
   let projectRoot = __dirname;
-  while (projectRoot && projectRoot !== '/') {
+
+  while (projectRoot) {
     const nodeModulesPath = require('path').join(projectRoot, 'node_modules');
     if (require('fs').existsSync(nodeModulesPath)) {
       break;
     }
-    projectRoot = require('path').dirname(projectRoot);
+
+    const parentDir = require('path').dirname(projectRoot);
+    if (parentDir === projectRoot) {
+      break;
+    }
+    projectRoot = parentDir;
   }
-  
+
   try {
-    // Temporarily switch to project root directory
     if (projectRoot && projectRoot !== originalCwd) {
       process.chdir(projectRoot);
     }
-    
-    // Import pdf-parse
     pdfParse = require('pdf-parse');
+    return pdfParse;
   } finally {
-    // Restore original working directory
     process.chdir(originalCwd);
   }
-} catch (error) {
-  console.warn('PDF-parse loading warning:', error);
-  // If still fails, try importing directly without changing working directory
+}
+
+function getPdfParse(): any {
+  if (pdfParse) {
+    return pdfParse;
+  }
+
   try {
+    return loadPdfParse();
+  } catch {
+    // Fallback to direct require without cwd changes.
     pdfParse = require('pdf-parse');
-  } catch (fallbackError) {
-    console.error('PDF-parse loading failed:', fallbackError);
+    return pdfParse;
   }
 }
 
@@ -103,7 +112,8 @@ export class PdfPageRangeConverter {
       // Parse PDF to get total pages
       let pdfData: any;
       try {
-        pdfData = await pdfParse(dataBuffer, { max: 0 });
+        const parser = getPdfParse();
+        pdfData = await parser(dataBuffer, { max: 0 });
       } catch (err) {
         return {
           success: false,
@@ -268,7 +278,8 @@ export class PdfPageRangeConverter {
   ): Promise<string> {
     try {
       // Parse single page
-      const pageData = await pdfParse(dataBuffer, {
+      const parser = getPdfParse();
+      const pageData = await parser(dataBuffer, {
         first: pageNumber,
         last: pageNumber
       });
@@ -345,7 +356,8 @@ export class PdfPageRangeConverter {
       const pageNumber = pageNumbers[i];
       
       try {
-        const pageData = await pdfParse(dataBuffer, {
+        const parser = getPdfParse();
+        const pageData = await parser(dataBuffer, {
           first: pageNumber,
           last: pageNumber
         });

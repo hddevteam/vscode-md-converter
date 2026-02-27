@@ -358,14 +358,13 @@ export class MarkdownToWordConverter {
         };
       }
 
-      // Get configuration
-      const config = FileUtils.getConfig();
-      const markdownConfig = options?.markdownInfo || 
-        FileUtils.getMarkdownInfoConfig() || 
-        MarkdownInfoBlockGenerator.getDefaultConfig('.md');
+      const normalizedMarkdownContent = this.stripGeneratedMarkdownInfoHeader(markdownContent);
 
       // Convert markdown to document
-      const document = await this.convertMarkdownToWord(markdownContent, inputPath, markdownConfig);
+      const document = await this.convertMarkdownToWord(normalizedMarkdownContent, inputPath, options?.markdownInfo);
+
+      // Get configuration
+      const config = FileUtils.getConfig();
 
       // Generate output path
       const outputDir = options?.outputDirectory || config.outputDirectory || path.dirname(inputPath);
@@ -408,7 +407,7 @@ export class MarkdownToWordConverter {
   private static async convertMarkdownToWord(
     markdownContent: string,
     filePath: string,
-    markdownConfig: MarkdownInfoConfig
+    markdownConfig?: MarkdownInfoConfig
   ): Promise<Document> {
     // Parse markdown content
     const tokens = this.parseMarkdown(markdownContent);
@@ -420,16 +419,7 @@ export class MarkdownToWordConverter {
       }
     ];
 
-    // Create document with metadata
-    const metadata: DocumentMetadata = {
-      fileName: path.basename(filePath),
-      fileSize: markdownContent.length,
-      modifiedDate: new Date()
-    };
-
-    // Generate info block using async method
-    const infoBlock = await MarkdownInfoBlockGenerator.generateMarkdownHeader(filePath, markdownConfig, metadata);
-    const infoParagraphs = this.convertInfoBlockToDocxParagraphs(infoBlock);
+    const infoParagraphs = await this.createOptionalInfoParagraphs(filePath, markdownContent, markdownConfig);
 
     // Combine info block with content
     const allElements = [...infoParagraphs, ...sections[0].children];
@@ -468,6 +458,63 @@ export class MarkdownToWordConverter {
         }
       ]
     });
+  }
+
+  private static async createOptionalInfoParagraphs(
+    filePath: string,
+    markdownContent: string,
+    markdownConfig?: MarkdownInfoConfig
+  ): Promise<Paragraph[]> {
+    if (!this.hasEnabledMarkdownInfoFlag(markdownConfig)) {
+      return [];
+    }
+
+    const metadata: DocumentMetadata = {
+      fileName: path.basename(filePath),
+      fileSize: markdownContent.length,
+      modifiedDate: new Date()
+    };
+
+    const infoBlock = await MarkdownInfoBlockGenerator.generateMarkdownHeader(filePath, markdownConfig!, metadata);
+    return this.convertInfoBlockToDocxParagraphs(infoBlock);
+  }
+
+  private static hasEnabledMarkdownInfoFlag(markdownConfig?: MarkdownInfoConfig): boolean {
+    if (!markdownConfig) {
+      return false;
+    }
+
+    return Boolean(
+      markdownConfig.includeTitle ||
+        markdownConfig.includeSourceNotice ||
+        markdownConfig.includeFileInfo ||
+        markdownConfig.includeMetadata ||
+        markdownConfig.includeConversionWarnings ||
+        markdownConfig.includeContentHeading ||
+        markdownConfig.includeSectionSeparators
+    );
+  }
+
+  private static stripGeneratedMarkdownInfoHeader(markdownContent: string): string {
+    const normalized = markdownContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const contentHeadingMatch = normalized.match(/^##\s*(Content|内容)\s*$/im);
+
+    if (!contentHeadingMatch || contentHeadingMatch.index === undefined) {
+      return markdownContent;
+    }
+
+    const preamble = normalized.slice(0, contentHeadingMatch.index);
+    const looksGeneratedHeader =
+      /(?:^|\n)\s*Converted from\s*[:：]/i.test(preamble) ||
+      /(?:^|\n)\s*##\s*(File Information|文件信息)\s*$/im.test(preamble);
+
+    if (!looksGeneratedHeader) {
+      return markdownContent;
+    }
+
+    const contentStart = contentHeadingMatch.index + contentHeadingMatch[0].length;
+    const contentOnly = normalized.slice(contentStart).replace(/^\s*\n/, '');
+    return contentOnly.trimStart();
   }
 
   /**
