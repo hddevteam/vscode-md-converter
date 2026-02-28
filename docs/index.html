@@ -147,10 +147,10 @@
                             .demo-bg-vscode-light { fill: #252526; }
                             .demo-border-vscode { stroke: #333333; }
                             
-                            @keyframes selectBox { 0%, 15% { opacity: 0; height: 0; width: 0; } 15.5% { opacity: 1; height: 0; width: 350px; } 22%, 45% { opacity: 1; height: 530px; width: 350px; } 46%, 100% { opacity: 0; height: 530px; width: 350px; } }
-                            @keyframes fileHighlight { 0%, 20% { fill: transparent; } 22%, 45% { fill: rgba(255, 255, 255, 0.1); } 46%, 100% { fill: transparent; } }
-                            @keyframes cursorMove { 0%, 5% { transform: translate(1100px, 600px); opacity: 0; } 10% { transform: translate(950px, 400px); opacity: 1; } 15% { transform: translate(850px, 50px); opacity: 1; } 22% { transform: translate(1150px, 520px); opacity: 1; } 25% { transform: translate(1150px, 520px); opacity: 1; } 30% { transform: translate(600px, 40px); opacity: 1; } 33% { transform: translate(600px, 40px) scale(0.9); opacity: 1; } 35% { transform: translate(600px, 40px) scale(1); opacity: 1; } 40%, 100% { transform: translate(500px, -50px); opacity: 0; } }
-                            @keyframes cmdDrop { 0%, 28% { transform: translateY(-90px); opacity: 0; } 32%, 50% { transform: translateY(0px); opacity: 1; } 55%, 100% { transform: translateY(-90px); opacity: 0; } }
+                            @keyframes selectBox { 0%, 12% { opacity: 0; width: 0; height: 0; } 13%, 21% { opacity: 1; width: 355px; height: 130px; } 22%, 100% { opacity: 0; width: 355px; height: 130px; } }
+                            @keyframes fileHighlight { 0%, 12% { fill: transparent; } 13%, 21% { fill: rgba(255, 255, 255, 0.1); } 22%, 100% { fill: transparent; } }
+                            @keyframes cursorMove { 0%, 5% { transform: translate(1100px, 600px); opacity: 0; } 10% { transform: translate(960px, 320px); opacity: 1; } 15%, 20% { transform: translate(955px, 115px); opacity: 1; } 24% { transform: translate(730px, 110px); opacity: 1; } 27%, 28% { transform: translate(695px, 108px); opacity: 1; } 31% { transform: translate(695px, 108px) scale(0.9); opacity: 1; } 33% { transform: translate(695px, 108px) scale(1); opacity: 1; } 37%, 100% { transform: translate(695px, -50px); opacity: 0; } }
+                            @keyframes cmdDrop { 0%, 20% { transform: translateY(-20px); opacity: 0; } 24%, 44% { transform: translateY(0px); opacity: 1; } 48%, 100% { transform: translateY(-20px); opacity: 0; } }
                             @keyframes showStream { 0%, 40% { opacity: 0; } 42%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
                             @keyframes dataStreamMove { to { stroke-dashoffset: 400; } }
                             @keyframes popCard { 0%, 48% { transform: scale(0.8) translateY(30px); opacity: 0; } 52%, 92% { transform: scale(1) translateY(0); opacity: 1; } 96%, 100% { transform: scale(0.9) translateY(20px); opacity: 0; } }
@@ -171,61 +171,64 @@
                             <linearGradient id="icon-pdf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cb2d21"/><stop offset="1" stop-color="#9a1f15"/></linearGradient>
                         </defs>
                         
-                        <!-- LEFT: Output Markdown Card -->
-                        <g class="demo-out-card" transform="translate(30, 60)">
-                            <rect width="480" height="530" rx="14" class="demo-bg-vscode demo-border-vscode" stroke-width="2" filter="url(#demo-shadow)"/>
-                            <rect width="480" height="50" rx="14" fill="#2d2d2d" />
-                            <rect y="35" width="480" height="15" fill="#2d2d2d" />
-                            <rect x="20" y="12" width="28" height="28" rx="6" fill="#06b6d4" />
-                            <text x="34" y="32" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">M⬇</text>
-                            <text x="65" y="32" font-family="sans-serif" font-size="20" class="demo-text-main" font-weight="bold">Document.md</text>
+                        <!-- LEFT: Multi-Format Output Files -->
+                        <g class="demo-out-card" transform="translate(20, 45)">
+                            <rect width="490" height="565" rx="14" class="demo-bg-vscode demo-border-vscode" stroke-width="2" filter="url(#demo-shadow)"/>
+                            <rect width="490" height="50" rx="14" fill="#2d2d2d" />
+                            <rect y="35" width="490" height="15" fill="#2d2d2d" />
+                            <text x="245" y="33" font-family="sans-serif" font-size="21" class="demo-text-main" font-weight="bold" text-anchor="middle">Output Files</text>
 
-                            <rect x="15" y="65" width="220" height="445" rx="6" class="demo-bg-vscode-light" />
-                            <rect x="245" y="65" width="220" height="445" rx="6" fill="#ffffff" />
+                            <!-- Row 1: .md (Word to Markdown) -->
+                            <g transform="translate(20, 62)">
+                                <rect width="450" height="108" rx="10" fill="#0d1b2a" />
+                                <rect x="10" y="14" width="64" height="64" rx="10" fill="#0e7490" />
+                                <text x="42" y="54" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">.md</text>
+                                <text x="92" y="36" font-family="sans-serif" font-size="27" class="demo-text-main" font-weight="600">document.md</text>
+                                <rect x="92" y="52" width="178" height="28" rx="6" fill="#06b6d4" opacity="0.2"/>
+                                <text x="181" y="71" font-family="sans-serif" font-size="19" fill="#06b6d4" text-anchor="middle">Word → Markdown</text>
+                            </g>
 
-                            <g class="demo-code-lines">
-                                <!-- Code Editor Left Side -->
-                                <rect x="25" y="90" width="130" height="6" rx="3" fill="#06b6d4" />
-                                <rect x="25" y="115" width="180" height="4" rx="2" fill="#7a7a7a" />
-                                <rect x="25" y="125" width="150" height="4" rx="2" fill="#7a7a7a" />
-                                <rect x="25" y="135" width="190" height="4" rx="2" fill="#7a7a7a" />
-                                
-                                <rect x="25" y="160" width="100" height="5" rx="2.5" fill="#8b5cf6" />
-                                <rect x="25" y="185" width="190" height="4" rx="2" fill="#7a7a7a" />
-                                <rect x="25" y="195" width="130" height="4" rx="2" fill="#7a7a7a" />
-                                
-                                <rect x="25" y="220" width="180" height="40" rx="4" fill="#333333" />
-                                <rect x="35" y="235" width="140" height="3" rx="1.5" fill="#555" />
+                            <!-- Row 2: .csv (Excel to CSV) -->
+                            <g transform="translate(20, 182)">
+                                <rect width="450" height="108" rx="10" fill="#0d1b2a" />
+                                <rect x="10" y="14" width="64" height="64" rx="10" fill="#065f46" />
+                                <text x="42" y="54" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">.csv</text>
+                                <text x="92" y="36" font-family="sans-serif" font-size="27" class="demo-text-main" font-weight="600">table.csv</text>
+                                <rect x="92" y="52" width="152" height="28" rx="6" fill="#10b981" opacity="0.2"/>
+                                <text x="168" y="71" font-family="sans-serif" font-size="19" fill="#10b981" text-anchor="middle">Excel → CSV</text>
+                            </g>
 
-                                <rect x="25" y="280" width="100" height="5" rx="2.5" fill="#06b6d4" />
-                                <rect x="25" y="300" width="190" height="4" rx="2" fill="#7a7a7a" />
-                                <rect x="25" y="310" width="140" height="4" rx="2" fill="#7a7a7a" />
-                                
-                                <!-- Rendered Preview Right Side -->
-                                <rect x="260" y="90" width="150" height="12" rx="3" fill="#1e293b" />
-                                <rect x="260" y="115" width="180" height="5" rx="2.5" fill="#94a3b8" />
-                                <rect x="260" y="127" width="150" height="5" rx="2.5" fill="#94a3b8" />
-                                <rect x="260" y="139" width="190" height="5" rx="2.5" fill="#94a3b8" />
-                                
-                                <rect x="260" y="165" width="100" height="9" rx="3" fill="#1e293b" />
-                                <rect x="260" y="185" width="190" height="5" rx="2.5" fill="#94a3b8" />
-                                <rect x="260" y="197" width="130" height="5" rx="2.5" fill="#94a3b8" />
-                                
-                                <rect x="260" y="220" width="180" height="45" rx="4" fill="#cbd5e1" />
-                                <rect x="265" y="225" width="40" height="35" rx="2" fill="#475569" />
-                                <rect x="315" y="225" width="115" height="35" rx="2" fill="#f1f5f9" />
+                            <!-- Row 3: .txt (PDF to Text) -->
+                            <g transform="translate(20, 302)">
+                                <rect width="450" height="108" rx="10" fill="#0d1b2a" />
+                                <rect x="10" y="14" width="64" height="64" rx="10" fill="#4c1d95" />
+                                <text x="42" y="54" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">.txt</text>
+                                <text x="92" y="36" font-family="sans-serif" font-size="27" class="demo-text-main" font-weight="600">report.txt</text>
+                                <rect x="92" y="52" width="150" height="28" rx="6" fill="#8b5cf6" opacity="0.2"/>
+                                <text x="167" y="71" font-family="sans-serif" font-size="19" fill="#8b5cf6" text-anchor="middle">PDF → Text</text>
+                            </g>
 
-                                <rect x="260" y="280" width="100" height="9" rx="3" fill="#1e293b" />
-                                <rect x="260" y="300" width="190" height="5" rx="2.5" fill="#94a3b8" />
-                                <rect x="260" y="312" width="150" height="5" rx="2.5" fill="#94a3b8" />
+                            <!-- Row 4: .png (PDF to Images) -->
+                            <g transform="translate(20, 422)">
+                                <rect width="450" height="108" rx="10" fill="#0d1b2a" />
+                                <rect x="10" y="14" width="64" height="64" rx="10" fill="#92400e" />
+                                <text x="42" y="54" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">.png</text>
+                                <text x="92" y="36" font-family="sans-serif" font-size="27" class="demo-text-main" font-weight="600">page_01.png</text>
+                                <rect x="92" y="52" width="172" height="28" rx="6" fill="#f59e0b" opacity="0.2"/>
+                                <text x="178" y="71" font-family="sans-serif" font-size="19" fill="#f59e0b" text-anchor="middle">PDF → Images</text>
                             </g>
                         </g>
 
-                        <!-- COMMAND PALETTE IN CENTER -->
-                        <g class="demo-cmd-palette" transform="translate(350, 15)">
-                            <rect width="500" height="70" rx="12" class="demo-bg-vscode demo-border-vscode" stroke-width="2" filter="url(#demo-shadow)"/>
-                            <text x="30" y="45" font-family="monospace" font-size="28" fill="#06b6d4" font-weight="bold">></text>
-                            <text x="65" y="43" font-family="sans-serif" font-size="26" class="demo-text-main">OneClick Markdown: Convert...</text>
+                        <!-- RIGHT-CLICK CONTEXT MENU -->
+                        <g class="demo-cmd-palette" transform="translate(648, 75)">
+                            <rect width="285" height="215" rx="8" fill="#1e1e1e" stroke="#454545" stroke-width="1" filter="url(#demo-shadow)"/>
+                            <rect x="4" y="4" width="277" height="44" rx="5" fill="#094771"/>
+                            <text x="18" y="33" font-family="sans-serif" font-size="21" fill="#ffffff" font-weight="600">Convert to Markdown</text>
+                            <text x="18" y="78" font-family="sans-serif" font-size="21" fill="#cccccc">Export to CSV...</text>
+                            <line x1="8" y1="93" x2="277" y2="93" stroke="#454545" stroke-width="1"/>
+                            <text x="18" y="120" font-family="sans-serif" font-size="21" fill="#cccccc">PDF Pages to Text...</text>
+                            <text x="18" y="162" font-family="sans-serif" font-size="21" fill="#cccccc">Batch Convert Folder</text>
+                            <text x="18" y="200" font-family="sans-serif" font-size="19" fill="#666666">More options...</text>
                         </g>
 
                         <!-- DATA STREAM (Direction Right to Left) -->
