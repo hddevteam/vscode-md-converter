@@ -130,31 +130,149 @@
             </div>
             <div class="hero-visual">
                 <div class="conversion-demo">
-                    <div class="demo-files-container">
-                        <div class="demo-file input-file word-file">
-                            <i class="fas fa-file-word"></i>
-                            <span>Document.docx</span>
-                        </div>
-                        <div class="demo-file input-file excel-file">
-                            <i class="fas fa-file-excel"></i>
-                            <span>Table.xlsx</span>
-                        </div>
-                        <div class="demo-file input-file pdf-file">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Report.pdf</span>
-                        </div>
-                        <div class="demo-file input-file powerpoint-file">
-                            <i class="fas fa-file-powerpoint"></i>
-                            <span>Slides.pptx</span>
-                        </div>
-                    </div>
-                    <div class="demo-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                    <div class="demo-file output-file">
-                        <i class="fab fa-markdown"></i>
-                        <span>Document.md</span>
-                    </div>
+                    <svg viewBox="0 0 1200 650" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+                        <style>
+                            .demo-sel-box { fill: rgba(99, 102, 241, 0.2); stroke: #818cf8; stroke-width: 2; stroke-dasharray: 6 4; opacity: 0; animation: selectBox 8s infinite ease-in-out; }
+                            .demo-file-item-bg { fill: transparent; rx: 10; animation: fileHighlight 8s infinite ease-in-out; }
+                            .demo-cursor { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); animation: cursorMove 8s infinite ease-in-out; transform-origin: top left; }
+                            .demo-cmd-palette { animation: cmdDrop 8s infinite ease-in-out; }
+                            .demo-data-stream { opacity: 0; stroke-linecap: round; fill: none; }
+                            .demo-stream-1 { animation: dataStreamMove 8s infinite linear, showStream 8s infinite ease-in-out; }
+                            .demo-stream-2 { animation: dataStreamMove 8s infinite linear, showStream 8s infinite ease-in-out; animation-delay: 0.1s; stroke-dasharray: 15 15; }
+                            .demo-stream-3 { animation: dataStreamMove 8s infinite linear, showStream 8s infinite ease-in-out; animation-delay: 0.2s; stroke-dasharray: 5 10; }
+                            .demo-out-card { transform-origin: 250px 320px; animation: popCard 8s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+                            .demo-code-lines { clip-path: inset(0 100% 0 0); animation: revealCode 8s infinite ease-out; }
+                            .demo-text-main { fill: #f8fafc; }
+                            .demo-bg-vscode { fill: #1e1e1e; }
+                            .demo-bg-vscode-light { fill: #252526; }
+                            .demo-border-vscode { stroke: #333333; }
+                            
+                            @keyframes selectBox { 0%, 15% { opacity: 0; height: 0; width: 0; } 15.5% { opacity: 1; height: 0; width: 350px; } 22%, 45% { opacity: 1; height: 530px; width: 350px; } 46%, 100% { opacity: 0; height: 530px; width: 350px; } }
+                            @keyframes fileHighlight { 0%, 20% { fill: transparent; } 22%, 45% { fill: rgba(255, 255, 255, 0.1); } 46%, 100% { fill: transparent; } }
+                            @keyframes cursorMove { 0%, 5% { transform: translate(1100px, 600px); opacity: 0; } 10% { transform: translate(950px, 400px); opacity: 1; } 15% { transform: translate(850px, 50px); opacity: 1; } 22% { transform: translate(1150px, 520px); opacity: 1; } 25% { transform: translate(1150px, 520px); opacity: 1; } 30% { transform: translate(600px, 40px); opacity: 1; } 33% { transform: translate(600px, 40px) scale(0.9); opacity: 1; } 35% { transform: translate(600px, 40px) scale(1); opacity: 1; } 40%, 100% { transform: translate(500px, -50px); opacity: 0; } }
+                            @keyframes cmdDrop { 0%, 28% { transform: translateY(-90px); opacity: 0; } 32%, 50% { transform: translateY(0px); opacity: 1; } 55%, 100% { transform: translateY(-90px); opacity: 0; } }
+                            @keyframes showStream { 0%, 40% { opacity: 0; } 42%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
+                            @keyframes dataStreamMove { to { stroke-dashoffset: 400; } }
+                            @keyframes popCard { 0%, 48% { transform: scale(0.8) translateY(30px); opacity: 0; } 52%, 92% { transform: scale(1) translateY(0); opacity: 1; } 96%, 100% { transform: scale(0.9) translateY(20px); opacity: 0; } }
+                            @keyframes revealCode { 0%, 55% { clip-path: inset(0 100% 0 0); } 65%, 92% { clip-path: inset(0 0 0 0); } 96%, 100% { clip-path: inset(0 100% 0 0); } }
+                        </style>
+                        <defs>
+                            <linearGradient id="demo-primary-grad" x1="100%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#8b5cf6" />
+                                <stop offset="50%" stop-color="#06b6d4" />
+                                <stop offset="100%" stop-color="#10b981" />
+                            </linearGradient>
+                            <filter id="demo-shadow">
+                                <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="#000" flood-opacity="0.4"/>
+                            </filter>
+                            <linearGradient id="icon-word" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b579a"/><stop offset="1" stop-color="#1e3e6e"/></linearGradient>
+                            <linearGradient id="icon-excel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#217346"/><stop offset="1" stop-color="#144d2d"/></linearGradient>
+                            <linearGradient id="icon-ppt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d24726"/><stop offset="1" stop-color="#9e3218"/></linearGradient>
+                            <linearGradient id="icon-pdf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cb2d21"/><stop offset="1" stop-color="#9a1f15"/></linearGradient>
+                        </defs>
+                        
+                        <!-- LEFT: Output Markdown Card -->
+                        <g class="demo-out-card" transform="translate(30, 60)">
+                            <rect width="480" height="530" rx="14" class="demo-bg-vscode demo-border-vscode" stroke-width="2" filter="url(#demo-shadow)"/>
+                            <rect width="480" height="50" rx="14" fill="#2d2d2d" />
+                            <rect y="35" width="480" height="15" fill="#2d2d2d" />
+                            <rect x="20" y="12" width="28" height="28" rx="6" fill="#06b6d4" />
+                            <text x="34" y="32" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">M⬇</text>
+                            <text x="65" y="32" font-family="sans-serif" font-size="20" class="demo-text-main" font-weight="bold">Document.md</text>
+
+                            <rect x="15" y="65" width="220" height="445" rx="6" class="demo-bg-vscode-light" />
+                            <rect x="245" y="65" width="220" height="445" rx="6" fill="#ffffff" />
+
+                            <g class="demo-code-lines">
+                                <!-- Code Editor Left Side -->
+                                <rect x="25" y="90" width="130" height="6" rx="3" fill="#06b6d4" />
+                                <rect x="25" y="115" width="180" height="4" rx="2" fill="#7a7a7a" />
+                                <rect x="25" y="125" width="150" height="4" rx="2" fill="#7a7a7a" />
+                                <rect x="25" y="135" width="190" height="4" rx="2" fill="#7a7a7a" />
+                                
+                                <rect x="25" y="160" width="100" height="5" rx="2.5" fill="#8b5cf6" />
+                                <rect x="25" y="185" width="190" height="4" rx="2" fill="#7a7a7a" />
+                                <rect x="25" y="195" width="130" height="4" rx="2" fill="#7a7a7a" />
+                                
+                                <rect x="25" y="220" width="180" height="40" rx="4" fill="#333333" />
+                                <rect x="35" y="235" width="140" height="3" rx="1.5" fill="#555" />
+
+                                <rect x="25" y="280" width="100" height="5" rx="2.5" fill="#06b6d4" />
+                                <rect x="25" y="300" width="190" height="4" rx="2" fill="#7a7a7a" />
+                                <rect x="25" y="310" width="140" height="4" rx="2" fill="#7a7a7a" />
+                                
+                                <!-- Rendered Preview Right Side -->
+                                <rect x="260" y="90" width="150" height="12" rx="3" fill="#1e293b" />
+                                <rect x="260" y="115" width="180" height="5" rx="2.5" fill="#94a3b8" />
+                                <rect x="260" y="127" width="150" height="5" rx="2.5" fill="#94a3b8" />
+                                <rect x="260" y="139" width="190" height="5" rx="2.5" fill="#94a3b8" />
+                                
+                                <rect x="260" y="165" width="100" height="9" rx="3" fill="#1e293b" />
+                                <rect x="260" y="185" width="190" height="5" rx="2.5" fill="#94a3b8" />
+                                <rect x="260" y="197" width="130" height="5" rx="2.5" fill="#94a3b8" />
+                                
+                                <rect x="260" y="220" width="180" height="45" rx="4" fill="#cbd5e1" />
+                                <rect x="265" y="225" width="40" height="35" rx="2" fill="#475569" />
+                                <rect x="315" y="225" width="115" height="35" rx="2" fill="#f1f5f9" />
+
+                                <rect x="260" y="280" width="100" height="9" rx="3" fill="#1e293b" />
+                                <rect x="260" y="300" width="190" height="5" rx="2.5" fill="#94a3b8" />
+                                <rect x="260" y="312" width="150" height="5" rx="2.5" fill="#94a3b8" />
+                            </g>
+                        </g>
+
+                        <!-- COMMAND PALETTE IN CENTER -->
+                        <g class="demo-cmd-palette" transform="translate(350, 15)">
+                            <rect width="500" height="70" rx="12" class="demo-bg-vscode demo-border-vscode" stroke-width="2" filter="url(#demo-shadow)"/>
+                            <text x="30" y="45" font-family="monospace" font-size="28" fill="#06b6d4" font-weight="bold">></text>
+                            <text x="65" y="43" font-family="sans-serif" font-size="26" class="demo-text-main">OneClick Markdown: Convert...</text>
+                        </g>
+
+                        <!-- DATA STREAM (Direction Right to Left) -->
+                        <path class="demo-data-stream demo-stream-1" d="M 830 320 C 730 200, 630 320, 520 320" stroke="url(#demo-primary-grad)" stroke-width="8" stroke-dasharray="15 25"/>
+                        <path class="demo-data-stream demo-stream-2" d="M 830 350 C 730 350, 630 360, 520 320" stroke="#06b6d4" stroke-width="5" />
+                        <path class="demo-data-stream demo-stream-3" d="M 830 380 C 730 450, 630 300, 520 320" stroke="#10b981" stroke-width="3" />
+
+                        <!-- RIGHT: Input Files (2x Scaled Icons) -->
+                        <g transform="translate(830, 55)">
+                            <rect x="0" y="0" width="340" height="120" class="demo-file-item-bg" />
+                            <rect x="0" y="130" width="340" height="120" class="demo-file-item-bg" />
+                            <rect x="0" y="260" width="340" height="120" class="demo-file-item-bg" />
+                            <rect x="0" y="390" width="340" height="120" class="demo-file-item-bg" />
+                            
+                            <rect x="-10" y="-10" class="demo-sel-box" rx="12" />
+                            
+                            <!-- Word Icon & Text -->
+                            <g transform="translate(15, 20)">
+                                <rect width="80" height="80" rx="14" fill="url(#icon-word)"/>
+                                <text x="40" y="50" font-family="sans-serif" font-size="36" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">W</text>
+                                <text x="100" y="50" font-family="sans-serif" font-size="40" class="demo-text-main" dominant-baseline="middle">Document.docx</text>
+                            </g>
+                            <!-- Excel Icon & Text -->
+                            <g transform="translate(15, 150)">
+                                <rect width="80" height="80" rx="14" fill="url(#icon-excel)"/>
+                                <text x="40" y="50" font-family="sans-serif" font-size="36" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">X</text>
+                                <text x="100" y="50" font-family="sans-serif" font-size="40" class="demo-text-main" dominant-baseline="middle">Table.xlsx</text>
+                            </g>
+                            <!-- PPT Icon & Text -->
+                            <g transform="translate(15, 280)">
+                                <rect width="80" height="80" rx="14" fill="url(#icon-ppt)"/>
+                                <text x="40" y="50" font-family="sans-serif" font-size="36" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">P</text>
+                                <text x="100" y="50" font-family="sans-serif" font-size="40" class="demo-text-main" dominant-baseline="middle">Slides.pptx</text>
+                            </g>
+                            <!-- PDF Icon & Text -->
+                            <g transform="translate(15, 410)">
+                                <rect width="80" height="80" rx="14" fill="url(#icon-pdf)"/>
+                                <text x="40" y="50" font-family="sans-serif" font-size="30" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">PDF</text>
+                                <text x="100" y="50" font-family="sans-serif" font-size="40" class="demo-text-main" dominant-baseline="middle">Report.pdf</text>
+                            </g>
+                        </g>
+
+                        <!-- CURSOR -->
+                        <g class="demo-cursor">
+                            <path d="M0,0 L0,30 L7,24 L12,36 L18,33 L13,21 L24,21 Z" fill="#fff" stroke="#000" stroke-width="2" />
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>

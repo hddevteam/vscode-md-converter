@@ -52,7 +52,7 @@ a:hover {
 
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -71,7 +71,7 @@ a:hover {
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
@@ -127,12 +127,12 @@ a:hover {
 }
 
 .hero-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 2fr 3fr;
+    gap: 2rem;
     align-items: center;
 }
 
@@ -244,8 +244,9 @@ a:hover {
 /* Hero Visual */
 .hero-visual {
     display: flex;
-    justify-content: center;
+    justify-content: stretch;
     align-items: center;
+    width: 100%;
 }
 
 .conversion-demo {
@@ -253,10 +254,11 @@ a:hover {
     align-items: center;
     gap: 2rem;
     background: rgba(255, 255, 255, 0.1);
-    padding: 3rem;
+    padding: 0.75rem;
     border-radius: 20px;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
 .demo-file {
