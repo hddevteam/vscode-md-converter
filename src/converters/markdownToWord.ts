@@ -105,8 +105,7 @@ export class MarkdownToWordConverter {
 
     return newZip.generateAsync({
       type: 'nodebuffer',
-      compression: 'DEFLATE',
-      compressionOptions: { level: 1 }
+      compression: 'STORE'
     });
   }
 
@@ -325,9 +324,15 @@ export class MarkdownToWordConverter {
    */
   static async convert(inputPath: string, options?: ConversionOptions): Promise<ConversionResult> {
     const startTime = Date.now();
+    let stage = 'start';
+    const diagnostics: string[] = [];
 
     try {
+      diagnostics.push(`File: ${path.basename(inputPath)}`);
+      diagnostics.push(`Extension: ${path.extname(inputPath).toLowerCase() || '(none)'}`);
+
       // Validate file
+      stage = 'validate input file';
       const validation = await FileUtils.validateFile(inputPath);
       if (!validation.isValid) {
         return {
@@ -346,10 +351,17 @@ export class MarkdownToWordConverter {
         };
       }
 
+      const inputStats = await fs.stat(inputPath);
+      diagnostics.push(`Input size: ${inputStats.size} bytes`);
+
       // Read markdown file
+      stage = 'read markdown file';
       const markdownContent = await fs.readFile(inputPath, 'utf-8');
+      diagnostics.push(`Markdown length: ${markdownContent.length} chars`);
+      diagnostics.push(`Markdown line count: ${markdownContent.split(/\r\n|\r|\n/).length}`);
 
       // Guard against corrupted/binary content (e.g., NULL bytes) that should not be treated as valid Markdown
+      stage = 'validate markdown content';
       if (markdownContent.includes('\u0000')) {
         return {
           success: false,
@@ -358,30 +370,44 @@ export class MarkdownToWordConverter {
         };
       }
 
+      stage = 'strip generated markdown info header';
       const normalizedMarkdownContent = this.stripGeneratedMarkdownInfoHeader(markdownContent);
+      if (normalizedMarkdownContent.length !== markdownContent.length) {
+        diagnostics.push(`Generated info header removed: ${markdownContent.length - normalizedMarkdownContent.length} chars`);
+      }
 
       // Convert markdown to document
-      const document = await this.convertMarkdownToWord(normalizedMarkdownContent, inputPath, options?.markdownInfo);
+      stage = 'parse markdown and build docx document';
+      const document = await this.convertMarkdownToWord(normalizedMarkdownContent, inputPath, options?.markdownInfo, diagnostics);
 
       // Get configuration
+      stage = 'read converter configuration';
       const config = FileUtils.getConfig();
 
       // Generate output path
+      stage = 'generate output path';
       const outputDir = options?.outputDirectory || config.outputDirectory || path.dirname(inputPath);
       const outputPath = FileUtils.generateOutputPath(inputPath, '.docx', outputDir);
+      diagnostics.push(`Output file: ${path.basename(outputPath)}`);
 
       // Ensure output directory exists
+      stage = 'ensure output directory exists';
       await FileUtils.ensureDirectoryExists(path.dirname(outputPath));
 
       // Save document
+      stage = 'pack docx';
       let bytes = await Packer.toBuffer(document, PrettifyType.WITH_4_BLANKS);
+      diagnostics.push(`Packed docx size: ${bytes.length} bytes`);
 
       // If markdown is large but output is unexpectedly small (highly repetitive content), re-pack without compression.
       // This helps avoid edge cases where consumers/tests treat extremely small docx as suspicious.
       if (markdownContent.length >= 8000 && bytes.length < 10000) {
+        stage = 'repack docx';
         bytes = await this.repackDocxWithoutCompression(bytes);
+        diagnostics.push(`Repacked docx size: ${bytes.length} bytes`);
       }
 
+      stage = 'write docx file';
       await fs.writeFile(outputPath, bytes);
 
       const duration = Date.now() - startTime;
@@ -393,10 +419,19 @@ export class MarkdownToWordConverter {
         duration
       };
     } catch (error) {
+      const diagnosticLog = this.formatConversionDiagnosticError(error, {
+        stage,
+        inputPath,
+        durationMs: Date.now() - startTime,
+        diagnostics
+      });
+      console.error(diagnosticLog);
+
       return {
         success: false,
         inputPath,
-        error: I18n.t('error.conversionFailed', error instanceof Error ? error.message : I18n.t('error.unknownError'))
+        error: I18n.t('error.conversionFailed', error instanceof Error ? error.message : I18n.t('error.unknownError')),
+        diagnosticLog
       };
     }
   }
@@ -407,10 +442,12 @@ export class MarkdownToWordConverter {
   private static async convertMarkdownToWord(
     markdownContent: string,
     filePath: string,
-    markdownConfig?: MarkdownInfoConfig
+    markdownConfig?: MarkdownInfoConfig,
+    diagnostics?: string[]
   ): Promise<Document> {
     // Parse markdown content
     const tokens = this.parseMarkdown(markdownContent);
+    diagnostics?.push(...this.getMarkdownTokenDiagnostics(tokens));
 
     // Convert tokens to docx elements
     const sections = [
@@ -420,9 +457,11 @@ export class MarkdownToWordConverter {
     ];
 
     const infoParagraphs = await this.createOptionalInfoParagraphs(filePath, markdownContent, markdownConfig);
+    diagnostics?.push(`Info paragraphs: ${infoParagraphs.length}`);
 
     // Combine info block with content
     const allElements = [...infoParagraphs, ...sections[0].children];
+    diagnostics?.push(`Docx top-level elements: ${allElements.length}`);
 
     return new Document({
       // Define numbering for ordered and unordered lists to ensure Word compatibility
@@ -458,6 +497,61 @@ export class MarkdownToWordConverter {
         }
       ]
     });
+  }
+
+  private static formatConversionDiagnosticError(
+    error: unknown,
+    context: {
+      stage: string;
+      inputPath: string;
+      durationMs: number;
+      diagnostics: string[];
+    }
+  ): string {
+    const errorName = error instanceof Error ? error.name : 'NonError';
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error && error.stack ? error.stack : '(no stack available)';
+
+    return [
+      '[MarkdownToWord] Conversion failed',
+      `Stage: ${context.stage}`,
+      `File: ${path.basename(context.inputPath)}`,
+      `Duration: ${context.durationMs}ms`,
+      `Error: ${errorName}: ${errorMessage}`,
+      'Diagnostics:',
+      ...(context.diagnostics.length > 0 ? context.diagnostics.map(item => `- ${item}`) : ['- (none)']),
+      'Stack:',
+      stack
+    ].join('\n');
+  }
+
+  private static getMarkdownTokenDiagnostics(tokens: MarkdownToken[]): string[] {
+    const counts = new Map<TokenType, number>();
+    for (const token of tokens) {
+      counts.set(token.type, (counts.get(token.type) || 0) + 1);
+    }
+
+    const diagnostics = [
+      `Token count: ${tokens.length}`,
+      `Token types: ${Array.from(counts.entries()).map(([type, count]) => `${type}=${count}`).join(', ') || '(none)'}`
+    ];
+
+    let tableIndex = 0;
+    for (const token of tokens) {
+      if (token.type !== TokenType.Table) {
+        continue;
+      }
+
+      tableIndex++;
+      const headers = Array.isArray(token.metadata?.headers) ? token.metadata.headers : [];
+      const rows = Array.isArray(token.metadata?.rows) ? token.metadata.rows : [];
+      const rowLengths = rows.map((row: unknown) => Array.isArray(row) ? row.length : -1);
+      diagnostics.push(
+        `Table ${tableIndex}: columns=${headers.length}, bodyRows=${rows.length}, bodyRowLengths=[${rowLengths.join(', ')}]`
+      );
+    }
+
+    return diagnostics;
   }
 
   private static async createOptionalInfoParagraphs(
@@ -608,9 +702,9 @@ export class MarkdownToWordConverter {
       const paragraph = this.parseParagraph(lines, i);
       tokens.push({
         type: TokenType.Paragraph,
-        content: paragraph.content
+        content: paragraph.nextIndex > i ? paragraph.content : line
       });
-      i = paragraph.nextIndex;
+      i = paragraph.nextIndex > i ? paragraph.nextIndex : i + 1;
     }
 
     return tokens;
@@ -662,7 +756,7 @@ export class MarkdownToWordConverter {
       return { nextIndex: startIndex + 1 };
     }
 
-    const headers = headerLine.split('|').map(h => h.trim()).filter(h => h);
+    const headers = this.splitMarkdownTableRow(headerLine);
     const rows: string[][] = [];
     let i = startIndex + 2;
 
@@ -672,7 +766,7 @@ export class MarkdownToWordConverter {
         break;
       }
 
-      const cells = line.split('|').map(c => c.trim()).filter(c => c);
+      const cells = this.splitMarkdownTableRow(line);
       if (cells.length === headers.length) {
         rows.push(cells);
       }
@@ -691,6 +785,39 @@ export class MarkdownToWordConverter {
     }
 
     return { nextIndex: startIndex + 1 };
+  }
+
+  private static splitMarkdownTableRow(line: string): string[] {
+    const trimmed = line.trim();
+    const withoutLeadingPipe = trimmed.startsWith('|') ? trimmed.slice(1) : trimmed;
+    const tableContent = withoutLeadingPipe.endsWith('|')
+      ? withoutLeadingPipe.slice(0, -1)
+      : withoutLeadingPipe;
+
+    const cells: string[] = [];
+    let currentCell = '';
+
+    for (let index = 0; index < tableContent.length; index++) {
+      const char = tableContent[index];
+      const nextChar = tableContent[index + 1];
+
+      if (char === '\\' && nextChar === '|') {
+        currentCell += '|';
+        index++;
+        continue;
+      }
+
+      if (char === '|') {
+        cells.push(currentCell.trim());
+        currentCell = '';
+        continue;
+      }
+
+      currentCell += char;
+    }
+
+    cells.push(currentCell.trim());
+    return cells;
   }
 
   /**
@@ -841,7 +968,11 @@ export class MarkdownToWordConverter {
       }
 
       // Check if this line starts a new block element
-      if (/^#{1,6}\s|^```|^\d+\.|^[\-\+\*]\s|^>|^\|/.test(line)) {
+      const startsNewBlock =
+        /^#{1,6}\s|^```|^\d+\.|^[\-\+\*]\s|^>/.test(line) ||
+        (i > startIndex && line.startsWith('|'));
+
+      if (startsNewBlock) {
         break;
       }
 

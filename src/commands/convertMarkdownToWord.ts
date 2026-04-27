@@ -51,6 +51,12 @@ export async function convertMarkdownToWord(uri?: vscode.Uri) {
             // Show success message with action
             UIUtils.showConversionResultNotification(result);
           } else {
+            if (result.diagnosticLog) {
+              const outputChannel = vscode.window.createOutputChannel('OneClick Markdown Converter');
+              outputChannel.appendLine(result.diagnosticLog);
+              outputChannel.show(true);
+            }
+
             // Show error message
             UIUtils.showError(
               `${I18n.t('error.conversionFailed', fileName)}`,

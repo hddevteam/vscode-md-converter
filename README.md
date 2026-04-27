@@ -15,6 +15,11 @@ A powerful VS Code extension for converting various document formats to Markdown
 - **PDF Documents** (.pdf) → PNG Images *(requires poppler-utils)*
 - **PowerPoint Presentations** (.pptx, .ppt) → Markdown
 
+### 🆕 v0.5.4 Highlights
+- **✅ Word Table Fidelity** - DOCX tables now convert to Markdown table syntax instead of flattened text.
+- **✅ Markdown Table Parsing** - Markdown to Word now preserves empty cells and escaped pipe characters.
+- **🛠️ Conversion Diagnostics** - Markdown to Word failures include structured diagnostics without logging document body content.
+
 ### 🆕 v0.5.3 Highlights
 - **✅ Windows Compatibility Improvements** - Improved runtime stability and command reliability on Windows.
 - **🎯 User Value** - Fewer interruptions, smoother conversion workflows, and better cross-platform consistency.
@@ -236,21 +241,21 @@ All converted files are saved in the same directory as the original files with a
 - Excel → `.md` files (with tables)
 - PDF → `.txt` files
 
-## 🚀 Latest Features (v0.4.1)
+## 🚀 Latest Features (v0.5.4)
 
-### Smoother Lists in Word ✨
-- Bulleted lists (using "*") keep their dot symbols instead of turning into numbers
-- Sub-items自动缩进，层级更清晰，阅读更舒适
-- 表格和HTML中的列表也能一致呈现，复制粘贴后不乱形
+### Better Table Fidelity
+- Word to Markdown keeps DOCX tables as Markdown table syntax
+- Markdown to Word preserves empty cells and escaped pipe characters
+- Markdown to Word failures now include structured diagnostics in the output channel
 
-## 🚀 Upcoming Features (v0.5.0+)
+## 🚀 Planned Features
 
 We're actively working on expanding format support and adding new capabilities:
 
-- **🖼️ PDF to Images**: Convert PDF pages to individual image files (PNG/JPG)
-- **📤 Enhanced Export**: Export PowerPoint slides and PDF pages as high-quality images
 - **🏗️ Architecture Improvements**: Better plugin system for future format extensions
 - **🎨 Custom Templates**: User-defined output templates for different conversion scenarios
+- **🌐 Extended Language Packs**: Additional UI languages beyond English and Chinese
+- **📊 Conversion History**: Easier access to recent conversion results and output locations
 
 [View our complete roadmap](ROADMAP.md) | [Track progress on GitHub](https://github.com/hddevteam/vscode-md-converter/issues)
 

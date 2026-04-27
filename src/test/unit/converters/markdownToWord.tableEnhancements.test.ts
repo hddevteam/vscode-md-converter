@@ -29,6 +29,40 @@ suite('Table Cell Enhancement Tests', () => {
     });
   });
 
+  suite('Diagnostic logging', () => {
+    test('should format conversion diagnostics without including markdown content', () => {
+      const formatDiagnosticError = (MarkdownToWordConverter as any).formatConversionDiagnosticError as (
+        error: unknown,
+        context: {
+          stage: string;
+          inputPath: string;
+          durationMs: number;
+          diagnostics: string[];
+        }
+      ) => string;
+
+      const diagnostic = formatDiagnosticError.call(
+        MarkdownToWordConverter,
+        new RangeError('Invalid array length'),
+        {
+          stage: 'pack docx',
+          inputPath: path.join(tempDir, 'diagnostic.md'),
+          durationMs: 42,
+          diagnostics: [
+            'Markdown line count: 4',
+            'Table 1: columns=5, bodyRows=2, bodyRowLengths=[5, 5]'
+          ]
+        }
+      );
+
+      assert.ok(diagnostic.includes('Stage: pack docx'));
+      assert.ok(diagnostic.includes('File: diagnostic.md'));
+      assert.ok(diagnostic.includes('RangeError: Invalid array length'));
+      assert.ok(diagnostic.includes('Table 1: columns=5, bodyRows=2, bodyRowLengths=[5, 5]'));
+      assert.ok(!diagnostic.includes('| Name |'), 'Diagnostic should not include raw markdown content');
+    });
+  });
+
   suite('Table with <br> tags', () => {
     test('should convert <br> tags in table cells to line breaks', async () => {
       const mdFile = path.join(tempDir, 'table_enhance_br.md');
@@ -73,6 +107,104 @@ suite('Table Cell Enhancement Tests', () => {
       // Cleanup
       fs.unlinkSync(mdFile);
       if (fs.existsSync(result.outputPath)) {
+        fs.unlinkSync(result.outputPath);
+      }
+    });
+  });
+
+  suite('Tables generated from Word conversion', () => {
+    test('should advance when a pipe-prefixed line is not a valid table', () => {
+      const parseParagraph = (MarkdownToWordConverter as any).parseParagraph as (
+        lines: string[],
+        startIndex: number
+      ) => { content: string; nextIndex: number };
+
+      const paragraph = parseParagraph.call(MarkdownToWordConverter, [
+        '| This line is not a table separator pair',
+        '',
+        'Following paragraph text'
+      ], 0);
+
+      assert.strictEqual(paragraph.nextIndex, 1);
+      assert.strictEqual(paragraph.content, '| This line is not a table separator pair');
+    });
+
+    test('should parse unmatched markdown table separators as finite paragraph content', () => {
+      const parseMarkdown = (MarkdownToWordConverter as any).parseMarkdown as (content: string) => Array<any>;
+      const tokens = parseMarkdown.call(MarkdownToWordConverter, [
+        '| -------- |',
+        '',
+        'After separator-like text'
+      ].join('\n'));
+
+      assert.strictEqual(tokens.length, 2);
+      assert.strictEqual(tokens[0].type, 'paragraph');
+      assert.strictEqual(tokens[0].content, '| -------- |');
+    });
+
+    test('should parse malformed heading markers as finite paragraph content', () => {
+      const parseMarkdown = (MarkdownToWordConverter as any).parseMarkdown as (content: string) => Array<any>;
+      const tokens = parseMarkdown.call(MarkdownToWordConverter, [
+        '# ',
+        '',
+        'After malformed heading'
+      ].join('\n'));
+
+      assert.strictEqual(tokens.length, 2);
+      assert.strictEqual(tokens[0].type, 'paragraph');
+      assert.strictEqual(tokens[0].content, '# ');
+    });
+
+    test('should preserve empty table cells while parsing Word-derived Markdown tables', () => {
+      const markdown = `| **Category** | **Grouped Header** |   |   |   |
+| --- | --- | --- | --- | --- |
+| **Total** | **Column A** | **Column B** | **Column C** |   |
+| **Total** | 100 | 100 | 0 | 0 |`;
+
+      const parseMarkdown = (MarkdownToWordConverter as any).parseMarkdown as (content: string) => Array<any>;
+      const tokens = parseMarkdown.call(MarkdownToWordConverter, markdown);
+      const table = tokens.find(token => token.type === 'table');
+
+      assert.ok(table, 'Should parse a Markdown table token');
+      assert.strictEqual(table.metadata.headers.length, 5, 'Header row should preserve empty placeholder cells');
+      assert.strictEqual(table.metadata.rows.length, 2, 'Body rows should not be dropped when they contain empty cells');
+      assert.deepStrictEqual(table.metadata.rows[0], [
+        '**Total**',
+        '**Column A**',
+        '**Column B**',
+        '**Column C**',
+        ''
+      ]);
+    });
+
+    test('should not split escaped pipe characters inside table cells', () => {
+      const markdown = `| Name | Expression |
+| --- | --- |
+| Row 1 | A\\|B |`;
+
+      const parseMarkdown = (MarkdownToWordConverter as any).parseMarkdown as (content: string) => Array<any>;
+      const tokens = parseMarkdown.call(MarkdownToWordConverter, markdown);
+      const table = tokens.find(token => token.type === 'table');
+
+      assert.ok(table, 'Should parse a Markdown table token');
+      assert.deepStrictEqual(table.metadata.rows[0], ['Row 1', 'A|B']);
+    });
+
+    test('should convert a Word-derived table with empty merged-cell placeholders', async () => {
+      const mdFile = path.join(tempDir, 'table_enhance_word_merged_placeholders.md');
+      const markdown = `| **Category** | **Grouped Header** |   |   |   |
+| --- | --- | --- | --- | --- |
+| **Total** | **Column A** | **Column B** | **Column C** |   |
+| **Total** | 100 | 100 | 0 | 0 |`;
+
+      fs.writeFileSync(mdFile, markdown, 'utf-8');
+      const result = await MarkdownToWordConverter.convert(mdFile, { outputDirectory: tempDir });
+
+      assert.strictEqual(result.success, true, result.error);
+      assert.ok(result.outputPath, 'Should generate output file');
+
+      fs.unlinkSync(mdFile);
+      if (result.outputPath && fs.existsSync(result.outputPath)) {
         fs.unlinkSync(result.outputPath);
       }
     });

@@ -7,6 +7,8 @@ import { FileUtils } from '../utils/fileUtils';
 import { MarkdownInfoBlockGenerator, DocumentMetadata, ConversionWarning } from './markdownInfoBlockGenerator';
 
 export class WordToMarkdownConverter {
+  private static readonly tableCellLineBreakPlaceholder = '%%WORD_TABLE_CELL_BREAK%%';
+
   /**
    * Clean up markdown text by removing unwanted HTML tags and fixing formatting issues
    */
@@ -160,14 +162,125 @@ export class WordToMarkdownConverter {
         (_liMatch: string, liContent: string) => `${counter++}. ${liContent}\n`
       ) + '\n';
     });
+
+    // Convert tables before stripping remaining tags so table structure is preserved.
+    markdown = WordToMarkdownConverter.convertHtmlTablesToMarkdown(markdown);
     
     // Remove remaining HTML tags
     markdown = markdown.replace(/<[^>]*>/g, '');
+
+    // Restore intentional table cell line breaks after generic HTML tag cleanup.
+    markdown = markdown.replace(
+      new RegExp(WordToMarkdownConverter.tableCellLineBreakPlaceholder, 'g'),
+      '<br>'
+    );
     
     // Clean up excessive whitespace
     markdown = markdown.replace(/\n\s*\n\s*\n/g, '\n\n');
     
     return markdown.trim();
+  }
+
+  /**
+   * Convert HTML tables to GitHub-flavored Markdown tables.
+   */
+  private static convertHtmlTablesToMarkdown(html: string): string {
+    return html.replace(/<table[^>]*>([\s\S]*?)<\/table>/gi, (_tableMatch: string, tableContent: string) => {
+      const rows = this.extractHtmlTableRows(tableContent);
+
+      if (rows.length === 0) {
+        return '';
+      }
+
+      const columnCount = Math.max(...rows.map(row => row.length));
+
+      if (columnCount === 0) {
+        return '';
+      }
+
+      const normalizedRows = rows.map(row => {
+        const paddedRow = [...row];
+        while (paddedRow.length < columnCount) {
+          paddedRow.push(' ');
+        }
+        return paddedRow.map(cell => this.formatMarkdownTableCell(cell));
+      });
+
+      const header = normalizedRows[0];
+      const separator = Array(columnCount).fill('---');
+      const bodyRows = normalizedRows.slice(1);
+      const markdownRows = [
+        this.formatMarkdownTableRow(header),
+        this.formatMarkdownTableRow(separator),
+        ...bodyRows.map(row => this.formatMarkdownTableRow(row))
+      ];
+
+      return `\n\n${markdownRows.join('\n')}\n\n`;
+    });
+  }
+
+  private static extractHtmlTableRows(tableContent: string): string[][] {
+    const rows: string[][] = [];
+
+    tableContent.replace(/<tr[^>]*>([\s\S]*?)<\/tr>/gi, (_rowMatch: string, rowContent: string) => {
+      const cells: string[] = [];
+
+      rowContent.replace(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi, (_cellMatch: string, cellContent: string) => {
+        cells.push(cellContent);
+        return '';
+      });
+
+      if (cells.length > 0) {
+        rows.push(cells);
+      }
+
+      return '';
+    });
+
+    return rows;
+  }
+
+  private static formatMarkdownTableRow(cells: string[]): string {
+    return `| ${cells.join(' | ')} |`;
+  }
+
+  private static formatMarkdownTableCell(cellHtml: string): string {
+    let cell = this.decodeHtmlEntities(cellHtml.replace(/<[^>]*>/g, ''))
+      .trim()
+      .replace(/\r?\n\s*\r?\n/g, WordToMarkdownConverter.tableCellLineBreakPlaceholder)
+      .replace(/\r?\n/g, WordToMarkdownConverter.tableCellLineBreakPlaceholder)
+      .replace(/[ \t]+/g, ' ');
+
+    cell = cell.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
+
+    return cell.length > 0 ? cell : ' ';
+  }
+
+  private static decodeHtmlEntities(text: string): string {
+    const namedEntities: Record<string, string> = {
+      amp: '&',
+      lt: '<',
+      gt: '>',
+      quot: '"',
+      apos: "'",
+      nbsp: ' '
+    };
+
+    return text.replace(/&(#x?[0-9a-f]+|\w+);/gi, (match: string, entity: string) => {
+      const normalizedEntity = entity.toLowerCase();
+
+      if (normalizedEntity.startsWith('#x')) {
+        const codePoint = parseInt(normalizedEntity.slice(2), 16);
+        return Number.isNaN(codePoint) ? match : String.fromCodePoint(codePoint);
+      }
+
+      if (normalizedEntity.startsWith('#')) {
+        const codePoint = parseInt(normalizedEntity.slice(1), 10);
+        return Number.isNaN(codePoint) ? match : String.fromCodePoint(codePoint);
+      }
+
+      return namedEntities[normalizedEntity] || match;
+    });
   }
 
   /**

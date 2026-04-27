@@ -4,6 +4,16 @@ All notable changes to the "document-md-converter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.4] - 2026-04-27
+
+### Fixed
+- Word -> Markdown: DOCX tables are now converted to Markdown table syntax instead of flattened text.
+- Markdown -> Word: Table parsing now preserves empty cells and escaped pipe characters.
+- Markdown -> Word: Fixed parser no-progress cases that could trigger `Invalid array length`.
+
+### Improved
+- Markdown -> Word failures now include structured diagnostics in the output channel without logging document body content.
+
 ## [0.5.3] - 2026-02-27
 
 ### Fixed

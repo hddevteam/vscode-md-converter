@@ -4,6 +4,7 @@ export interface ConversionResult {
   outputPath?: string;
   outputPaths?: string[];  // Support multiple output files
   error?: string;
+  diagnosticLog?: string;
   duration?: number;
 }
 

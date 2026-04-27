@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一键Markdown转换器 v0.5.3 - VS Code扩展</title>
-    <meta name="description" content="强大的VS Code扩展，一键转换Word、Excel、PDF和PowerPoint文档为Markdown格式，新增Windows兼容性优化，支持多选转换、高级范围选择和多语言界面">
-    <meta name="keywords" content="vscode扩展, markdown转换器, 一键转换器, word转markdown, excel转markdown, pdf转文本, powerpoint转markdown, 多选转换, 页面范围导出, 工作表导出">
+    <title>一键Markdown转换器 v0.5.4 - VS Code扩展</title>
+    <meta name="description" content="强大的VS Code扩展，一键转换Word、Excel、PDF和PowerPoint文档为Markdown格式，新增Word表格保真、Markdown表格解析优化，支持多选转换、高级范围选择和多语言界面">
+    <meta name="keywords" content="vscode扩展, markdown转换器, 一键转换器, word转markdown, markdown转word, word表格, markdown表格, excel转markdown, pdf转文本, powerpoint转markdown, 多选转换, 页面范围导出, 工作表导出">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="一键Markdown转换器 v0.5.3 - VS Code扩展">
-    <meta property="og:description" content="将Word、Excel、PDF和PowerPoint文档一键转换为Markdown/文本，Windows兼容性更好，支持多选转换与范围导出">
+    <meta property="og:title" content="一键Markdown转换器 v0.5.4 - VS Code扩展">
+    <meta property="og:description" content="将Word、Excel、PDF和PowerPoint文档一键转换为Markdown/文本，Word表格保真更好，Markdown表格解析更稳定">
     <meta property="og:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
     <meta property="og:url" content="https://hddevteam.github.io/vscode-md-converter/zh-cn.html">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="一键Markdown转换器 v0.5.3 - VS Code扩展">
-    <meta name="twitter:description" content="Windows兼容性优化 + 多选转换与高级范围导出，轻松将文档转换为Markdown/文本">
+    <meta name="twitter:title" content="一键Markdown转换器 v0.5.4 - VS Code扩展">
+    <meta name="twitter:description" content="Word表格保真、Markdown表格解析优化与结构化转换诊断">
     <meta name="twitter:image" content="https://hddevteam.github.io/vscode-md-converter/assets/images/hero-banner.png">
     
     <!-- Favicon -->
@@ -96,14 +96,14 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-rocket"></i>
-                    最新 v0.5.3 - Windows 兼容性优化，转换流程更稳定
+                    最新 v0.5.4 - Word 表格保真更好，Markdown 表格解析更稳定
                 </div>
                 <h1 class="hero-title">
                     <span class="highlight">一键</span>文档转Markdown
                 </h1>
                 <p class="hero-description">
                     强大的VS Code扩展，只需一键即可将Word文档、Excel表格、PDF文件和PowerPoint演示文稿
-                    无缝转换为Markdown和文本格式。支持革命性的多选转换、按页面导出、工作表选择、幻灯片导出、PDF转图片、高级表格提取、批量处理、多语言界面和智能文本优化。
+                    无缝转换为Markdown和文本格式。支持可靠的表格保留、革命性的多选转换、按页面导出、工作表选择、幻灯片导出、PDF转图片、高级表格提取、批量处理、多语言界面和智能文本优化。
                 </p>
                 <div class="hero-buttons">
                     <a href="https://marketplace.visualstudio.com/items?itemName=luckyXmobile.document-md-converter" 
@@ -288,7 +288,7 @@
             <div class="section-header">
                 <h2 class="section-title">强大功能</h2>
                 <p class="section-description">
-                    高效准确转换文档所需的一切功能，并在 Windows 上更稳定可靠
+                    高效准确转换文档所需的一切功能，并更可靠地保留表格结构
                 </p>
             </div>
             
@@ -300,7 +300,7 @@
                     <h3 class="feature-title">Word文档</h3>
                     <p class="feature-description">
                         将.docx和.doc文件转换为Markdown，同时保留格式、
-                        标题、列表和表格。
+                        标题、列表，并将 DOCX 表格保留为 Markdown 表格语法。
                     </p>
                 </div>
                 
@@ -311,7 +311,7 @@
                     <h3 class="feature-title">Markdown转Word ⭐</h3>
                     <p class="feature-description">
                         <strong>新增：</strong>增强的 Markdown 转 Word 功能。
-                        支持智能列表编号、嵌套列表、引用块隔离以及保留换行符，生成更专业的文档。
+                        支持智能列表编号、嵌套列表、保留换行符、更稳定的表格解析和结构化诊断，生成更专业的文档。
                     </p>
                 </div>
                 
@@ -416,12 +416,11 @@
 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fab fa-windows"></i>
+                        <i class="fas fa-border-all"></i>
                     </div>
-                    <h3 class="feature-title">Windows 兼容性优化（v0.5.3）</h3>
+                    <h3 class="feature-title">表格保真优化（v0.5.4）</h3>
                     <p class="feature-description">
-                        重点优化 Windows 平台运行兼容性，带来更稳定的转换体验、
-                        更可靠的命令执行与更少的中断。
+                        Word 转 Markdown 现在会将 DOCX 表格保留为 Markdown 表格；Markdown 转 Word 会保留空单元格和转义竖线，并在转换失败时输出结构化诊断信息。
                     </p>
                 </div>
             </div>
